@@ -1,5 +1,7 @@
 import React from 'react';
 import { Navbar, Footer } from "@/components";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
+import { ChatWidget } from "@/components/ui/chat-widget";
 
 interface Props {
     children: React.ReactNode
@@ -14,6 +16,8 @@ const MarketingLayout = ({ children }: Props) => {
                 {children}
             </main>
             <Footer />
+            <ChatWidget />
+            <WhatsAppButton />
         </>
     );
 };
