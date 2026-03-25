@@ -42,9 +42,9 @@ const CONTACT_INFO = [
     },
     {
         icon: MapPinIcon,
-        label: "Localização",
-        value: "São Paulo, SP — Brasil",
-        href: null,
+        label: "Endereço",
+        value: "R. Pais Leme, 215, Cj 1713 — Pinheiros, São Paulo/SP, 05424-150",
+        href: "https://maps.google.com/?q=Rua+Pais+Leme+215+Pinheiros+São+Paulo",
     },
     {
         icon: CalendarIcon,
