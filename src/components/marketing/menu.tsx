@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { CalendarRangeIcon, CircleHelp, HashIcon, Newspaper, UsersIcon } from 'lucide-react';
+import { BrainCircuitIcon, BarChart3Icon, BotIcon, EyeIcon, GitMergeIcon, MessageSquareTextIcon, TrendingUpIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import Icons from "../global/icons";
 
 interface Props {
     title: string;
@@ -18,74 +18,75 @@ const Menu = () => {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/docs" legacyBehavior passHref>
+                    <Link href="#processo" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
-                            How it works
+                            Como Funciona
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger className="text-muted-foreground hover:text-foreground">
-                        Features
+                        Soluções
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                        <ul className="grid rounded-3xl gap-3 p-4 md:w-[400px] lg:w-[500px] xl:w-[550px] lg:grid-cols-[.75fr_1fr]">
-                            <li className="row-span-3">
+                        <ul className="grid rounded-3xl gap-3 p-4 md:w-[420px] lg:w-[540px] lg:grid-cols-[.75fr_1fr]">
+                            <li className="row-span-4">
                                 <NavigationMenuLink asChild>
                                     <Link
-                                        href="/"
-                                        className="flex flex-col justify-end w-full h-full p-4 no-underline rounded-lg outline-none select-none bg-gradient-to-tr from-accent to-accent/50 focus:shadow-md"
+                                        href="#servicos"
+                                        className="flex flex-col justify-end w-full h-full p-4 no-underline rounded-lg outline-none select-none bg-gradient-to-tr from-violet-950/60 to-violet-900/30 border border-violet-800/20 focus:shadow-md"
                                     >
-                                        <Icons.icon className="w-6 h-6" />
-                                        <div className="my-2 text-lg font-normal">
-                                            Luro AI
+                                        <Image
+                                            src="/img/logo2.png"
+                                            alt="Adone AI"
+                                            width={41}
+                                            height={28}
+                                            className="h-7 w-auto object-contain"
+                                        />
+                                        <div className="my-2 text-lg font-semibold">
+                                            Adone AI
                                         </div>
                                         <p className="text-sm text-muted-foreground">
-                                            Your ultimate social media management tool
+                                            Soluções de IA e Machine Learning para empresas que querem crescer com inteligência.
                                         </p>
                                     </Link>
                                 </NavigationMenuLink>
                             </li>
-                            <Item title="Content Calendar" href="/features/content-calendar" icon={<CalendarRangeIcon className="w-5 h-5" />}>
-                                Plan and visualize your content strategy.
+                            <Item title="Consultoria em IA" href="#servicos" icon={<BrainCircuitIcon className="w-5 h-5" />}>
+                                Estratégia e roadmap de IA para o seu negócio.
                             </Item>
-                            <Item title="Hashtag Manager" href="/features/hashtag-manager" icon={<HashIcon className="w-5 h-5" />}>
-                                Research and track trending hashtags.
+                            <Item title="Machine Learning Preditivo" href="#servicos" icon={<TrendingUpIcon className="w-5 h-5" />}>
+                                Modelos que antecipam demandas e riscos.
                             </Item>
-                            <Item title="Competitor Analysis" href="/features/competitor-analysis" icon={<UsersIcon className="w-5 h-5" />}>
-                                Monitor and analyze competitor performance.
+                            <Item title="Automação Inteligente" href="#servicos" icon={<GitMergeIcon className="w-5 h-5" />}>
+                                Elimine processos manuais com IA.
+                            </Item>
+                            <Item title="NLP & Chatbots" href="#servicos" icon={<MessageSquareTextIcon className="w-5 h-5" />}>
+                                Atendimento inteligente 24/7.
                             </Item>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="/pricing" legacyBehavior passHref>
+                    <Link href="#segmentos" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
-                            Pricing
+                            Segmentos
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="/integrations" legacyBehavior passHref>
+                    <Link href="#cases" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
-                            Integrations
+                            Cases
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-muted-foreground hover:text-foreground">
-                        Resources
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[500px] xl:w-[500px]">
-                            <Item title="Blog" href="/resources/blog" icon={<Newspaper className="w-5 h-5" />}>
-                                Read our latest articles and updates.
-                            </Item>
-                            <Item title="Support" href="/resources/support" icon={<CircleHelp className="w-5 h-5" />}>
-                                Get help with any issues you may have.
-                            </Item>
-                        </ul>
-                    </NavigationMenuContent>
+                    <Link href="#sobre" legacyBehavior passHref>
+                        <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                            Sobre
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
@@ -121,4 +122,4 @@ const Item = ({ title, href, children, icon, ...props }: Props) => {
 
 Item.displayName = "Item";
 
-export default Menu
+export default Menu;

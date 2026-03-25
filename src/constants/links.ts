@@ -1,4 +1,5 @@
-import { ClockIcon, MessageSquare, BarChart2, FileTextIcon, UserPlusIcon, CreditCardIcon, SettingsIcon, LogOut, Headphones, ChartPieIcon, LucideIcon, MessagesSquareIcon, NewspaperIcon, MegaphoneIcon, LineChartIcon, MessageSquareTextIcon, UsersIcon } from 'lucide-react';
+import { ChartPieIcon, CreditCardIcon, LineChartIcon, MegaphoneIcon, MessageSquareTextIcon, SettingsIcon, UsersIcon } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 
 type Link = {
     href: string;
@@ -14,7 +15,7 @@ export const SIDEBAR_LINKS: Link[] = [
     },
     {
         href: "/dashboard/campaigns",
-        label: "Campaigns",
+        label: "Campanhas",
         icon: MegaphoneIcon
     },
     {
@@ -29,57 +30,57 @@ export const SIDEBAR_LINKS: Link[] = [
     },
     {
         href: "/dashboard/engagement",
-        label: "Engagement",
+        label: "Engajamento",
         icon: UsersIcon
     },
     {
         href: "/dashboard/billing",
-        label: "Billing",
+        label: "Faturamento",
         icon: CreditCardIcon
     },
     {
         href: "/dashboard/settings",
-        label: "Settings",
+        label: "Configurações",
         icon: SettingsIcon
     },
 ];
 
 export const FOOTER_LINKS = [
     {
-        title: "Product",
+        title: "Soluções",
         links: [
-            { name: "Home", href: "/" },
-            { name: "Features", href: "/" },
-            { name: "Pricing", href: "/" },
-            { name: "Contact", href: "/" },
-            { name: "Download", href: "/" },
+            { name: "Consultoria em IA", href: "#servicos" },
+            { name: "Machine Learning", href: "#servicos" },
+            { name: "Automação Inteligente", href: "#servicos" },
+            { name: "Visão Computacional", href: "#servicos" },
+            { name: "NLP & Chatbots", href: "#servicos" },
         ],
     },
     {
-        title: "Resources",
+        title: "Empresa",
         links: [
-            { name: "Blog", href: "/blog" },
-            { name: "Help Center", href: "/help-center" },
-            { name: "Community", href: "/community" },
-            { name: "Guides", href: "/guides" },
+            { name: "Sobre Nós", href: "#sobre" },
+            { name: "Cases de Sucesso", href: "#cases" },
+            { name: "Como Funciona", href: "#processo" },
+            { name: "Segmentos", href: "#segmentos" },
         ],
     },
     {
         title: "Legal",
         links: [
-            { name: "Privacy", href: "/privacy" },
-            { name: "Terms", href: "/terms" },
-            { name: "Cookies", href: "/cookies" },
+            { name: "Privacidade", href: "/privacidade" },
+            { name: "Termos de Uso", href: "/termos" },
+            { name: "Política de Dados", href: "/dados" },
+            { name: "LGPD", href: "/lgpd" },
         ],
     },
     {
-        title: "Developers",
+        title: "Contato",
         links: [
-            { name: "API Docs", href: "/api-docs" },
-            { name: "SDKs", href: "/sdks" },
-            { name: "Tools", href: "/tools" },
-            { name: "Open Source", href: "/open-source" },
-            { name: "Changelog", href: "/changelog" },
+            { name: "Fale Conosco", href: "#contato" },
+            { name: "Agendar Reunião", href: "#contato" },
+            { name: "LinkedIn", href: "https://linkedin.com/company/adone-ai" },
+            { name: "WhatsApp", href: "#contato" },
         ],
     },
 ];

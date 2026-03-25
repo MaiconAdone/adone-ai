@@ -17,41 +17,47 @@ interface MetadataProps {
 }
 
 export const generateMetadata = ({
-    title = `${process.env.NEXT_PUBLIC_APP_NAME} - Smart Social Media Marketing Platform`,
-    description = "Streamline your social media management with AI-powered analytics, scheduling, and content optimization. Get real-time insights, automate posts, and boost engagement across all platforms",
+    title = `Adone AI`,
+    description = "A Adone AI desenvolve soluções de Machine Learning e Inteligência Artificial que eliminam processos manuais, antecipam resultados e geram escala real para empresas brasileiras.",
     image = "/thumbnail.png",
     icons = [
         {
             rel: "icon",
             type: "image/png",
             sizes: "32x32",
-            url: "/icons/favicon-32x32.png"
+            url: "/img/logo2.png"
         },
         {
-            rel: "icon",
-            type: "image/png",
-            sizes: "16x16",
-            url: "/icons/favicon-16x16.png"
+            rel: "shortcut icon",
+            url: "/img/logo2.png"
+        },
+        {
+            rel: "apple-touch-icon",
+            url: "/img/logo2.png"
         },
     ],
     noIndex = false,
     keywords = [
-        "AI content creation",
-        "content automation",
-        "AI writing assistant",
-        "content generation",
-        "artificial intelligence",
-        "content marketing"
+        "inteligência artificial",
+        "machine learning",
+        "automação inteligente",
+        "IA para empresas",
+        "consultoria em IA",
+        "modelos preditivos",
+        "NLP",
+        "visão computacional",
+        "dados",
+        "Adone AI",
     ],
-    author = process.env.NEXT_PUBLIC_AUTHOR_NAME,
-    twitterHandle = "@yourtwitterhandle",
+    author = "Adone AI",
+    twitterHandle = "@adoneai",
     type = "website",
-    locale = "en_US",
+    locale = "pt_BR",
     alternates = {},
     publishedTime,
     modifiedTime
 }: MetadataProps = {}): Metadata => {
-    const metadataBase = new URL(process.env.NEXT_PUBLIC_APP_URL || "https://luro-ai.vercel.app");
+    const metadataBase = new URL(process.env.SITE_URL || "https://adoneintelligence.com.br");
     const imageUrl = image ? new URL(image, metadataBase).toString() : null;
 
     return {

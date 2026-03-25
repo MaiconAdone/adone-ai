@@ -1,25 +1,18 @@
 "use client";
 
 import { SIDEBAR_LINKS } from "@/constants/links";
-import { LogOutIcon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "../global/container";
 import { Button, buttonVariants } from "../ui/button";
 
 import { cn } from "@/functions";
-import { useClerk } from "@clerk/nextjs";
 
 
 const DashboardSidebar = () => {
 
-    const { signOut } = useClerk();
-
     const pathname = usePathname();
-
-    const handleLogout = async () => {
-        await signOut();
-    };
 
     return (
         <div
@@ -68,20 +61,7 @@ const DashboardSidebar = () => {
                         )
                     })}
                 </ul>
-                <div className="mt-auto flex flex-col gap-3 w-full">
-                    <Container delay={0.3}>
-                        <div className="h-10 w-full">
-                            <Button
-                                variant="ghost"
-                                onClick={handleLogout}
-                                className="w-full justify-start"
-                            >
-                                <LogOutIcon className="size-4 mr-1.5" />
-                                Logout
-                            </Button>
-                        </div>
-                    </Container>
-                </div>
+                <div className="mt-auto flex flex-col gap-3 w-full"></div>
             </div>
         </div>
     )

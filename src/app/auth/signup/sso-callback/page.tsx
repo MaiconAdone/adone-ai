@@ -1,8 +1,5 @@
-import { AuthenticateWithRedirectCallback } from '@clerk/nextjs';
+import { redirect } from "next/navigation";
 
 export default function SSOCallback() {
-    return <AuthenticateWithRedirectCallback
-        signInForceRedirectUrl="/auth-callback"
-        signUpForceRedirectUrl="/auth-callback"
-    />;
-};
+    redirect("/");
+}

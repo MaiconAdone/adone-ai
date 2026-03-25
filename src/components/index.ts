@@ -5,17 +5,17 @@ import Container from "./global/container";
 import Background from "./global/background";
 import Providers from "./global/providers";
 
-import SignInForm from "./auth/signin-form";
-import SignUpForm from "./auth/signup-form";
-
 import Hero from "./marketing/hero";
 import Navbar from "./marketing/navbar";
 import Companies from "./marketing/companies";
-import Features from "./marketing/features";
-import Connect from "./marketing/connect";
+import Services from "./marketing/services";
+import HowItWorks from "./marketing/how-it-works";
 import Perks from "./marketing/perks";
-import Pricing from "./marketing/pricing";
-import Reviews from "./marketing/reviews";
+import Segments from "./marketing/segments";
+import Cases from "./marketing/cases";
+import About from "./marketing/about";
+import FAQ from "./marketing/faq";
+import Contact from "./marketing/contact";
 import CTA from "./marketing/cta";
 import Footer from "./marketing/footer";
 
@@ -28,14 +28,15 @@ export {
     Hero,
     Navbar,
     Companies,
-    Features,
-    Connect,
+    Services,
+    HowItWorks,
     Perks,
-    Pricing,
-    Reviews,
+    Segments,
+    Cases,
+    About,
+    FAQ,
+    Contact,
     CTA,
     Footer,
-    SignInForm,
-    SignUpForm,
     Providers,
 };

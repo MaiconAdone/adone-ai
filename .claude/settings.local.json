@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)"
+    ],
+    "additionalDirectories": [
+      "c:\\Site\\adone\\adone-ai-engine\\src\\chatbot",
+      "c:\\Site\\adone\\adone-ai-engine"
+    ]
+  }
+}

@@ -1,16 +1,5 @@
-import { SignInForm } from "@/components";
-import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
-const SignInPage = () => {
-    return (
-        <div className="flex flex-col items-center justify-center size-full">
-            <div className="max-w-xs mx-auto size-full flex flex-col items-center mt-[270px]">
-                <Suspense>
-                    <SignInForm />
-                </Suspense>
-            </div>
-        </div>
-    )
-};
-
-export default SignInPage
+export default function SignInPage() {
+    redirect("/");
+}

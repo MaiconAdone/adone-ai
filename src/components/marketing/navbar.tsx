@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/functions";
-import { useClerk } from "@clerk/nextjs";
 import { ArrowRightIcon, XIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from 'react';
 import Icons from "../global/icons";
@@ -12,8 +12,6 @@ import Menu from "./menu";
 import MobileMenu from "./mobile-menu";
 
 const Navbar = () => {
-
-    const { user } = useClerk();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -44,34 +42,28 @@ const Navbar = () => {
                     <div className="flex items-center justify-between w-full sticky mt-[7px] lg:mt-auto mb-auto inset-x-0">
                         <div className="flex items-center flex-1 lg:flex-none pl-1">
                             <Link href="/" className="text-lg font-semibold text-foreground">
-                                <Icons.icon className="w-auto h-5" />
+                                <Image
+                                    src="/img/logo2.png"
+                                    alt="Adone AI"
+                                    width={53}
+                                    height={36}
+                                    className="h-9 w-auto object-contain"
+                                    priority
+                                />
                             </Link>
                             <div className="items-center hidden ml-4 lg:flex">
                                 <Menu />
                             </div>
                         </div>
                         <div className="items-center flex gap-2 lg:gap-4">
-                            {user ? (
+                            <>
                                 <Button size="sm" variant="white" asChild className="hidden sm:flex">
-                                    <Link href="/app">
-                                        Dashboard
+                                    <Link href="#contato">
+                                        Diagnóstico Gratuito
+                                        <ArrowRightIcon className="w-4 h-4 ml-2 hidden lg:block" />
                                     </Link>
                                 </Button>
-                            ) : (
-                                <>
-                                    <Button size="sm" variant="tertiary" asChild className="hover:translate-y-0 hover:scale-100">
-                                        <Link href="/auth/signin">
-                                            Login
-                                        </Link>
-                                    </Button>
-                                    <Button size="sm" variant="white" asChild className="hidden sm:flex">
-                                        <Link href="/auth/signup">
-                                            Start for free
-                                            <ArrowRightIcon className="w-4 h-4 ml-2 hidden lg:block" />
-                                        </Link>
-                                    </Button>
-                                </>
-                            )}
+                            </>
                             <Button
                                 size="icon"
                                 variant="ghost"

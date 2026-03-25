@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { cn } from "@/functions";
 import { useClickOutside } from "@/hooks";
 import { motion } from "framer-motion";
-import { Box, CalendarClock, Captions, CircleHelp, CopyCheck, FileText, Gem, Layers3, LineChart, Newspaper, UserCog, Waypoints } from "lucide-react";
+import { BrainCircuitIcon, TrendingUpIcon, GitMergeIcon, MessageSquareTextIcon, EyeIcon, BarChart3Icon, HelpCircleIcon, BuildingIcon, UsersIcon, BookOpenIcon } from "lucide-react";
 import Link from "next/link";
 import React from 'react';
 
@@ -14,7 +14,6 @@ interface Props {
 }
 
 const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
-
     const ref = useClickOutside(() => setIsOpen(false));
 
     const variants = {
@@ -34,11 +33,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                 initial="closed"
                 animate={isOpen ? "open" : "closed"}
                 variants={variants}
-                transition={{
-                    type: "spring",
-                    bounce: 0.15,
-                    duration: 0.5,
-                }}
+                transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                 className="size-full flex flex-col justify-start"
             >
                 <ul className="flex flex-col items-start flex-1 w-full space-y-3">
@@ -46,113 +41,62 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                         onClick={() => setIsOpen(false)}
                         className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
                     >
-                        <Link href="/how-it-works" className="flex items-center w-full text-start">
-                            <UserCog className="w-4 h-4 mr-2" />
-                            How it works
+                        <Link href="#processo" className="flex items-center w-full text-start">
+                            <BookOpenIcon className="w-4 h-4 mr-2" />
+                            Como Funciona
                         </Link>
                     </li>
+
                     <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="item-1" className="border-transparent">
+                        <AccordionItem value="solucoes" className="border-transparent">
                             <AccordionTrigger className="px-4 py-2 text-lg hover:text-muted-foreground font-normal">
                                 <span className="flex items-center">
-                                    <CopyCheck className="w-4 h-4 mr-2" />
-                                    Features
+                                    <BrainCircuitIcon className="w-4 h-4 mr-2" />
+                                    Soluções
                                 </span>
                             </AccordionTrigger>
                             <AccordionContent onClick={() => setIsOpen(false)} className="flex flex-col items-start gap-1 mt-1">
-                                <li
-                                    className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                                >
-                                    <Link href="/" className="flex items-center w-full text-start">
-                                        <Captions className="w-4 h-4 mr-2" />
-                                        Caption Generation
-                                    </Link>
-                                </li>
-                                <li
-                                    className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                                >
-                                    <Link href="/" className="flex items-center w-full text-start">
-                                        <CalendarClock className="w-4 h-4 mr-2" />
-                                        Post Scheduling
-                                    </Link>
-                                </li>
-                                <li
-                                    className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                                >
-                                    <Link href="/" className="flex items-center w-full text-start">
-                                        <LineChart className="w-4 h-4 mr-2" />
-                                        Analytics Dashboard
-                                    </Link>
-                                </li>
+                                {[
+                                    { icon: BrainCircuitIcon, label: "Consultoria em IA" },
+                                    { icon: TrendingUpIcon, label: "Machine Learning Preditivo" },
+                                    { icon: GitMergeIcon, label: "Automação Inteligente" },
+                                    { icon: EyeIcon, label: "Visão Computacional" },
+                                    { icon: MessageSquareTextIcon, label: "NLP & Chatbots" },
+                                    { icon: BarChart3Icon, label: "Análise de Dados" },
+                                ].map(({ icon: Icon, label }) => (
+                                    <li key={label} className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                                        <Link href="#servicos" className="flex items-center w-full text-start">
+                                            <Icon className="w-4 h-4 mr-2" />
+                                            {label}
+                                        </Link>
+                                    </li>
+                                ))}
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
-                    <li
-                        onClick={() => setIsOpen(false)}
-                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                    >
-                        <Link href="/" className="flex items-center w-full text-start">
-                            <Gem className="w-4 h-4 mr-2" />
-                            Pricing
+
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                        <Link href="#segmentos" className="flex items-center w-full text-start">
+                            <BuildingIcon className="w-4 h-4 mr-2" />
+                            Segmentos
                         </Link>
                     </li>
-                    <li
-                        onClick={() => setIsOpen(false)}
-                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                    >
-                        <Link href="/" className="flex items-center w-full text-start">
-                            <Waypoints className="w-4 h-4 mr-2" />
-                            Integrations
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                        <Link href="#cases" className="flex items-center w-full text-start">
+                            <UsersIcon className="w-4 h-4 mr-2" />
+                            Cases
                         </Link>
                     </li>
-                    <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="item-1" className="border-transparent">
-                            <AccordionTrigger className="px-4 py-2 text-lg hover:text-muted-foreground font-normal">
-                                <span className="flex items-center">
-                                    <Layers3 className="w-4 h-4 mr-2" />
-                                    Resources
-                                </span>
-                            </AccordionTrigger>
-                            <AccordionContent onClick={() => setIsOpen(false)} className="flex flex-col items-start gap-1 mt-1">
-                                <li
-                                    className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                                >
-                                    <Link href="/" className="flex items-center w-full text-start">
-                                        <Newspaper className="w-4 h-4 mr-2" />
-                                        Blog
-                                    </Link>
-                                </li>
-                                <li
-                                    className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                                >
-                                    <Link href="/" className="flex items-center w-full text-start">
-                                        <FileText className="w-4 h-4 mr-2" />
-                                        Case Studies
-                                    </Link>
-                                </li>
-                                <li
-                                    className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                                >
-                                    <Link href="/" className="flex items-center w-full text-start">
-                                        <Box className="w-4 h-4 mr-2" />
-                                        Tools
-                                    </Link>
-                                </li>
-                                <li
-                                    className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
-                                >
-                                    <Link href="/" className="flex items-center w-full text-start">
-                                        <CircleHelp className="w-4 h-4 mr-2" />
-                                        Support
-                                    </Link>
-                                </li>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                        <Link href="#faq" className="flex items-center w-full text-start">
+                            <HelpCircleIcon className="w-4 h-4 mr-2" />
+                            FAQ
+                        </Link>
+                    </li>
                 </ul>
             </motion.div>
         </div>
-    )
+    );
 };
 
-export default MobileMenu
+export default MobileMenu;

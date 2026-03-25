@@ -1,4 +1,19 @@
-import { Background, Companies, Connect, Container, CTA, Features, Hero, Perks, Pricing, Reviews, Wrapper } from "@/components";
+import {
+    Background,
+    Companies,
+    Container,
+    Hero,
+    Services,
+    HowItWorks,
+    Perks,
+    Segments,
+    Cases,
+    About,
+    FAQ,
+    Contact,
+    CTA,
+    Wrapper,
+} from "@/components";
 import { Spotlight } from "@/components/ui/spotlight";
 
 const HomePage = () => {
@@ -12,18 +27,41 @@ const HomePage = () => {
                     />
                     <Hero />
                 </Container>
-                <Container className="py-8 lg:py-20">
+
+                {/* Empresas que confiam */}
+                <Container className="py-4">
                     <Companies />
                 </Container>
-                <Connect />
-                <Features />
+
+                {/* Serviços */}
+                <Services />
+
+                {/* Como funciona */}
+                <HowItWorks />
+
+                {/* Benefícios / Por que Adone */}
                 <Perks />
-                <Pricing />
-                <Reviews />
+
+                {/* Segmentos atendidos */}
+                <Segments />
+
+                {/* Cases / Prova social */}
+                <Cases />
+
+                {/* Sobre a empresa */}
+                <About />
+
+                {/* FAQ */}
+                <FAQ />
+
+                {/* Formulário de contato */}
+                <Contact />
+
+                {/* CTA final */}
                 <CTA />
             </Wrapper>
         </Background>
-    )
+    );
 };
 
-export default HomePage
+export default HomePage;
