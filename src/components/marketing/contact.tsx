@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Container from "../global/container";
 import { SectionBadge } from "../ui/section-bade";
 import { Button } from "../ui/button";
-import { ArrowRightIcon, CheckIcon, PhoneIcon, MailIcon, MapPinIcon, CalendarIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, PhoneIcon, MailIcon, MapPinIcon, CalendarIcon, MessageCircleIcon } from "lucide-react";
 import { toast } from "sonner";
 
 const INTERESTS = [
@@ -28,19 +29,28 @@ const COMPANY_SIZES = [
 
 const CONTACT_INFO = [
     {
+        icon: MessageCircleIcon,
+        label: "WhatsApp",
+        value: "(11) 92602-5637",
+        href: "https://wa.me/5511926025637",
+    },
+    {
         icon: MailIcon,
         label: "E-mail",
         value: "contato@adoneintelligence.com.br",
+        href: "mailto:contato@adoneintelligence.com.br",
     },
     {
         icon: MapPinIcon,
         label: "Localização",
         value: "São Paulo, SP — Brasil",
+        href: null,
     },
     {
         icon: CalendarIcon,
         label: "Horário de atendimento",
         value: "Seg–Sex, 9h–18h",
+        href: null,
     },
 ];
 
@@ -283,7 +293,13 @@ const Contact = () => {
                                     </div>
                                     <div>
                                         <p className="text-xs text-muted-foreground">{info.label}</p>
-                                        <p className="text-sm font-medium text-foreground/90">{info.value}</p>
+                                        {info.href ? (
+                                            <Link href={info.href} target={info.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="text-sm font-medium text-foreground/90 hover:text-violet-400 transition-colors">
+                                                {info.value}
+                                            </Link>
+                                        ) : (
+                                            <p className="text-sm font-medium text-foreground/90">{info.value}</p>
+                                        )}
                                     </div>
                                 </div>
                             ))}

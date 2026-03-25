@@ -80,7 +80,7 @@ export const FOOTER_LINKS = [
             { name: "Fale Conosco", href: "#contato" },
             { name: "Agendar Reunião", href: "#contato" },
             { name: "LinkedIn", href: "https://linkedin.com/company/adone-ai" },
-            { name: "WhatsApp", href: "#contato" },
+            { name: "WhatsApp", href: "https://wa.me/5511926025637" },
         ],
     },
 ];

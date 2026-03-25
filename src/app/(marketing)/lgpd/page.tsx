@@ -173,6 +173,7 @@ const SECTIONS = [
         list: [
             "DPO / Privacidade: privacidade@adoneintelligence.com.br",
             "Contato geral: contato@adoneintelligence.com.br",
+            "WhatsApp: (11) 92602-5637",
             "ANPD (reclamações): gov.br/anpd",
         ],
     },

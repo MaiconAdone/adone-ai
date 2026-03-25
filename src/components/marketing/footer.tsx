@@ -6,7 +6,7 @@ import Image from "next/image";
 import Container from "../global/container";
 import Wrapper from "../global/wrapper";
 import { Particles } from "../ui/particles";
-import { LinkedinIcon, InstagramIcon, YoutubeIcon } from "lucide-react";
+import { LinkedinIcon, InstagramIcon, YoutubeIcon, MessageCircleIcon } from "lucide-react";
 
 const Footer = () => {
     return (
@@ -47,6 +47,9 @@ const Footer = () => {
                             </Link>
                             <Link href="https://youtube.com/@adoneai" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-foreground/10 hover:border-violet-500/30 hover:bg-violet-500/10 transition-all duration-200">
                                 <YoutubeIcon className="w-4 h-4 text-muted-foreground hover:text-violet-400 transition-colors" />
+                            </Link>
+                            <Link href="https://wa.me/5511926025637" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-foreground/10 hover:border-violet-500/30 hover:bg-violet-500/10 transition-all duration-200">
+                                <MessageCircleIcon className="w-4 h-4 text-muted-foreground hover:text-violet-400 transition-colors" />
                             </Link>
                         </div>
 
