@@ -41,15 +41,18 @@ const Navbar = () => {
                 <Wrapper className="backdrop-blur-lg rounded-xl lg:rounded-2xl border border-[rgba(124,124,124,0.2)] px- md:px-2 flex items-center justify-start">
                     <div className="flex items-center justify-between w-full sticky mt-[7px] lg:mt-auto mb-auto inset-x-0">
                         <div className="flex items-center flex-1 lg:flex-none pl-1">
-                            <Link href="/" className="text-lg font-semibold text-foreground">
+                            <Link href="/" className="flex items-center gap-2.5">
                                 <Image
                                     src="/img/logo2.png"
-                                    alt="Adone AI"
+                                    alt="Adone Intelligence"
                                     width={53}
                                     height={36}
                                     className="h-9 w-auto object-contain"
                                     priority
                                 />
+                                <span style={{ fontFamily: "var(--font-space)" }} className="text-[15px] font-semibold tracking-tight text-foreground whitespace-nowrap">
+                                    Adone Intelligence
+                                </span>
                             </Link>
                             <div className="items-center hidden ml-4 lg:flex">
                                 <Menu />

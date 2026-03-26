@@ -1,4 +1,4 @@
-import { Inter, DM_Sans, Roboto, Poppins } from "next/font/google";
+import { Inter, DM_Sans, Roboto, Poppins, Space_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 
 export const satoshi2 = localFont({
@@ -40,4 +40,10 @@ export const satoshi = Poppins({
 export const inter = Inter({
     subsets: ["latin"],
     variable: "--font-inter",
+});
+
+export const spaceGrotesk = Space_Grotesk({
+    subsets: ["latin"],
+    variable: "--font-space",
+    weight: ["400", "500", "600", "700"],
 });
