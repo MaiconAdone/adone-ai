@@ -133,6 +133,10 @@ export class Vick {
         return sessions.get(sessionId);
     }
 
+    deleteSession(sessionId: string): void {
+        sessions.delete(sessionId);
+    }
+
     getInitialMessage(): string {
         return "Olá! Sou a Vick, assistente da Adone AI 👋\n\nAntes de qualquer coisa — o que trouxe você aqui hoje? Qual é o maior desafio operacional da sua empresa no momento?";
     }

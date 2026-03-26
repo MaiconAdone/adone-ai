@@ -2,33 +2,50 @@ import { NextRequest, NextResponse } from "next/server";
 import { ada } from "@/lib/engine/chatbot/vick";
 import axios from "axios";
 
+const INTRO = "Olá, eu sou a Vick! A assistente Virtual da Adone Intelligence. 👋";
+
+// Rastreia a data do último contato por número (reinicia apresentação no dia seguinte)
+const lastContactDate = new Map<string, string>();
+
+function todayStr(): string {
+    return new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
+}
+
 // Recebe mensagens do WhatsApp via Z-API e responde com a Vick
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
 
-        // Z-API envia diferentes tipos de eventos — filtrar só mensagens de texto recebidas
+        // Filtrar só mensagens de texto recebidas (ignorar as enviadas por nós)
         if (!body.text?.message || body.fromMe) {
             return NextResponse.json({ ok: true });
         }
 
-        const phone = body.phone as string;      // ex: "5511926025637"
+        const phone = body.phone as string;
         const message = body.text.message as string;
 
         if (!phone || !message) {
             return NextResponse.json({ ok: true });
         }
 
-        // Usar o número como sessionId para manter contexto por lead
         const sessionId = `whatsapp_${phone}`;
+        const today = todayStr();
+        const lastDate = lastContactDate.get(phone);
+        const isNewDay = !lastDate || lastDate !== today;
 
-        // Obter ou criar sessão da Vick
+        // Novo dia → reinicia a sessão para nova conversa
+        if (isNewDay) {
+            // Força nova sessão deletando a antiga
+            ada.deleteSession(sessionId);
+            lastContactDate.set(phone, today);
+
+            // Envia apresentação primeiro
+            await sendWhatsAppReply(phone, INTRO);
+        }
+
+        // Criar/retomar sessão e gerar resposta
         await ada.getOrCreateSession(sessionId, "whatsapp");
-
-        // Gerar resposta da Vick
         const reply = await ada.chat(sessionId, message, "whatsapp");
-
-        // Enviar resposta pelo WhatsApp via Z-API
         await sendWhatsAppReply(phone, reply);
 
         return NextResponse.json({ ok: true });
