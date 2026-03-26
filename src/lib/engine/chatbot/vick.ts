@@ -6,6 +6,7 @@ import { QUALIFIER_SYSTEM_PROMPT, LeadData, QualificationResult } from "./agents
 import { PRESENTER_SYSTEM_PROMPT, buildPresenterContext } from "./agents/presenter";
 import { SCHEDULER_SYSTEM_PROMPT, getSchedulerContext } from "./agents/scheduler";
 import { FOLLOWUP_SYSTEM_PROMPT, buildFollowupSequence } from "./agents/followup";
+import { upsertContact, addNote } from "../crm/hubspot";
 
 type AgentStage = "qualifier" | "presenter" | "scheduler" | "followup" | "closed";
 
@@ -107,6 +108,20 @@ export class Vick {
                     session.score = result.score;
                     session.stage = result.proximo_agente;
                     console.log(`[Vick] Lead ${session.id} qualificado. Score: ${result.score}. Próximo: ${result.proximo_agente}`);
+
+                    // Salvar lead no HubSpot automaticamente
+                    const contactId = await upsertContact({
+                        name: result.dados.nome_lead || "Lead WhatsApp",
+                        phone: session.id.replace("whatsapp_", ""),
+                        company: result.dados.empresa,
+                        sector: result.dados.setor,
+                        score: result.score,
+                        source: session.channel,
+                        notes: `Lead qualificado pela Vick. Score: ${result.score}. Canal: ${session.channel}.`,
+                    });
+                    if (contactId) {
+                        await addNote(contactId, `Conversa com a Vick:\nDesafio: ${result.dados.dor_principal || "não informado"}\nUrgência: ${result.dados.urgencia || "não informada"}`);
+                    }
                 }
             } catch {
                 // JSON malformado — manter no qualificador
