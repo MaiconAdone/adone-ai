@@ -77,14 +77,14 @@ const SECTIONS = [
             "Revogação do consentimento (art. 18, IX): retirar o consentimento a qualquer momento, sem prejuízo às operações anteriores.",
             "Oposição (art. 18, §2º): opor-se a tratamentos realizados com base em outras bases legais que não o consentimento, em caso de descumprimento.",
         ],
-        extra: "Para exercer qualquer um desses direitos, envie uma solicitação para privacidade@adoneintelligence.com.br. Responderemos em até 15 dias úteis, conforme estabelecido pela LGPD.",
+        extra: "Para exercer qualquer um desses direitos, envie uma solicitação para contato@adoneintelligence.com.br. Responderemos em até 15 dias úteis, conforme estabelecido pela LGPD.",
     },
     {
         id: "como-exercer",
         title: "6. Como Exercer seus Direitos",
         content: `Para exercer seus direitos como titular de dados pessoais perante a Adone AI, siga os passos abaixo:`,
         list: [
-            "Envie um e-mail para privacidade@adoneintelligence.com.br com o assunto: 'Solicitação de Direito LGPD'.",
+            "Envie um e-mail para contato@adoneintelligence.com.br com o assunto: 'Solicitação de Direito LGPD'.",
             "Informe seu nome completo e dados de contato para que possamos identificá-lo como titular.",
             "Descreva claramente qual direito deseja exercer e, se necessário, forneça detalhes adicionais.",
             "Inclua documentação de identificação quando solicitado, para proteção contra fraudes.",
@@ -97,7 +97,7 @@ const SECTIONS = [
         title: "7. Encarregado de Dados (DPO)",
         content: `A Adone AI nomeou um Encarregado de Proteção de Dados (Data Protection Officer — DPO) conforme exigido pela LGPD para organizações que realizam tratamento em larga escala de dados pessoais ou sensíveis. O DPO é o canal oficial de comunicação entre a Adone AI, os titulares de dados e a ANPD.`,
         list: [
-            "Canal de contato do DPO: privacidade@adoneintelligence.com.br",
+            "Canal de contato do DPO: contato@adoneintelligence.com.br",
             "Responsabilidades: orientar colaboradores, receber demandas dos titulares, interagir com a ANPD e fiscalizar a conformidade interna.",
             "Independência: o DPO atua com independência técnica e não recebe instruções que comprometam sua atuação imparcial.",
         ],
@@ -171,7 +171,7 @@ const SECTIONS = [
         title: "14. Contato",
         content: `Para exercer seus direitos, tirar dúvidas sobre a LGPD ou sobre as práticas de proteção de dados da Adone AI:`,
         list: [
-            "DPO / Privacidade: privacidade@adoneintelligence.com.br",
+            "DPO / Privacidade: contato@adoneintelligence.com.br",
             "Contato geral: contato@adoneintelligence.com.br",
             "WhatsApp: (11) 92602-5637",
             "ANPD (reclamações): gov.br/anpd",
@@ -252,8 +252,8 @@ export default function LGPDPage() {
                 <div className="mt-5 pt-4 border-t border-violet-500/10">
                     <p className="text-xs text-muted-foreground">
                         Para exercer qualquer um desses direitos:{" "}
-                        <a href="mailto:privacidade@adoneintelligence.com.br" className="text-violet-400 hover:underline">
-                            privacidade@adoneintelligence.com.br
+                        <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                            contato@adoneintelligence.com.br
                         </a>
                     </p>
                 </div>
@@ -316,8 +316,8 @@ export default function LGPDPage() {
                 <ScaleIcon className="w-8 h-8 text-violet-400 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
                     Dúvidas sobre a LGPD ou seus direitos? Fale com nosso DPO em{" "}
-                    <a href="mailto:privacidade@adoneintelligence.com.br" className="text-violet-400 hover:underline">
-                        privacidade@adoneintelligence.com.br
+                    <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                        contato@adoneintelligence.com.br
                     </a>
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">

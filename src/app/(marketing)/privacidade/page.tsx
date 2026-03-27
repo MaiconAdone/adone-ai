@@ -11,7 +11,7 @@ const SECTIONS = [
     {
         id: "controlador",
         title: "1. Identificação do Controlador",
-        content: `A Adone AI é a controladora dos dados pessoais tratados neste site e nos serviços relacionados. Qualquer dúvida sobre o tratamento dos seus dados pode ser enviada ao nosso Encarregado de Dados (DPO) pelo e-mail: privacidade@adoneintelligence.com.br.`,
+        content: `A Adone AI é a controladora dos dados pessoais tratados neste site e nos serviços relacionados. Qualquer dúvida sobre o tratamento dos seus dados pode ser enviada ao nosso Encarregado de Dados (DPO) pelo e-mail: contato@adoneintelligence.com.br.`,
     },
     {
         id: "dados-coletados",
@@ -111,7 +111,7 @@ const SECTIONS = [
             "Oposição: opor-se a tratamentos realizados com base em legítimo interesse.",
             "Informação sobre compartilhamento: saber com quais entidades seus dados foram compartilhados.",
         ],
-        extra: "Para exercer qualquer um desses direitos, envie uma solicitação para privacidade@adoneintelligence.com.br. Responderemos em até 15 dias úteis.",
+        extra: "Para exercer qualquer um desses direitos, envie uma solicitação para contato@adoneintelligence.com.br. Responderemos em até 15 dias úteis.",
     },
     {
         id: "menores",
@@ -133,7 +133,7 @@ const SECTIONS = [
         title: "13. Contato e DPO",
         content: `Para dúvidas, solicitações ou reclamações relacionadas ao tratamento de dados pessoais:`,
         list: [
-            "E-mail do DPO: privacidade@adoneintelligence.com.br",
+            "E-mail do DPO: contato@adoneintelligence.com.br",
             "E-mail geral: contato@adoneintelligence.com.br",
             "Site: adoneintelligence.com.br",
         ],
@@ -239,8 +239,8 @@ export default function PrivacidadePage() {
                 <ShieldCheckIcon className="w-8 h-8 text-violet-400 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
                     Levamos a proteção de dados a sério. Se tiver qualquer dúvida sobre como tratamos suas informações, entre em contato com nosso DPO em{" "}
-                    <a href="mailto:privacidade@adoneintelligence.com.br" className="text-violet-400 hover:underline">
-                        privacidade@adoneintelligence.com.br
+                    <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                        contato@adoneintelligence.com.br
                     </a>
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">

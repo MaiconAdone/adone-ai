@@ -165,7 +165,7 @@ const SECTIONS = [
         content: `Para dúvidas, solicitações ou comunicações relacionadas a estes Termos de Uso:`,
         list: [
             "E-mail: contato@adoneintelligence.com.br",
-            "E-mail jurídico: juridico@adoneintelligence.com.br",
+            "E-mail jurídico: contato@adoneintelligence.com.br",
             "Site: adoneintelligence.com.br",
         ],
     },
@@ -269,8 +269,8 @@ export default function TermosPage() {
                 <ScrollTextIcon className="w-8 h-8 text-violet-400 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
                     Dúvidas sobre estes termos? Fale com nossa equipe jurídica em{" "}
-                    <a href="mailto:juridico@adoneintelligence.com.br" className="text-violet-400 hover:underline">
-                        juridico@adoneintelligence.com.br
+                    <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                        contato@adoneintelligence.com.br
                     </a>
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">

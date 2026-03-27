@@ -180,8 +180,8 @@ const SECTIONS = [
         title: "15. Contato",
         content: `Para dúvidas ou solicitações relacionadas ao tratamento de dados em projetos:`,
         list: [
-            "E-mail do DPO: privacidade@adoneintelligence.com.br",
-            "E-mail técnico: dados@adoneintelligence.com.br",
+            "E-mail do DPO: contato@adoneintelligence.com.br",
+            "E-mail técnico: contato@adoneintelligence.com.br",
             "E-mail geral: contato@adoneintelligence.com.br",
         ],
         extra: "Para exercer seus direitos como titular de dados pessoais, consulte nossa Política de Privacidade.",
@@ -287,8 +287,8 @@ export default function DadosPage() {
                 <DatabaseIcon className="w-8 h-8 text-violet-400 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
                     Dúvidas sobre o tratamento de dados nos projetos? Fale com nossa equipe em{" "}
-                    <a href="mailto:dados@adoneintelligence.com.br" className="text-violet-400 hover:underline">
-                        dados@adoneintelligence.com.br
+                    <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                        contato@adoneintelligence.com.br
                     </a>
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
