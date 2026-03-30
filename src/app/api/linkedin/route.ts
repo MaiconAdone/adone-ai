@@ -38,7 +38,7 @@ export async function GET() {
         return NextResponse.json({ error: "LINKEDIN_CLIENT_ID não configurado" }, { status: 500 });
     }
 
-    const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=w_member_social%20w_organization_social%20openid%20profile`;
+    const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=w_member_social%20openid%20profile`;
 
     return NextResponse.redirect(authUrl);
 }
