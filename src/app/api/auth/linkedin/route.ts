@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { getOrgId } from "@/lib/engine/linkedin/poster";
+import { getOrgId, getMemberId } from "@/lib/engine/linkedin/poster";
 
 // GET /api/auth/linkedin — callback OAuth do LinkedIn
 export async function GET(req: NextRequest) {
@@ -31,15 +31,18 @@ export async function GET(req: NextRequest) {
 
         const { access_token, expires_in } = tokenRes.data;
 
-        // Buscar ID da organização automaticamente
-        const orgId = await getOrgId(access_token);
+        // Buscar memberId e orgId automaticamente
+        const [memberId, orgId] = await Promise.all([
+            getMemberId(access_token),
+            getOrgId(access_token),
+        ]);
 
-        // Retornar token e orgId para configurar nas variáveis de ambiente
         return NextResponse.json({
             ok: true,
             message: "✅ Copie esses valores e adicione nas variáveis de ambiente da Hostinger:",
             LINKEDIN_ACCESS_TOKEN: access_token,
-            LINKEDIN_ORG_ID: orgId,
+            LINKEDIN_MEMBER_ID: memberId,
+            LINKEDIN_ORG_ID: orgId || "não encontrado — adicione manualmente",
             expires_in_days: Math.floor(expires_in / 86400),
         });
     } catch (err: any) {
