@@ -1,9 +1,10 @@
 // LinkedIn Auto-Poster — Adone Intelligence
-// Posta automaticamente no perfil pessoal (vinculado à página da empresa)
+// Posta automaticamente na página da empresa ou perfil pessoal
 
 import axios from "axios";
 
 const LINKEDIN_API = "https://api.linkedin.com/v2";
+const LINKEDIN_REST  = "https://api.linkedin.com/rest";
 
 // Buscar o ID do usuário autenticado
 export async function getMemberId(token: string): Promise<string | null> {
@@ -18,18 +19,18 @@ export async function getMemberId(token: string): Promise<string | null> {
     }
 }
 
-// Postar no LinkedIn (perfil pessoal ou página da empresa)
+// Postar no LinkedIn via nova API /rest/posts (substitui ugcPosts deprecado)
 export async function postToLinkedIn(text: string): Promise<string | null> {
-    const token = process.env.LINKEDIN_ACCESS_TOKEN;
+    const token    = process.env.LINKEDIN_ACCESS_TOKEN;
     const memberId = process.env.LINKEDIN_MEMBER_ID;
-    const orgId = process.env.LINKEDIN_ORG_ID;
+    const orgId    = process.env.LINKEDIN_ORG_ID;
 
     if (!token) {
         console.log("[LinkedIn] LINKEDIN_ACCESS_TOKEN não configurado");
         return null;
     }
 
-    // Usar org se disponível, senão usar perfil pessoal
+    // Preferir página da empresa; fallback para perfil pessoal
     const author = orgId
         ? `urn:li:organization:${orgId}`
         : `urn:li:person:${memberId}`;
@@ -39,34 +40,36 @@ export async function postToLinkedIn(text: string): Promise<string | null> {
         return null;
     }
 
+    console.log(`[LinkedIn] Postando como: ${author}`);
+
     try {
         const res = await axios.post(
-            `${LINKEDIN_API}/ugcPosts`,
+            `${LINKEDIN_REST}/posts`,
             {
                 author,
+                commentary: text,
+                visibility: "PUBLIC",
+                distribution: {
+                    feedDistribution: "MAIN_FEED",
+                    targetEntities: [],
+                    thirdPartyDistributionChannels: [],
+                },
                 lifecycleState: "PUBLISHED",
-                specificContent: {
-                    "com.linkedin.ugc.ShareContent": {
-                        shareCommentary: { text },
-                        shareMediaCategory: "NONE",
-                    },
-                },
-                visibility: {
-                    "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-                },
+                isReshareDisabledByAuthor: false,
             },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
+                    "LinkedIn-Version": "202401",
                     "X-Restli-Protocol-Version": "2.0.0",
                 },
             }
         );
 
-        const postId = res.headers["x-restli-id"] || res.data.id;
+        const postId = res.headers["x-restli-id"] || res.data?.id;
         console.log(`[LinkedIn] Post publicado: ${postId}`);
-        return postId;
+        return postId || "published";
     } catch (err: any) {
         console.error("[LinkedIn] Erro ao postar:", err?.response?.data || err.message);
         return null;
