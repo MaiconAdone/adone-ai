@@ -40,40 +40,47 @@ export async function postToLinkedIn(text: string): Promise<string | null> {
         return null;
     }
 
-    console.log(`[LinkedIn] Postando como: ${author}`);
+    const authorsToTry = orgId
+        ? [`urn:li:organization:${orgId}`, `urn:li:person:${memberId}`]
+        : [`urn:li:person:${memberId}`];
 
-    try {
-        const res = await axios.post(
-            `${LINKEDIN_REST}/posts`,
-            {
-                author,
-                commentary: text,
-                visibility: "PUBLIC",
-                distribution: {
-                    feedDistribution: "MAIN_FEED",
-                    targetEntities: [],
-                    thirdPartyDistributionChannels: [],
+    for (const authorUrn of authorsToTry) {
+        console.log(`[LinkedIn] Tentando postar como: ${authorUrn}`);
+        try {
+            const res = await axios.post(
+                `${LINKEDIN_REST}/posts`,
+                {
+                    author: authorUrn,
+                    commentary: text,
+                    visibility: "PUBLIC",
+                    distribution: {
+                        feedDistribution: "MAIN_FEED",
+                        targetEntities: [],
+                        thirdPartyDistributionChannels: [],
+                    },
+                    lifecycleState: "PUBLISHED",
+                    isReshareDisabledByAuthor: false,
                 },
-                lifecycleState: "PUBLISHED",
-                isReshareDisabledByAuthor: false,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                    "LinkedIn-Version": "202401",
-                    "X-Restli-Protocol-Version": "2.0.0",
-                },
-            }
-        );
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        "LinkedIn-Version": "202401",
+                        "X-Restli-Protocol-Version": "2.0.0",
+                    },
+                }
+            );
 
-        const postId = res.headers["x-restli-id"] || res.data?.id;
-        console.log(`[LinkedIn] Post publicado: ${postId}`);
-        return postId || "published";
-    } catch (err: any) {
-        console.error("[LinkedIn] Erro ao postar:", err?.response?.data || err.message);
-        return null;
+            const postId = res.headers["x-restli-id"] || res.data?.id;
+            console.log(`[LinkedIn] Post publicado como ${authorUrn}: ${postId}`);
+            return postId || "published";
+        } catch (err: any) {
+            console.error(`[LinkedIn] Falhou com ${authorUrn}:`, err?.response?.data || err.message);
+            // tenta próximo author (fallback para perfil pessoal)
+        }
     }
+
+    return null;
 }
 
 // Buscar organização ID pelo token
