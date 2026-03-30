@@ -16,17 +16,7 @@ export async function POST(req: NextRequest) {
         // Post manual com texto específico
         if (body.text) {
             const postId = await postToLinkedIn(body.text);
-            return NextResponse.json({
-                ok: !!postId,
-                postId,
-                debug: {
-                    hasToken: !!process.env.LINKEDIN_ACCESS_TOKEN,
-                    hasMemberId: !!process.env.LINKEDIN_MEMBER_ID,
-                    hasOrgId: !!process.env.LINKEDIN_ORG_ID,
-                    orgId: process.env.LINKEDIN_ORG_ID || null,
-                    memberId: process.env.LINKEDIN_MEMBER_ID || null,
-                },
-            });
+            return NextResponse.json({ ok: !!postId, postId });
         }
 
         // Post automático (gera conteúdo + posta)
