@@ -7,7 +7,7 @@ const nextConfig = {
                 hostname: "randomuser.me"
             }
         ]
-    }
+    },
 };
 
 export default nextConfig;
