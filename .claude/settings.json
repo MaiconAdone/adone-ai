@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(pnpm dev:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(pnpm approve-builds:*)",
+      "Bash(pnpm rebuild:*)"
     ],
     "additionalDirectories": [
       "c:\\Site\\adone\\adone-ia-php\\assets\\css"
