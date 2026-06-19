@@ -55,7 +55,7 @@ const Footer = () => {
 
                         {/* CTA */}
                         <Link
-                            href="#contato"
+                            href="/#contato"
                             className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white bg-violet-600 hover:bg-violet-500 px-4 py-2.5 rounded-lg transition-all duration-300"
                         >
                             Diagnóstico Gratuito

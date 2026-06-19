@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { cn } from "@/functions";
 import { useClickOutside } from "@/hooks";
 import { motion } from "framer-motion";
-import { BrainCircuitIcon, TrendingUpIcon, GitMergeIcon, MessageSquareTextIcon, EyeIcon, BarChart3Icon, HelpCircleIcon, BuildingIcon, UsersIcon, BookOpenIcon } from "lucide-react";
+import { BrainCircuitIcon, TrendingUpIcon, GitMergeIcon, MessageSquareTextIcon, EyeIcon, BarChart3Icon, HelpCircleIcon, BuildingIcon, UsersIcon, BookOpenIcon, BoxIcon } from "lucide-react";
 import Link from "next/link";
 import React from 'react';
 
@@ -41,9 +41,18 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                         onClick={() => setIsOpen(false)}
                         className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
                     >
-                        <Link href="#processo" className="flex items-center w-full text-start">
+                        <Link href="/#processo" className="flex items-center w-full text-start">
                             <BookOpenIcon className="w-4 h-4 mr-2" />
                             Como Funciona
+                        </Link>
+                    </li>
+                    <li
+                        onClick={() => setIsOpen(false)}
+                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
+                    >
+                        <Link href="/jerico" className="flex items-center w-full text-start">
+                            <BoxIcon className="w-4 h-4 mr-2" />
+                            Jerico
                         </Link>
                     </li>
 
@@ -65,7 +74,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                                     { icon: BarChart3Icon, label: "Análise de Dados" },
                                 ].map(({ icon: Icon, label }) => (
                                     <li key={label} className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
-                                        <Link href="#servicos" className="flex items-center w-full text-start">
+                                        <Link href="/#servicos" className="flex items-center w-full text-start">
                                             <Icon className="w-4 h-4 mr-2" />
                                             {label}
                                         </Link>
@@ -76,19 +85,19 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                     </Accordion>
 
                     <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
-                        <Link href="#segmentos" className="flex items-center w-full text-start">
+                        <Link href="/#segmentos" className="flex items-center w-full text-start">
                             <BuildingIcon className="w-4 h-4 mr-2" />
                             Segmentos
                         </Link>
                     </li>
                     <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
-                        <Link href="#cases" className="flex items-center w-full text-start">
+                        <Link href="/#cases" className="flex items-center w-full text-start">
                             <UsersIcon className="w-4 h-4 mr-2" />
                             Cases
                         </Link>
                     </li>
                     <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
-                        <Link href="#faq" className="flex items-center w-full text-start">
+                        <Link href="/#faq" className="flex items-center w-full text-start">
                             <HelpCircleIcon className="w-4 h-4 mr-2" />
                             FAQ
                         </Link>

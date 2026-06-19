@@ -1,7 +1,7 @@
 "use client";
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { BrainCircuitIcon, BarChart3Icon, BotIcon, EyeIcon, GitMergeIcon, MessageSquareTextIcon, TrendingUpIcon } from 'lucide-react';
+import { BoxIcon, BrainCircuitIcon, GitMergeIcon, MessageSquareTextIcon, TrendingUpIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -18,9 +18,16 @@ const Menu = () => {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="#processo" legacyBehavior passHref>
+                    <Link href="/#processo" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
                             Como Funciona
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link href="/jerico" legacyBehavior passHref>
+                        <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                            Jerico
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
@@ -33,7 +40,7 @@ const Menu = () => {
                             <li className="row-span-4">
                                 <NavigationMenuLink asChild>
                                     <Link
-                                        href="#servicos"
+                                        href="/#servicos"
                                         className="flex flex-col justify-end w-full h-full p-4 no-underline rounded-lg outline-none select-none bg-gradient-to-tr from-violet-950/60 to-violet-900/30 border border-violet-800/20 focus:shadow-md"
                                     >
                                         <Image
@@ -52,37 +59,40 @@ const Menu = () => {
                                     </Link>
                                 </NavigationMenuLink>
                             </li>
-                            <Item title="Consultoria em IA" href="#servicos" icon={<BrainCircuitIcon className="w-5 h-5" />}>
+                            <Item title="Consultoria em IA" href="/#servicos" icon={<BrainCircuitIcon className="w-5 h-5" />}>
                                 Estratégia e roadmap de IA para o seu negócio.
                             </Item>
-                            <Item title="Machine Learning Preditivo" href="#servicos" icon={<TrendingUpIcon className="w-5 h-5" />}>
+                            <Item title="Machine Learning Preditivo" href="/#servicos" icon={<TrendingUpIcon className="w-5 h-5" />}>
                                 Modelos que antecipam demandas e riscos.
                             </Item>
-                            <Item title="Automação Inteligente" href="#servicos" icon={<GitMergeIcon className="w-5 h-5" />}>
+                            <Item title="Automação Inteligente" href="/#servicos" icon={<GitMergeIcon className="w-5 h-5" />}>
                                 Elimine processos manuais com IA.
                             </Item>
-                            <Item title="NLP & Chatbots" href="#servicos" icon={<MessageSquareTextIcon className="w-5 h-5" />}>
+                            <Item title="NLP & Chatbots" href="/#servicos" icon={<MessageSquareTextIcon className="w-5 h-5" />}>
                                 Atendimento inteligente 24/7.
+                            </Item>
+                            <Item title="Jerico" href="/jerico" icon={<BoxIcon className="w-5 h-5" />}>
+                                Plataforma visual para workflows de IA, ML e Chatbolt.
                             </Item>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="#segmentos" legacyBehavior passHref>
+                    <Link href="/#segmentos" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
                             Segmentos
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="#cases" legacyBehavior passHref>
+                    <Link href="/#cases" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
                             Cases
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="#sobre" legacyBehavior passHref>
+                    <Link href="/#sobre" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
                             Sobre
                         </NavigationMenuLink>

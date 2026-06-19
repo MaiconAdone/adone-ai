@@ -89,6 +89,117 @@ Acesse **http://localhost:3000**
 
 ---
 
+## 6. Configurar integração com LinkedIn
+
+O projeto **já possui a base da integração pronta** para:
+
+- autenticar via OAuth no LinkedIn;
+- gerar texto automaticamente com IA;
+- gerar imagem branded para o post;
+- publicar no perfil pessoal ou página da empresa;
+- receber disparo manual ou automático via endpoint.
+
+### Variáveis necessárias
+
+Adicione também no `.env.local` ou no painel da Hostinger:
+
+```env
+ANTHROPIC_API_KEY=sua_chave_anthropic
+WEBHOOK_SECRET=um_segredo_forte
+
+SITE_URL=https://seu-dominio.com.br
+
+LINKEDIN_CLIENT_ID=seu_client_id_linkedin
+LINKEDIN_CLIENT_SECRET=seu_client_secret_linkedin
+
+# preenchidas após o OAuth
+LINKEDIN_ACCESS_TOKEN=
+LINKEDIN_MEMBER_ID=
+LINKEDIN_ORG_ID=
+```
+
+### 1. Criar app no LinkedIn Developer
+
+No portal de desenvolvedores do LinkedIn:
+
+1. crie um app;
+2. associe a página da empresa, se quiser postar como organização;
+3. configure a redirect URL:
+
+```text
+https://seu-dominio.com.br/api/auth/linkedin
+```
+
+4. habilite os escopos usados pelo projeto:
+   - `openid`
+   - `profile`
+   - `w_member_social`
+   - `w_organization_social`
+   - `r_organization_social`
+
+### 2. Obter token e IDs
+
+Com o projeto rodando e as variáveis `LINKEDIN_CLIENT_ID` e `LINKEDIN_CLIENT_SECRET` configuradas, acesse:
+
+```text
+https://seu-dominio.com.br/api/linkedin/connect
+```
+
+Após autorizar no LinkedIn, o callback `/api/auth/linkedin` retorna em JSON:
+
+- `LINKEDIN_ACCESS_TOKEN`
+- `LINKEDIN_MEMBER_ID`
+- `LINKEDIN_ORG_ID`
+
+Copie esses valores para o `.env.local` ou para as variáveis da Hostinger.
+
+### 3. Testar publicação manual
+
+Você pode publicar um texto específico via `POST /api/linkedin` enviando o header `x-webhook-secret`.
+
+Exemplo com `curl`:
+
+```bash
+curl -X POST http://localhost:3000/api/linkedin ^
+  -H "Content-Type: application/json" ^
+  -H "x-webhook-secret: um_segredo_forte" ^
+  -d "{\"text\":\"Teste de postagem automática no LinkedIn com imagem gerada pelo sistema.\"}"
+```
+
+Se o corpo não enviar `text`, o sistema usa o gerador automático e publica um conteúdo novo com base no scheduler interno.
+
+### 4. Como automatizar de verdade
+
+O projeto possui a função de geração e postagem, mas **não existe um cron ativo em produção por padrão**.
+
+Ou seja: para a automação recorrente, você deve configurar **um agendador externo** chamando o endpoint abaixo:
+
+```text
+POST /api/linkedin
+```
+
+Opções recomendadas:
+
+- Cron Jobs da Hostinger, se disponíveis no plano;
+- serviço externo como EasyCron, cron-job.org ou GitHub Actions;
+- automação via n8n / Make / Zapier.
+
+Essa chamada deve enviar o header:
+
+```text
+x-webhook-secret: seu WEBHOOK_SECRET
+```
+
+### Observações importantes
+
+- o token do LinkedIn expira; será necessário renovar periodicamente;
+- se `LINKEDIN_ORG_ID` não estiver disponível, o sistema tenta postar no perfil pessoal;
+- a imagem do post é gerada em `src/lib/engine/linkedin/image-generator.tsx`;
+- a publicação é feita por `src/lib/engine/linkedin/poster.ts`;
+- a geração automática do conteúdo está em `src/lib/engine/linkedin/scheduler.ts`.
+
+---
+
 ## Estrutura resumida
 
 ```

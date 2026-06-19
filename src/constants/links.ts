@@ -49,20 +49,21 @@ export const FOOTER_LINKS = [
     {
         title: "Soluções",
         links: [
-            { name: "Consultoria em IA", href: "#servicos" },
-            { name: "Machine Learning", href: "#servicos" },
-            { name: "Automação Inteligente", href: "#servicos" },
-            { name: "Visão Computacional", href: "#servicos" },
-            { name: "NLP & Chatbots", href: "#servicos" },
+            { name: "Jerico", href: "/jerico" },
+            { name: "Consultoria em IA", href: "/#servicos" },
+            { name: "Machine Learning", href: "/#servicos" },
+            { name: "Automação Inteligente", href: "/#servicos" },
+            { name: "Visão Computacional", href: "/#servicos" },
+            { name: "NLP & Chatbots", href: "/#servicos" },
         ],
     },
     {
         title: "Empresa",
         links: [
-            { name: "Sobre Nós", href: "#sobre" },
-            { name: "Cases de Sucesso", href: "#cases" },
-            { name: "Como Funciona", href: "#processo" },
-            { name: "Segmentos", href: "#segmentos" },
+            { name: "Sobre Nós", href: "/#sobre" },
+            { name: "Cases de Sucesso", href: "/#cases" },
+            { name: "Como Funciona", href: "/#processo" },
+            { name: "Segmentos", href: "/#segmentos" },
         ],
     },
     {
@@ -77,8 +78,8 @@ export const FOOTER_LINKS = [
     {
         title: "Contato",
         links: [
-            { name: "Fale Conosco", href: "#contato" },
-            { name: "Agendar Reunião", href: "#contato" },
+            { name: "Fale Conosco", href: "/#contato" },
+            { name: "Agendar Reunião", href: "/#contato" },
             { name: "LinkedIn", href: "https://linkedin.com/company/adone-ai" },
             { name: "WhatsApp", href: "https://wa.me/5511926025637" },
         ],
