@@ -73,12 +73,19 @@ const JericoSalesPage = () => {
                     />
                     <section className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
                         <div className="relative z-10">
-                            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/10 px-3 py-1.5 text-sm font-medium text-violet-200">
-                                <Sparkles className="h-4 w-4" />
-                                Plataforma Jericó para IA, ML e Chatbolt
+                            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-200">
+                                <Image
+                                    src="/img/jerico.png"
+                                    alt="Logo Jericó"
+                                    width={28}
+                                    height={28}
+                                    className="rounded-full bg-violet-950/70 p-1"
+                                    priority
+                                />
+                                <span>Aplicação Jericó</span>
                             </div>
                             <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-                                Construa workflows de IA e Machine Learning com governança local-first.
+                                Jericó: a aplicação para construir workflows de IA e Machine Learning com governança local-first.
                             </h1>
                             <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
                                 O Jericó organiza agentes, dados, modelos preditivos, RAG, memória e chatbots em uma experiência visual para times que querem sair da ideia e chegar ao fluxo operacional.
@@ -112,12 +119,12 @@ const JericoSalesPage = () => {
 
                         <div className="relative">
                             <div className="absolute -inset-6 rounded-[2rem] bg-cyan-500/20 blur-3xl" />
-                            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
+                            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40 max-w-[520px] mx-auto">
                                 <Image
                                     src="/img/jerico.png"
                                     alt="Logo do Jericó"
-                                    width={998}
-                                    height={796}
+                                    width={520}
+                                    height={416}
                                     className="h-auto w-full"
                                     priority
                                 />
@@ -189,6 +196,40 @@ const JericoSalesPage = () => {
                                     <span className="text-sm leading-6 text-muted-foreground">{item}</span>
                                 </div>
                             ))}
+                        </div>
+                    </section>
+                </Container>
+
+                <Container className="mt-20">
+                    <section className="grid gap-8 rounded-3xl border border-white/10 bg-violet-950/90 p-8 lg:grid-cols-[0.95fr_1.05fr]">
+                        <div className="flex flex-col justify-center rounded-3xl bg-violet-900/70 p-6 text-white shadow-2xl shadow-black/20">
+                            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-300">Sobre o fundador</p>
+                            <h2 className="mt-4 text-3xl font-bold text-white">Maicon Adone</h2>
+                            <p className="mt-6 text-sm leading-7 text-violet-200">
+                                Formado em Sistemas de Informação (2011), com experiência sólida em Ciência de Dados, Inteligência Artificial, Machine Learning e desenvolvimento de soluções baseadas em LLMs atuando na construção de aplicações inteligentes para ambientes corporativos.
+                            </p>
+                            <p className="mt-4 text-sm leading-7 text-violet-200">
+                                Experiência no desenvolvimento de soluções com RAG — Retrieval-Augmented Generation, busca semântica, bancos vetoriais, embeddings, engenharia de prompts, integração com APIs, automação de processos e criação de assistentes inteligentes aplicados a diferentes contextos empresariais.
+                            </p>
+                            <p className="mt-4 text-sm leading-7 text-violet-200">
+                                Atuo também com IA agêntica aplicada à transformação empresarial, desenvolvendo agentes inteligentes capazes de apoiar empresas na automação de fluxos complexos, análise de dados, tomada de decisão, atendimento, vendas, operações e integração entre sistemas. Essa abordagem permite conectar pessoas, dados, ferramentas e processos para gerar maior produtividade, eficiência operacional e escalabilidade.
+                            </p>
+                            <p className="mt-4 text-sm leading-7 text-violet-200">
+                                Possuo conhecimento em LangChain e LangGraph para orquestração de cadeias, memória, ferramentas, agentes e pipelines avançados, além de integração de contextos e serviços via MCP — Model Context Protocol. Também tenho experiência em projetos de Inteligência Artificial e Machine Learning em ambientes cloud, incluindo AWS e Azure, com foco na construção de soluções escaláveis, seguras e orientadas a resultados.
+                            </p>
+                            <p className="mt-4 text-sm leading-7 text-violet-200">
+                                Minha atuação combina engenharia de IA, ciência de dados, automação inteligente e visão de negócios, com o objetivo de transformar processos corporativos por meio de aplicações baseadas em LLMs, agentes inteligentes, arquiteturas RAG, análise de dados e soluções de IA aplicadas à transformação digital e empresarial.
+                            </p>
+                        </div>
+                        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4">
+                            <Image
+                                src="/img/maicon.png"
+                                alt="Foto do Maicon"
+                                width={680}
+                                height={680}
+                                className="h-auto w-full rounded-3xl object-cover"
+                                priority
+                            />
                         </div>
                     </section>
                 </Container>
