@@ -201,9 +201,9 @@ const JericoSalesPage = () => {
                 </Container>
 
                 <Container className="mt-20">
-                    <section className="grid gap-8 rounded-3xl border border-white/10 bg-violet-950/90 p-8 lg:grid-cols-[0.95fr_1.05fr]">
+                    <section id="sobre" className="grid gap-8 rounded-3xl border border-white/10 bg-violet-950/90 p-8 lg:grid-cols-[0.95fr_1.05fr]">
                         <div className="flex flex-col justify-center rounded-3xl bg-violet-900/70 p-6 text-white shadow-2xl shadow-black/20">
-                            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-300">Sobre o fundador</p>
+                            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-300">Sobre</p>
                             <h2 className="mt-4 text-3xl font-bold text-white">Maicon Adone</h2>
                             <p className="mt-6 text-sm leading-7 text-violet-200">
                                 Formado em Sistemas de Informação (2011), com experiência sólida em Ciência de Dados, Inteligência Artificial, Machine Learning e desenvolvimento de soluções baseadas em LLMs atuando na construção de aplicações inteligentes para ambientes corporativos.
