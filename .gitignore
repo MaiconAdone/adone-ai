@@ -16,6 +16,9 @@
 # production
 /build
 
+# deployment artifacts
+/deploy/
+
 # misc
 .DS_Store
 *.pem
