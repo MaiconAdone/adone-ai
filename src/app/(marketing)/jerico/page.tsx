@@ -119,12 +119,12 @@ const JericoSalesPage = () => {
 
                         <div className="relative">
                             <div className="absolute -inset-6 rounded-[2rem] bg-cyan-500/20 blur-3xl" />
-                            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40 max-w-[520px] mx-auto">
+                            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
                                 <Image
-                                    src="/img/jerico.png"
-                                    alt="Logo do Jericó"
-                                    width={520}
-                                    height={416}
+                                    src="/img/tela.png"
+                                    alt="Tela da aplicação Jericó"
+                                    width={1892}
+                                    height={887}
                                     className="h-auto w-full"
                                     priority
                                 />
