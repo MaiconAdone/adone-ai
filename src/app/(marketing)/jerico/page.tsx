@@ -75,7 +75,7 @@ const JericoSalesPage = () => {
                         <div className="relative z-10">
                             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-200">
                                 <Image
-                                    src="/img/jerico.png"
+                                    src="/img/tela.png"
                                     alt="Logo Jericó"
                                     width={28}
                                     height={28}
