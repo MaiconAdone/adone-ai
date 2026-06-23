@@ -132,10 +132,10 @@ const JericoSalesPage = () => {
                                 </div>
                                 <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
                                     <Image
-                                        src="/img/jerico.png"
+                                        src="/img/tela.png"
                                         alt="Segunda tela da aplicação Jericó"
-                                        width={998}
-                                        height={788}
+                                        width={1892}
+                                        height={887}
                                         className="h-full w-full object-contain"
                                         priority
                                     />
