@@ -71,8 +71,8 @@ const JericoSalesPage = () => {
                         className="-top-40 left-0 md:left-72 md:-top-28"
                         fill="rgba(139, 92, 246, 0.45)"
                     />
-                    <section className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-                        <div className="relative z-10">
+                    <section className="relative z-10 text-center">
+                        <div>
                             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-200">
                                 <Image
                                     src="/img/tela.png"
@@ -84,13 +84,13 @@ const JericoSalesPage = () => {
                                 />
                                 <span>Aplicação Jericó</span>
                             </div>
-                            <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                            <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                                 Jericó: a aplicação para construir workflows de IA e Machine Learning com governança local-first.
                             </h1>
-                            <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
+                            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
                                 O Jericó organiza agentes, dados, modelos preditivos, RAG, memória e chatbots em uma experiência visual para times que querem sair da ideia e chegar ao fluxo operacional.
                             </p>
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
                                 <Button asChild size="xl" className="btn-primary">
                                     <Link href="https://wa.me/5511926025637?text=Quero%20comprar%20o%20Jeric%C3%B3%20por%20R%24%201.199%2C00" target="_blank" rel="noopener noreferrer">
                                         Comprar agora
@@ -101,7 +101,7 @@ const JericoSalesPage = () => {
                                     <Link href="#oferta">Ver o que está incluso</Link>
                                 </Button>
                             </div>
-                            <div className="mt-8 grid max-w-xl grid-cols-3 gap-3">
+                            <div className="mx-auto mt-8 grid max-w-xl grid-cols-1 gap-3 text-left sm:grid-cols-3">
                                 <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
                                     <strong className="block text-2xl text-white">4</strong>
                                     <span className="text-sm text-muted-foreground">universos</span>
@@ -117,17 +117,29 @@ const JericoSalesPage = () => {
                             </div>
                         </div>
 
-                        <div className="relative">
+                        <div className="relative mx-auto mt-10 max-w-6xl">
                             <div className="absolute -inset-6 rounded-[2rem] bg-cyan-500/20 blur-3xl" />
-                            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
-                                <Image
-                                    src="/img/tela.png"
-                                    alt="Tela da aplicação Jericó"
-                                    width={1892}
-                                    height={887}
-                                    className="h-auto w-full"
-                                    priority
-                                />
+                            <div className="relative grid gap-4 md:grid-cols-2">
+                                <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
+                                    <Image
+                                        src="/img/tela.png"
+                                        alt="Tela da aplicação Jericó"
+                                        width={1892}
+                                        height={887}
+                                        className="h-full w-full object-contain"
+                                        priority
+                                    />
+                                </div>
+                                <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
+                                    <Image
+                                        src="/img/jerico.png"
+                                        alt="Segunda tela da aplicação Jericó"
+                                        width={998}
+                                        height={788}
+                                        className="h-full w-full object-contain"
+                                        priority
+                                    />
+                                </div>
                             </div>
                         </div>
                     </section>
