@@ -145,6 +145,128 @@ const SynapseSalesPage = () => {
                     </section>
                 </Container>
 
+                <Container className="mt-12">
+                    <section className="mx-auto max-w-4xl rounded-lg bg-white/[0.02] p-6">
+                        <h2 className="text-2xl font-bold text-white">Synapse: A Plataforma de Engenharia de IA que Transforma a Forma de Construir Machine Learning e Inteligência Artificial</h2>
+                        <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                            A Inteligência Artificial está evoluindo rapidamente. O desafio deixou de ser apenas desenvolver modelos e passou a ser criar soluções inteligentes, escaláveis e capazes de colaborar entre si durante todo o ciclo de desenvolvimento.
+                        </p>
+                        <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                            Foi com essa visão que nasceu o <strong>Synapse</strong>, a plataforma de engenharia de IA da Adone Intelligence.
+                        </p>
+                        <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                            O Synapse foi concebido para atuar como um ambiente completo de desenvolvimento, orquestração e automação de soluções de Inteligência Artificial, Machine Learning e agentes inteligentes, permitindo que desenvolvedores, cientistas de dados e empresas construam aplicações mais robustas, produtivas e fáceis de manter.
+                        </p>
+
+                        <h3 className="mt-6 text-lg font-semibold text-white">O que é o Synapse?</h3>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                            O Synapse é uma plataforma de Engenharia de IA desenvolvida para integrar modelos de linguagem (LLMs), Machine Learning, agentes inteligentes, automação e ferramentas de desenvolvimento em uma única arquitetura.
+                        </p>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                            Mais do que um assistente de programação, o Synapse funciona como um orquestrador inteligente, capaz de distribuir tarefas entre diferentes modelos, gerenciar contexto, reutilizar conhecimento e automatizar atividades repetitivas durante o desenvolvimento.
+                        </p>
+
+                        <h3 className="mt-6 text-lg font-semibold text-white">Principais funcionalidades</h3>
+
+                        <h4 className="mt-4 text-md font-semibold text-white">Engenharia de IA Agêntica</h4>
+                        <p className="mt-2 text-sm leading-7 text-muted-foreground">O Synapse utiliza uma arquitetura baseada em múltiplos agentes especializados. Cada agente pode assumir responsabilidades específicas, como:</p>
+                        <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
+                            <li>Arquitetura de software</li>
+                            <li>Desenvolvimento de código</li>
+                            <li>Revisão técnica</li>
+                            <li>Testes automatizados</li>
+                            <li>Documentação</li>
+                            <li>Análise de dados</li>
+                            <li>Engenharia de Machine Learning</li>
+                            <li>MLOps</li>
+                            <li>Observabilidade</li>
+                        </ul>
+
+                        <h4 className="mt-4 text-md font-semibold text-white">Desenvolvimento Inteligente</h4>
+                        <p className="mt-2 text-sm leading-7 text-muted-foreground">O Synapse integra diferentes modelos de IA para selecionar automaticamente o mais adequado para cada tarefa. Dependendo da necessidade, pode utilizar:</p>
+                        <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
+                            <li>Modelos locais executados via Ollama</li>
+                            <li>Agentes especializados em programação</li>
+                            <li>Modelos de linguagem comerciais</li>
+                            <li>Ferramentas compatíveis com Model Context Protocol (MCP)</li>
+                        </ul>
+
+                        <h4 className="mt-4 text-md font-semibold text-white">Programação Assistida por Voz</h4>
+                        <p className="mt-2 text-sm leading-7 text-muted-foreground">Uma das funcionalidades em desenvolvimento é o <strong>Synapse Voice</strong>, um assistente virtual para engenharia de software. Com ele, será possível utilizar comandos por voz para interagir com o ambiente de desenvolvimento, por exemplo:</p>
+                        <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
+                            <li>Criar novos projetos</li>
+                            <li>Gerar APIs</li>
+                            <li>Executar testes</li>
+                            <li>Corrigir erros</li>
+                            <li>Revisar código</li>
+                            <li>Abrir arquivos</li>
+                            <li>Explicar implementações</li>
+                            <li>Automatizar tarefas repetitivas</li>
+                        </ul>
+
+                        <h4 className="mt-4 text-md font-semibold text-white">Memória Inteligente</h4>
+                        <p className="mt-2 text-sm leading-7 text-muted-foreground">O Synapse mantém contexto entre diferentes etapas do desenvolvimento, permitindo reutilizar conhecimento do projeto, compartilhar informações entre agentes, reduzir repetição de contexto e melhorar a qualidade das respostas.</p>
+
+                        <h3 className="mt-6 text-lg font-semibold text-white">Como o Synapse melhora projetos de Machine Learning?</h3>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">O desenvolvimento de modelos de Machine Learning envolve diversas etapas que normalmente utilizam ferramentas distintas. O Synapse integra essas atividades em um fluxo contínuo, incluindo:</p>
+                        <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
+                            <li>Preparação de dados</li>
+                            <li>Engenharia de atributos</li>
+                            <li>Seleção automática de algoritmos</li>
+                            <li>Treinamento</li>
+                            <li>Avaliação de desempenho</li>
+                            <li>Comparação entre modelos</li>
+                            <li>Versionamento</li>
+                            <li>Documentação automática</li>
+                            <li>Monitoramento em produção</li>
+                        </ul>
+
+                        <h3 className="mt-6 text-lg font-semibold text-white">Como o Synapse acelera projetos de Inteligência Artificial?</h3>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">Além do desenvolvimento tradicional de Machine Learning, o Synapse foi projetado para suportar aplicações modernas de IA, incluindo:</p>
+                        <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
+                            <li>Sistemas baseados em LLMs</li>
+                            <li>Aplicações com múltiplos agentes</li>
+                            <li>Recuperação aumentada por contexto (RAG)</li>
+                            <li>Automação empresarial inteligente</li>
+                            <li>Assistentes especializados</li>
+                            <li>Geração de código</li>
+                            <li>Processamento de documentos</li>
+                            <li>Integração com ferramentas corporativas</li>
+                            <li>Execução de workflows inteligentes</li>
+                        </ul>
+
+                        <h3 className="mt-6 text-lg font-semibold text-white">Integração com o ecossistema de desenvolvimento</h3>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">O Synapse foi pensado para trabalhar com ferramentas amplamente utilizadas por equipes de engenharia, como:</p>
+                        <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
+                            <li>VS Code</li>
+                            <li>Git e GitHub</li>
+                            <li>Docker</li>
+                            <li>MCP Servers</li>
+                            <li>Playwright</li>
+                            <li>Ollama</li>
+                            <li>Ambientes Linux e Windows</li>
+                            <li>Plataformas de Machine Learning</li>
+                        </ul>
+
+                        <h3 className="mt-6 text-lg font-semibold text-white">Benefícios para empresas</h3>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">Ao adotar o Synapse, organizações podem obter benefícios como:</p>
+                        <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
+                            <li>Maior produtividade das equipes técnicas</li>
+                            <li>Redução do tempo de desenvolvimento</li>
+                            <li>Padronização da engenharia de IA</li>
+                            <li>Melhor governança dos projetos</li>
+                            <li>Reutilização de componentes</li>
+                            <li>Escalabilidade para novos projetos</li>
+                            <li>Menor custo operacional por meio do uso inteligente de modelos locais e serviços externos</li>
+                            <li>Maior qualidade e rastreabilidade das entregas</li>
+                        </ul>
+
+                        <h3 className="mt-6 text-lg font-semibold text-white">Nossa visão</h3>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">Na Adone Intelligence, acreditamos que o futuro da Inteligência Artificial não está apenas em modelos cada vez maiores, mas em plataformas capazes de coordenar diferentes modelos, ferramentas e agentes de forma integrada. O Synapse representa essa visão: uma plataforma de Engenharia de IA construída para acelerar o desenvolvimento de soluções inteligentes, aumentar a produtividade das equipes e transformar a forma como empresas criam, implantam e evoluem aplicações de Machine Learning e Inteligência Artificial.</p>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">Estamos construindo um ecossistema preparado para os desafios da próxima geração de IA, combinando automação, colaboração entre agentes e engenharia de software moderna em uma única plataforma.</p>
+                    </section>
+                </Container>
+
                 <Container className="mt-20">
                     <section id="oferta" className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
                         <div className="rounded-lg border border-violet-400/20 bg-violet-500/10 p-6">
