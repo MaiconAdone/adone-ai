@@ -75,14 +75,13 @@ const SynapseSalesPage = () => {
                         <div>
                             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-200">
                                 <Image
-                                    src="/img/tela.png"
-                                    alt="Logo Synapse"
-                                    width={28}
-                                    height={28}
-                                    className="rounded-full bg-violet-950/70 p-1"
+                                    src="/img/logo2.png"
+                                    alt="Logotipo Synapse"
+                                    width={40}
+                                    height={40}
+                                    className="h-10 w-auto rounded-full bg-violet-950/70 p-1"
                                     priority
                                 />
-                                <span>Aplicação Synapse</span>
                             </div>
                             <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                                 Synapse: a aplicação para construir workflows de IA e Machine Learning com governança local-first.
