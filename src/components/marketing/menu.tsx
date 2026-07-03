@@ -25,9 +25,9 @@ const Menu = () => {
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="/jerico" legacyBehavior passHref>
+                    <Link href="/synapse" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-4 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
-                            Jerico
+                            Synapse
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
@@ -71,7 +71,7 @@ const Menu = () => {
                             <Item title="NLP & Chatbots" href="/#servicos" icon={<MessageSquareTextIcon className="w-5 h-5" />}>
                                 Atendimento inteligente 24/7.
                             </Item>
-                            <Item title="Jerico" href="/jerico" icon={<BoxIcon className="w-5 h-5" />}>
+                            <Item title="Synapse" href="/synapse" icon={<BoxIcon className="w-5 h-5" />}>
                                 Plataforma visual para workflows de IA, ML e Chatbolt.
                             </Item>
                         </ul>

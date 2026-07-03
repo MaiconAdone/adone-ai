@@ -19,8 +19,8 @@ import { Button } from "@/components/ui/button";
 import { Spotlight } from "@/components/ui/spotlight";
 
 export const metadata: Metadata = {
-    title: "Jericó | Plataforma local-first de IA e ML",
-    description: "Compre o Jericó por R$ 1.199,00 e crie workflows de IA, ML e Chatbolt com agentes, memória, RAG e governança local-first.",
+    title: "Synapse | Plataforma local-first de IA e ML",
+    description: "Compre o Synapse por R$ 1.199,00 e crie workflows de IA, ML e Chatbolt com agentes, memória, RAG e governança local-first.",
 };
 
 const included = [
@@ -62,7 +62,7 @@ const outcomes = [
     "Acelerar protótipos com workflows prontos para cada universo",
 ];
 
-const JericoSalesPage = () => {
+const SynapseSalesPage = () => {
     return (
         <Background>
             <Wrapper className="relative overflow-hidden pt-28 pb-20">
@@ -76,23 +76,23 @@ const JericoSalesPage = () => {
                             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-2 text-sm font-medium text-violet-200">
                                 <Image
                                     src="/img/tela.png"
-                                    alt="Logo Jericó"
+                                    alt="Logo Synapse"
                                     width={28}
                                     height={28}
                                     className="rounded-full bg-violet-950/70 p-1"
                                     priority
                                 />
-                                <span>Aplicação Jericó</span>
+                                <span>Aplicação Synapse</span>
                             </div>
                             <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-                                Jericó: a aplicação para construir workflows de IA e Machine Learning com governança local-first.
+                                Synapse: a aplicação para construir workflows de IA e Machine Learning com governança local-first.
                             </h1>
                             <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-                                O Jericó organiza agentes, dados, modelos preditivos, RAG, memória e chatbots em uma experiência visual para times que querem sair da ideia e chegar ao fluxo operacional.
+                                O Synapse organiza agentes, dados, modelos preditivos, RAG, memória e chatbots em uma experiência visual para times que querem sair da ideia e chegar ao fluxo operacional.
                             </p>
                             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
                                 <Button asChild size="xl" className="btn-primary">
-                                    <Link href="https://wa.me/5511926025637?text=Quero%20comprar%20o%20Jeric%C3%B3%20por%20R%24%201.199%2C00" target="_blank" rel="noopener noreferrer">
+                                    <Link href="https://wa.me/5511926025637?text=Quero%20comprar%20o%20Synapse%20por%20R%24%201.199%2C00" target="_blank" rel="noopener noreferrer">
                                         Comprar agora
                                         <ArrowRight className="ml-2 h-4 w-4" />
                                     </Link>
@@ -123,7 +123,7 @@ const JericoSalesPage = () => {
                                 <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
                                     <Image
                                         src="/img/tela.png"
-                                        alt="Tela da aplicação Jericó"
+                                        alt="Tela da aplicação Synapse"
                                         width={1892}
                                         height={887}
                                         className="h-full w-full object-contain"
@@ -133,7 +133,7 @@ const JericoSalesPage = () => {
                                 <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
                                     <Image
                                         src="/img/tela2.png"
-                                        alt="Segunda tela da aplicação Jericó"
+                                        alt="Segunda tela da aplicação Synapse"
                                         width={1918}
                                         height={1009}
                                         className="h-full w-full object-contain"
@@ -153,10 +153,10 @@ const JericoSalesPage = () => {
                                 <span className="text-5xl font-bold text-white">R$ 1.199,00</span>
                             </div>
                             <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                                Acesso ao pacote Jericó para criar e operar fluxos de IA, ML e Chatbolt com base local-first.
+                                Acesso ao pacote Synapse para criar e operar fluxos de IA, ML e Chatbolt com base local-first.
                             </p>
                             <Button asChild size="xl" className="btn-primary mt-6 w-full">
-                                <Link href="https://wa.me/5511926025637?text=Quero%20comprar%20o%20Jeric%C3%B3%20por%20R%24%201.199%2C00" target="_blank" rel="noopener noreferrer">
+                                <Link href="https://wa.me/5511926025637?text=Quero%20comprar%20o%20Synapse%20por%20R%24%201.199%2C00" target="_blank" rel="noopener noreferrer">
                                     Falar no WhatsApp
                                     <MessageCircle className="ml-2 h-4 w-4" />
                                 </Link>
@@ -177,7 +177,7 @@ const JericoSalesPage = () => {
                 <Container className="mt-20">
                     <section>
                         <div className="max-w-2xl">
-                            <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">O que o Jericó entrega</p>
+                            <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">O que o Synapse entrega</p>
                             <h2 className="mt-3 text-3xl font-bold text-white">Uma fábrica visual para transformar trabalho de IA em processo.</h2>
                         </div>
                         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -250,15 +250,15 @@ const JericoSalesPage = () => {
                     <section className="relative overflow-hidden rounded-2xl border border-violet-400/20 bg-violet-500/10 p-8 text-center">
                         <GitBranch className="mx-auto h-9 w-9 text-violet-200" />
                         <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-bold text-white">
-                            Comece com o Jericó por R$ 1.199,00
+                            Comece com o Synapse por R$ 1.199,00
                         </h2>
                         <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
                             Fale com a Adone Intelligence para receber o pacote, orientação inicial e próximos passos de implantação.
                         </p>
                         <div className="mt-7 flex justify-center">
                             <Button asChild size="xl" className="btn-primary">
-                                <Link href="https://wa.me/5511926025637?text=Quero%20comprar%20o%20Jeric%C3%B3%20por%20R%24%201.199%2C00" target="_blank" rel="noopener noreferrer">
-                                    Quero meu Jericó
+                                <Link href="https://wa.me/5511926025637?text=Quero%20comprar%20o%20Synapse%20por%20R%24%201.199%2C00" target="_blank" rel="noopener noreferrer">
+                                    Quero meu Synapse
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>
                             </Button>
@@ -270,4 +270,4 @@ const JericoSalesPage = () => {
     );
 };
 
-export default JericoSalesPage;
+export default SynapseSalesPage;

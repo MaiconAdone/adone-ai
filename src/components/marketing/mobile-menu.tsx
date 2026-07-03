@@ -50,10 +50,10 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                         onClick={() => setIsOpen(false)}
                         className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
                     >
-                        <Link href="/jerico" className="flex items-center w-full text-start">
-                            <BoxIcon className="w-4 h-4 mr-2" />
-                            Jerico
-                        </Link>
+                        <Link href="/synapse" className="flex items-center w-full text-start">
+                                <BoxIcon className="w-4 h-4 mr-2" />
+                                Synapse
+                            </Link>
                     </li>
 
                     <Accordion type="single" collapsible className="w-full">
