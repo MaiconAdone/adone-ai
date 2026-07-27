@@ -1,7 +1,5 @@
-"use client";
-
 import { cn } from "@/functions";
-import { motion } from "framer-motion";
+import { RevealSection } from "../motion/reveal-section";
 
 interface Props {
     className?: string;
@@ -13,15 +11,14 @@ interface Props {
 
 const Container = ({ children, className, delay = 0.2, reverse, simple }: Props) => {
     return (
-        <motion.div
+        <RevealSection
             className={cn("w-full h-full", className)}
-            initial={{ opacity: 0, y: reverse ? -20 : 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ delay: delay, duration: simple ? 0.2 : 0.4, type: simple ? "keyframes" : "spring", stiffness: simple && 100 }}
+            delay={delay}
+            direction={reverse ? "down" : "up"}
+            duration={simple ? 0.25 : 0.55}
         >
             {children}
-        </motion.div>
+        </RevealSection>
     )
 };
 

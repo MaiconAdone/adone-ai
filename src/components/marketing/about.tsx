@@ -4,6 +4,7 @@ import Container from "../global/container";
 import { SectionBadge } from "../ui/section-bade";
 import { CheckIcon, BrainCircuitIcon, UsersIcon, AwardIcon, Globe2Icon } from "lucide-react";
 import { BorderBeam } from "../ui/border-beam";
+import { AnimatedCounter } from "../motion/animated-counter";
 
 const VALUES = [
     "Resultados antes de tecnologia — medimos tudo em R$",
@@ -83,7 +84,10 @@ const About = () => {
                                     <item.icon strokeWidth={1.5} className="w-5 h-5 text-violet-400" />
                                 </div>
                                 <span className="text-3xl md:text-4xl font-bold font-heading bg-gradient-to-br from-violet-300 to-purple-300 bg-clip-text text-transparent">
-                                    {item.value}
+                                    <AnimatedCounter
+                                        value={Number.parseInt(item.value, 10)}
+                                        suffix={item.value.replace(/\d/g, "")}
+                                    />
                                 </span>
                                 <span className="text-xs text-muted-foreground">{item.label}</span>
                                 <BorderBeam size={80} duration={8} delay={i * 2} />

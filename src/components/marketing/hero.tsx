@@ -2,12 +2,22 @@
 
 import { ArrowRightIcon, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import Container from "../global/container";
 import NumberTicker from "../ui/number-ticker";
-import RetroGrid from "../ui/retro-grid";
-import { Particles } from "../ui/particles";
+import { AuroraBackground } from "../effects/aurora-background";
+import { DataFlowLines } from "../effects/data-flow-lines";
+import { TechButton } from "../ui/tech-button";
+
+const NeuralParticlesBackground = dynamic(
+    () =>
+        import("../effects/neural-particles-background").then(
+            (module) => module.NeuralParticlesBackground
+        ),
+    { ssr: false }
+);
 
 const STATS = [
     { value: 87, suffix: "%", label: "Redução de processos manuais" },
@@ -17,7 +27,10 @@ const STATS = [
 
 const Hero = () => {
     return (
-        <div className="flex flex-col items-center text-center w-full max-w-5xl my-24 mx-auto z-40 relative overflow-hidden">
+        <div className="flex flex-col items-center text-center w-full max-w-5xl my-24 mx-auto z-40 relative overflow-hidden rounded-[2rem]">
+            <AuroraBackground />
+            <NeuralParticlesBackground />
+            <DataFlowLines className="opacity-40" />
             {/* Glow top */}
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-purple-600/30 blur-[6rem] -z-10" />
             {/* Glow bottom */}
@@ -61,12 +74,12 @@ const Hero = () => {
 
                 <Container delay={0.15}>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-                        <Button asChild size="lg" className="w-full sm:w-auto px-8 h-12 text-base font-semibold">
+                        <TechButton asChild className="w-full sm:w-auto text-base">
                             <Link href="#contato">
                                 Agendar Diagnóstico Gratuito
                                 <ArrowRightIcon className="w-4 h-4 ml-2" />
                             </Link>
-                        </Button>
+                        </TechButton>
                         <Button asChild size="lg" variant="outline" className="w-full sm:w-auto px-8 h-12 text-base">
                             <Link href="#servicos">
                                 Ver Soluções
@@ -114,14 +127,6 @@ const Hero = () => {
             </div>
 
             {/* Efeitos de fundo — idênticos ao bloco CTA */}
-            <RetroGrid />
-            <Particles
-                refresh
-                ease={80}
-                color="#8b5cf6"
-                quantity={80}
-                className="size-full absolute inset-0"
-            />
         </div>
     );
 };

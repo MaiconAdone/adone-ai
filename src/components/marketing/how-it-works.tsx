@@ -4,6 +4,7 @@ import Container from "../global/container";
 import { SectionBadge } from "../ui/section-bade";
 import { SearchIcon, FlaskConicalIcon, RocketIcon, BarChart3Icon, ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import { DataFlowLines } from "../effects/data-flow-lines";
 
 const STEPS = [
     {
@@ -38,7 +39,8 @@ const STEPS = [
 
 const HowItWorks = () => {
     return (
-        <div id="processo" className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24 w-full scroll-mt-20">
+        <div id="processo" className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24 w-full scroll-mt-20 relative overflow-hidden">
+            <DataFlowLines className="opacity-25" />
             <Container>
                 <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
                     <SectionBadge title="Como Funciona" />

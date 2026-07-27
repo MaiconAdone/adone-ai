@@ -4,14 +4,18 @@ import Link from "next/link";
 import Container from "../global/container";
 import { Button } from "../ui/button";
 import { Particles } from "../ui/particles";
-import RetroGrid from "../ui/retro-grid";
 import { ArrowRightIcon, CalendarIcon } from "lucide-react";
+import { AuroraBackground } from "../effects/aurora-background";
+import { DataFlowLines } from "../effects/data-flow-lines";
+import { TechButton } from "../ui/tech-button";
 
 const CTA = () => {
     return (
         <div className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24 w-full relative">
             <Container>
                 <div className="flex flex-col items-center justify-center text-center w-full px-4 md:px-8 mx-auto min-h-[480px] border border-foreground/10 rounded-3xl overflow-hidden relative">
+                    <AuroraBackground />
+                    <DataFlowLines className="opacity-30" />
                     {/* Glow bottom */}
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-16 bg-violet-600 blur-[8rem] opacity-50" />
                     {/* Glow top */}
@@ -36,12 +40,12 @@ const CTA = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2 w-full">
-                            <Button asChild size="lg" className="w-full sm:w-auto px-8 h-12 text-base font-semibold bg-violet-600 hover:bg-violet-500">
+                            <TechButton asChild className="w-full sm:w-auto text-base">
                                 <Link href="#contato">
                                     Agendar Diagnóstico Gratuito
                                     <ArrowRightIcon className="w-4 h-4 ml-2" />
                                 </Link>
-                            </Button>
+                            </TechButton>
                             <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto px-8 h-12 text-base">
                                 <Link href="#cases">
                                     Ver Cases de Sucesso
@@ -54,12 +58,11 @@ const CTA = () => {
                         </p>
                     </div>
 
-                    <RetroGrid />
                     <Particles
                         refresh
                         ease={80}
                         color="#8b5cf6"
-                        quantity={80}
+                        quantity={35}
                         className="size-full absolute inset-0"
                     />
                 </div>

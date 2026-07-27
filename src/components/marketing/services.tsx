@@ -2,7 +2,7 @@
 
 import Container from "../global/container";
 import { SectionBadge } from "../ui/section-bade";
-import MagicCard from "../ui/magic-card";
+import { GlowCard } from "../effects/glow-card";
 import {
     BrainCircuitIcon,
     TrendingUpIcon,
@@ -85,9 +85,8 @@ const Services = () => {
             <Container>
                 <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
                     {SERVICES.map((service, i) => (
-                        <MagicCard
+                        <GlowCard
                             key={i}
-                            particles={true}
                             className={`flex flex-col items-start w-full bg-gradient-to-br ${service.color} bg-primary/[0.04] group cursor-pointer`}
                         >
                             <div className="bento-card w-full flex-col gap-4 p-6">
@@ -113,11 +112,11 @@ const Services = () => {
                                     </Link>
                                 </div>
                             </div>
-                        </MagicCard>
+                        </GlowCard>
                     ))}
 
                     {/* Card CTA */}
-                    <MagicCard particles={false} className="flex flex-col items-start w-full bg-gradient-to-br from-violet-600/30 to-purple-600/20 border-violet-500/30 group cursor-pointer md:col-span-1">
+                    <GlowCard className="flex flex-col items-start w-full bg-gradient-to-br from-violet-600/30 to-purple-600/20 border-violet-500/30 group cursor-pointer md:col-span-1">
                         <div className="bento-card w-full flex-col gap-4 p-6 items-center justify-center text-center h-full">
                             <div className="flex flex-col items-center justify-center gap-4 h-full py-4">
                                 <div className="p-4 rounded-2xl bg-violet-500/20 border border-violet-400/30">
@@ -138,7 +137,7 @@ const Services = () => {
                                 </Link>
                             </div>
                         </div>
-                    </MagicCard>
+                    </GlowCard>
                 </div>
             </Container>
         </div>
