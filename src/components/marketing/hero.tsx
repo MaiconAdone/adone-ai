@@ -10,6 +10,7 @@ import NumberTicker from "../ui/number-ticker";
 import { AuroraBackground } from "../effects/aurora-background";
 import { DataFlowLines } from "../effects/data-flow-lines";
 import { TechButton } from "../ui/tech-button";
+import { AiBeamsBackground } from "../effects/ai-beams-background";
 
 const NeuralParticlesBackground = dynamic(
     () =>
@@ -27,10 +28,11 @@ const STATS = [
 
 const Hero = () => {
     return (
-        <div className="flex flex-col items-center text-center w-full max-w-5xl my-24 mx-auto z-40 relative overflow-hidden rounded-[2rem]">
+        <div className="tech-hero flex flex-col items-center text-center w-full max-w-5xl my-24 mx-auto z-40 relative overflow-hidden rounded-[2rem] border border-violet-400/10">
             <AuroraBackground />
             <NeuralParticlesBackground />
             <DataFlowLines className="opacity-40" />
+            <AiBeamsBackground />
             {/* Glow top */}
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-purple-600/30 blur-[6rem] -z-10" />
             {/* Glow bottom */}
@@ -57,7 +59,7 @@ const Hero = () => {
                 <Container delay={0.05}>
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl bg-gradient-to-br from-foreground via-foreground/90 to-foreground/50 bg-clip-text text-transparent py-2 lg:!leading-tight font-semibold tracking-tight mt-6 font-heading">
                         Transforme dados em{" "}
-                        <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                        <span className="ai-gradient-text bg-gradient-to-r from-violet-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">
                             vantagem competitiva
                         </span>{" "}
                         com IA
