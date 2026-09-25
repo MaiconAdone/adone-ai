@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from 'react';
 import Icons from "../global/icons";
+import ThemeToggle from "../global/theme-toggle";
 import Wrapper from "../global/wrapper";
 import { Button } from "../ui/button";
 import Menu from "./menu";
@@ -30,7 +31,7 @@ const Navbar = () => {
 
     return (
         <div className="relative w-full h-full">
-            <div className="z-[99] fixed pointer-events-none inset-x-0 h-[88px] bg-[rgba(10,10,10,0.8)] backdrop-blur-sm [mask:linear-gradient(to_bottom,#000_20%,transparent_calc(100%-20%))]"></div>
+            <div className="z-[99] fixed pointer-events-none inset-x-0 h-[88px] bg-[rgba(10,10,10,0.8)] light:bg-[rgba(250,249,255,0.8)] backdrop-blur-sm [mask:linear-gradient(to_bottom,#000_20%,transparent_calc(100%-20%))]"></div>
 
             <header
                 className={cn(
@@ -59,6 +60,7 @@ const Navbar = () => {
                             </div>
                         </div>
                         <div className="items-center flex gap-2 lg:gap-4">
+                            <ThemeToggle />
                             <>
                                 <Button size="sm" variant="white" asChild className="hidden sm:flex">
                                     <Link href="/#contato">

@@ -210,9 +210,9 @@ const Contact = () => {
                                         onChange={handleChange}
                                         className="w-full bg-foreground/[0.03] border border-foreground/10 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-violet-500/50 focus:bg-violet-500/[0.03] transition-all duration-200 appearance-none"
                                     >
-                                        <option value="" className="bg-neutral-900">Selecione o porte</option>
+                                        <option value="" className="bg-background">Selecione o porte</option>
                                         {COMPANY_SIZES.map((s) => (
-                                            <option key={s} value={s} className="bg-neutral-900">{s}</option>
+                                            <option key={s} value={s} className="bg-background">{s}</option>
                                         ))}
                                     </select>
                                 </div>

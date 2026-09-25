@@ -57,7 +57,7 @@ const ReviewCard = ({
     review: string;
 }) => {
     return (
-        <figure className="relative w-64 cursor-pointer overflow-hidden rounded-xl border border-foreground/5 bg-neutral-50/[.05] hover:bg-foreground/10 p-4 transition-all duration-300 ease-in-out">
+        <figure className="relative w-64 cursor-pointer overflow-hidden rounded-xl border border-foreground/5 bg-foreground/[.05] hover:bg-foreground/10 p-4 transition-all duration-300 ease-in-out">
             <div className="flex flex-row items-center gap-2">
                 <Image className="rounded-full" width="32" height="32" alt="" src={img} />
                 <div className="flex flex-col">

@@ -101,16 +101,16 @@ const SynapseSalesPage = () => {
                                 </Button>
                             </div>
                             <div className="mx-auto mt-8 grid max-w-xl grid-cols-1 gap-3 text-left sm:grid-cols-3">
-                                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                                    <strong className="block text-2xl text-white">4</strong>
+                                <div className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
+                                    <strong className="block text-2xl text-foreground">4</strong>
                                     <span className="text-sm text-muted-foreground">universos</span>
                                 </div>
-                                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                                    <strong className="block text-2xl text-white">60</strong>
+                                <div className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
+                                    <strong className="block text-2xl text-foreground">60</strong>
                                     <span className="text-sm text-muted-foreground">agentes disponíveis</span>
                                 </div>
-                                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                                    <strong className="block text-2xl text-white">R$ 1.199</strong>
+                                <div className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
+                                    <strong className="block text-2xl text-foreground">R$ 1.199</strong>
                                     <span className="text-sm text-muted-foreground">pagamento único</span>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@ const SynapseSalesPage = () => {
                         <div className="relative mx-auto mt-10 max-w-6xl">
                             <div className="absolute -inset-6 rounded-[2rem] bg-cyan-500/20 blur-3xl" />
                             <div className="relative grid gap-4 md:grid-cols-2">
-                                <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
+                                <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-foreground/10 bg-white shadow-2xl shadow-violet-950/40">
                                     <Image
                                         src="/img/tela.png"
                                         alt="Tela da aplicação Synapse"
@@ -129,7 +129,7 @@ const SynapseSalesPage = () => {
                                         priority
                                     />
                                 </div>
-                                <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
+                                <div className="aspect-[16/9] overflow-hidden rounded-2xl border border-foreground/10 bg-white shadow-2xl shadow-violet-950/40">
                                     <Image
                                         src="/img/tela2.png"
                                         alt="Segunda tela da aplicação Synapse"
@@ -145,8 +145,8 @@ const SynapseSalesPage = () => {
                 </Container>
 
                 <Container className="mt-12">
-                    <section className="mx-auto max-w-4xl rounded-lg bg-white/[0.02] p-6">
-                        <h2 className="text-2xl font-bold text-white">Synapse: A Plataforma de Engenharia de IA que Transforma a Forma de Construir Machine Learning e Inteligência Artificial</h2>
+                    <section className="mx-auto max-w-4xl rounded-lg bg-foreground/[0.02] p-6">
+                        <h2 className="text-2xl font-bold text-foreground">Synapse: A Plataforma de Engenharia de IA que Transforma a Forma de Construir Machine Learning e Inteligência Artificial</h2>
                         <p className="mt-4 text-sm leading-7 text-muted-foreground">
                             A Inteligência Artificial está evoluindo rapidamente. O desafio deixou de ser apenas desenvolver modelos e passou a ser criar soluções inteligentes, escaláveis e capazes de colaborar entre si durante todo o ciclo de desenvolvimento.
                         </p>
@@ -157,7 +157,7 @@ const SynapseSalesPage = () => {
                             O Synapse foi concebido para atuar como um ambiente completo de desenvolvimento, orquestração e automação de soluções de Inteligência Artificial, Machine Learning e agentes inteligentes, permitindo que desenvolvedores, cientistas de dados e empresas construam aplicações mais robustas, produtivas e fáceis de manter.
                         </p>
 
-                        <h3 className="mt-6 text-lg font-semibold text-white">O que é o Synapse?</h3>
+                        <h3 className="mt-6 text-lg font-semibold text-foreground">O que é o Synapse?</h3>
                         <p className="mt-3 text-sm leading-7 text-muted-foreground">
                             O Synapse é uma plataforma de Engenharia de IA desenvolvida para integrar modelos de linguagem (LLMs), Machine Learning, agentes inteligentes, automação e ferramentas de desenvolvimento em uma única arquitetura.
                         </p>
@@ -165,9 +165,9 @@ const SynapseSalesPage = () => {
                             Mais do que um assistente de programação, o Synapse funciona como um orquestrador inteligente, capaz de distribuir tarefas entre diferentes modelos, gerenciar contexto, reutilizar conhecimento e automatizar atividades repetitivas durante o desenvolvimento.
                         </p>
 
-                        <h3 className="mt-6 text-lg font-semibold text-white">Principais funcionalidades</h3>
+                        <h3 className="mt-6 text-lg font-semibold text-foreground">Principais funcionalidades</h3>
 
-                        <h4 className="mt-4 text-md font-semibold text-white">Engenharia de IA Agêntica</h4>
+                        <h4 className="mt-4 text-md font-semibold text-foreground">Engenharia de IA Agêntica</h4>
                         <p className="mt-2 text-sm leading-7 text-muted-foreground">O Synapse utiliza uma arquitetura baseada em múltiplos agentes especializados. Cada agente pode assumir responsabilidades específicas, como:</p>
                         <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
                             <li>Arquitetura de software</li>
@@ -181,7 +181,7 @@ const SynapseSalesPage = () => {
                             <li>Observabilidade</li>
                         </ul>
 
-                        <h4 className="mt-4 text-md font-semibold text-white">Desenvolvimento Inteligente</h4>
+                        <h4 className="mt-4 text-md font-semibold text-foreground">Desenvolvimento Inteligente</h4>
                         <p className="mt-2 text-sm leading-7 text-muted-foreground">O Synapse integra diferentes modelos de IA para selecionar automaticamente o mais adequado para cada tarefa. Dependendo da necessidade, pode utilizar:</p>
                         <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
                             <li>Modelos locais executados via Ollama</li>
@@ -190,7 +190,7 @@ const SynapseSalesPage = () => {
                             <li>Ferramentas compatíveis com Model Context Protocol (MCP)</li>
                         </ul>
 
-                        <h4 className="mt-4 text-md font-semibold text-white">Programação Assistida por Voz</h4>
+                        <h4 className="mt-4 text-md font-semibold text-foreground">Programação Assistida por Voz</h4>
                         <p className="mt-2 text-sm leading-7 text-muted-foreground">Uma das funcionalidades em desenvolvimento é o <strong>Synapse Voice</strong>, um assistente virtual para engenharia de software. Com ele, será possível utilizar comandos por voz para interagir com o ambiente de desenvolvimento, por exemplo:</p>
                         <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
                             <li>Criar novos projetos</li>
@@ -203,10 +203,10 @@ const SynapseSalesPage = () => {
                             <li>Automatizar tarefas repetitivas</li>
                         </ul>
 
-                        <h4 className="mt-4 text-md font-semibold text-white">Memória Inteligente</h4>
+                        <h4 className="mt-4 text-md font-semibold text-foreground">Memória Inteligente</h4>
                         <p className="mt-2 text-sm leading-7 text-muted-foreground">O Synapse mantém contexto entre diferentes etapas do desenvolvimento, permitindo reutilizar conhecimento do projeto, compartilhar informações entre agentes, reduzir repetição de contexto e melhorar a qualidade das respostas.</p>
 
-                        <h3 className="mt-6 text-lg font-semibold text-white">Como o Synapse melhora projetos de Machine Learning?</h3>
+                        <h3 className="mt-6 text-lg font-semibold text-foreground">Como o Synapse melhora projetos de Machine Learning?</h3>
                         <p className="mt-3 text-sm leading-7 text-muted-foreground">O desenvolvimento de modelos de Machine Learning envolve diversas etapas que normalmente utilizam ferramentas distintas. O Synapse integra essas atividades em um fluxo contínuo, incluindo:</p>
                         <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
                             <li>Preparação de dados</li>
@@ -220,7 +220,7 @@ const SynapseSalesPage = () => {
                             <li>Monitoramento em produção</li>
                         </ul>
 
-                        <h3 className="mt-6 text-lg font-semibold text-white">Como o Synapse acelera projetos de Inteligência Artificial?</h3>
+                        <h3 className="mt-6 text-lg font-semibold text-foreground">Como o Synapse acelera projetos de Inteligência Artificial?</h3>
                         <p className="mt-3 text-sm leading-7 text-muted-foreground">Além do desenvolvimento tradicional de Machine Learning, o Synapse foi projetado para suportar aplicações modernas de IA, incluindo:</p>
                         <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
                             <li>Sistemas baseados em LLMs</li>
@@ -234,7 +234,7 @@ const SynapseSalesPage = () => {
                             <li>Execução de workflows inteligentes</li>
                         </ul>
 
-                        <h3 className="mt-6 text-lg font-semibold text-white">Integração com o ecossistema de desenvolvimento</h3>
+                        <h3 className="mt-6 text-lg font-semibold text-foreground">Integração com o ecossistema de desenvolvimento</h3>
                         <p className="mt-3 text-sm leading-7 text-muted-foreground">O Synapse foi pensado para trabalhar com ferramentas amplamente utilizadas por equipes de engenharia, como:</p>
                         <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
                             <li>VS Code</li>
@@ -247,7 +247,7 @@ const SynapseSalesPage = () => {
                             <li>Plataformas de Machine Learning</li>
                         </ul>
 
-                        <h3 className="mt-6 text-lg font-semibold text-white">Benefícios para empresas</h3>
+                        <h3 className="mt-6 text-lg font-semibold text-foreground">Benefícios para empresas</h3>
                         <p className="mt-3 text-sm leading-7 text-muted-foreground">Ao adotar o Synapse, organizações podem obter benefícios como:</p>
                         <ul className="mt-2 list-disc ml-6 text-sm text-muted-foreground">
                             <li>Maior produtividade das equipes técnicas</li>
@@ -260,7 +260,7 @@ const SynapseSalesPage = () => {
                             <li>Maior qualidade e rastreabilidade das entregas</li>
                         </ul>
 
-                        <h3 className="mt-6 text-lg font-semibold text-white">Nossa visão</h3>
+                        <h3 className="mt-6 text-lg font-semibold text-foreground">Nossa visão</h3>
                         <p className="mt-3 text-sm leading-7 text-muted-foreground">Na Adone Intelligence, acreditamos que o futuro da Inteligência Artificial não está apenas em modelos cada vez maiores, mas em plataformas capazes de coordenar diferentes modelos, ferramentas e agentes de forma integrada. O Synapse representa essa visão: uma plataforma de Engenharia de IA construída para acelerar o desenvolvimento de soluções inteligentes, aumentar a produtividade das equipes e transformar a forma como empresas criam, implantam e evoluem aplicações de Machine Learning e Inteligência Artificial.</p>
                         <p className="mt-3 text-sm leading-7 text-muted-foreground">Estamos construindo um ecossistema preparado para os desafios da próxima geração de IA, combinando automação, colaboração entre agentes e engenharia de software moderna em uma única plataforma.</p>
                     </section>
@@ -271,7 +271,7 @@ const SynapseSalesPage = () => {
                         <div className="rounded-lg border border-violet-400/20 bg-violet-500/10 p-6">
                             <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">Oferta de lançamento</p>
                             <div className="mt-4 flex items-end gap-2">
-                                <span className="text-5xl font-bold text-white">R$ 1.199,00</span>
+                                <span className="text-5xl font-bold text-foreground">R$ 1.199,00</span>
                             </div>
                             <p className="mt-4 text-sm leading-6 text-muted-foreground">
                                 Acesso ao pacote Synapse para criar e operar fluxos de IA, ML e Chatbolt com base local-first.
@@ -286,7 +286,7 @@ const SynapseSalesPage = () => {
 
                         <div className="grid gap-3 sm:grid-cols-2">
                             {included.map((item) => (
-                                <div key={item} className="flex gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-4">
+                                <div key={item} className="flex gap-3 rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
                                     <CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-violet-300" />
                                     <span className="text-sm leading-6 text-muted-foreground">{item}</span>
                                 </div>
@@ -299,13 +299,13 @@ const SynapseSalesPage = () => {
                     <section>
                         <div className="max-w-2xl">
                             <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">O que o Synapse entrega</p>
-                            <h2 className="mt-3 text-3xl font-bold text-white">Uma fábrica visual para transformar trabalho de IA em processo.</h2>
+                            <h2 className="mt-3 text-3xl font-bold text-foreground">Uma fábrica visual para transformar trabalho de IA em processo.</h2>
                         </div>
                         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                             {modules.map((module) => (
-                                <div key={module.title} className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
+                                <div key={module.title} className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-5">
                                     <module.icon className="h-7 w-7 text-violet-300" />
-                                    <h3 className="mt-5 text-lg font-semibold text-white">{module.title}</h3>
+                                    <h3 className="mt-5 text-lg font-semibold text-foreground">{module.title}</h3>
                                     <p className="mt-3 text-sm leading-6 text-muted-foreground">{module.text}</p>
                                 </div>
                             ))}
@@ -314,10 +314,10 @@ const SynapseSalesPage = () => {
                 </Container>
 
                 <Container className="mt-20">
-                    <section className="grid gap-8 rounded-2xl border border-white/10 bg-white/[0.04] p-6 md:p-8 lg:grid-cols-2">
+                    <section className="grid gap-8 rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-6 md:p-8 lg:grid-cols-2">
                         <div>
                             <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">Para quem é</p>
-                            <h2 className="mt-3 text-3xl font-bold text-white">Times que precisam criar automações inteligentes com controle.</h2>
+                            <h2 className="mt-3 text-3xl font-bold text-foreground">Times que precisam criar automações inteligentes com controle.</h2>
                             <p className="mt-4 text-sm leading-7 text-muted-foreground">
                                 Ideal para consultores, founders, equipes de dados e operações que querem padronizar projetos de IA sem perder segurança, rastreabilidade e custo previsível.
                             </p>
@@ -334,7 +334,7 @@ const SynapseSalesPage = () => {
                 </Container>
 
                 <Container className="mt-20">
-                    <section id="sobre" className="grid gap-8 rounded-3xl border border-white/10 bg-violet-950/90 p-8 lg:grid-cols-[0.95fr_1.05fr]">
+                    <section id="sobre" className="dark-surface grid gap-8 rounded-3xl border border-white/10 bg-violet-950/90 p-8 lg:grid-cols-[0.95fr_1.05fr]">
                         <div className="flex flex-col justify-center rounded-3xl bg-violet-900/70 p-6 text-white shadow-2xl shadow-black/20">
                             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-300">Sobre</p>
                             <h2 className="mt-4 text-3xl font-bold text-white">Maicon Adone</h2>
@@ -370,7 +370,7 @@ const SynapseSalesPage = () => {
                 <Container className="mt-20">
                     <section className="relative overflow-hidden rounded-2xl border border-violet-400/20 bg-violet-500/10 p-8 text-center">
                         <GitBranch className="mx-auto h-9 w-9 text-violet-200" />
-                        <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-bold text-white">
+                        <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-bold text-foreground">
                             Comece com o Synapse por R$ 1.199,00
                         </h2>
                         <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">

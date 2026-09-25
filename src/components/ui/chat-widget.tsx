@@ -110,11 +110,11 @@ export function ChatWidget() {
 
             {/* Janela do chat */}
             {open && (
-                <div className="fixed bottom-44 right-6 z-50 w-[350px] max-w-[calc(100vw-2rem)] flex flex-col rounded-2xl border border-violet-500/20 bg-neutral-950 shadow-2xl overflow-hidden"
+                <div className="fixed bottom-44 right-6 z-50 w-[350px] max-w-[calc(100vw-2rem)] flex flex-col rounded-2xl border border-violet-500/20 bg-neutral-950 light:bg-white shadow-2xl overflow-hidden"
                     style={{ height: "480px" }}>
 
                     {/* Header */}
-                    <div className="flex items-center gap-3 px-4 py-3 bg-violet-600">
+                    <div className="dark-surface flex items-center gap-3 px-4 py-3 bg-violet-600">
                         <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                             <Image src="/img/logo2.png" alt="Vick" width={24} height={16} className="w-auto h-4 object-contain" />
                         </div>
@@ -134,7 +134,7 @@ export function ChatWidget() {
                                 <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                                     msg.role === "user"
                                         ? "bg-violet-600 text-white rounded-br-sm"
-                                        : "bg-white/5 border border-white/10 text-foreground/90 rounded-bl-sm"
+                                        : "bg-foreground/5 border border-foreground/10 text-foreground/90 rounded-bl-sm"
                                 }`}>
                                     {msg.content}
                                 </div>
@@ -143,7 +143,7 @@ export function ChatWidget() {
 
                         {loading && (
                             <div className="flex justify-start">
-                                <div className="bg-white/5 border border-white/10 px-3 py-2 rounded-2xl rounded-bl-sm">
+                                <div className="bg-foreground/5 border border-foreground/10 px-3 py-2 rounded-2xl rounded-bl-sm">
                                     <div className="flex gap-1 items-center h-4">
                                         <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce [animation-delay:0ms]" />
                                         <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce [animation-delay:150ms]" />
@@ -156,7 +156,7 @@ export function ChatWidget() {
                     </div>
 
                     {/* Input */}
-                    <div className="px-3 py-3 border-t border-white/5 flex gap-2 items-center bg-neutral-900/80">
+                    <div className="px-3 py-3 border-t border-foreground/5 flex gap-2 items-center bg-neutral-900/80 light:bg-neutral-50">
                         <input
                             ref={inputRef}
                             type="text"
@@ -165,7 +165,7 @@ export function ChatWidget() {
                             onKeyDown={handleKey}
                             placeholder="Digite sua mensagem..."
                             disabled={loading}
-                            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-violet-500/50 transition-all disabled:opacity-50"
+                            className="flex-1 bg-foreground/5 border border-foreground/10 rounded-xl px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-violet-500/50 transition-all disabled:opacity-50"
                         />
                         <button
                             onClick={sendMessage}

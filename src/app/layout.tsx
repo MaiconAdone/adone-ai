@@ -21,12 +21,11 @@ export default function RootLayout({
                     spaceGrotesk.variable,
                 )}
             >
-                <Toaster
-                    richColors
-                    theme="dark"
-                    position="top-right"
-                />
                 <Providers>
+                    <Toaster
+                        richColors
+                        position="top-right"
+                    />
                     {children}
                 </Providers>
             </body>

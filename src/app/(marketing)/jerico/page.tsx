@@ -102,16 +102,16 @@ const JericoSalesPage = () => {
                                 </Button>
                             </div>
                             <div className="mt-8 grid max-w-xl grid-cols-3 gap-3">
-                                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                                    <strong className="block text-2xl text-white">4</strong>
+                                <div className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
+                                    <strong className="block text-2xl text-foreground">4</strong>
                                     <span className="text-sm text-muted-foreground">universos</span>
                                 </div>
-                                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                                    <strong className="block text-2xl text-white">60</strong>
+                                <div className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
+                                    <strong className="block text-2xl text-foreground">60</strong>
                                     <span className="text-sm text-muted-foreground">agentes disponíveis</span>
                                 </div>
-                                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-                                    <strong className="block text-2xl text-white">R$ 1.199</strong>
+                                <div className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
+                                    <strong className="block text-2xl text-foreground">R$ 1.199</strong>
                                     <span className="text-sm text-muted-foreground">pagamento único</span>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@ const JericoSalesPage = () => {
 
                         <div className="relative">
                             <div className="absolute -inset-6 rounded-[2rem] bg-cyan-500/20 blur-3xl" />
-                            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-violet-950/40">
+                            <div className="relative overflow-hidden rounded-2xl border border-foreground/10 bg-white shadow-2xl shadow-violet-950/40">
                                 <Image
                                     src="/img/tela.png"
                                     alt="Tela da aplicação Jericó"
@@ -138,7 +138,7 @@ const JericoSalesPage = () => {
                         <div className="rounded-lg border border-violet-400/20 bg-violet-500/10 p-6">
                             <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">Oferta de lançamento</p>
                             <div className="mt-4 flex items-end gap-2">
-                                <span className="text-5xl font-bold text-white">R$ 1.199,00</span>
+                                <span className="text-5xl font-bold text-foreground">R$ 1.199,00</span>
                             </div>
                             <p className="mt-4 text-sm leading-6 text-muted-foreground">
                                 Acesso ao pacote Jericó para criar e operar fluxos de IA, ML e Chatbolt com base local-first.
@@ -153,7 +153,7 @@ const JericoSalesPage = () => {
 
                         <div className="grid gap-3 sm:grid-cols-2">
                             {included.map((item) => (
-                                <div key={item} className="flex gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-4">
+                                <div key={item} className="flex gap-3 rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
                                     <CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-violet-300" />
                                     <span className="text-sm leading-6 text-muted-foreground">{item}</span>
                                 </div>
@@ -166,13 +166,13 @@ const JericoSalesPage = () => {
                     <section>
                         <div className="max-w-2xl">
                             <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">O que o Jericó entrega</p>
-                            <h2 className="mt-3 text-3xl font-bold text-white">Uma fábrica visual para transformar trabalho de IA em processo.</h2>
+                            <h2 className="mt-3 text-3xl font-bold text-foreground">Uma fábrica visual para transformar trabalho de IA em processo.</h2>
                         </div>
                         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                             {modules.map((module) => (
-                                <div key={module.title} className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
+                                <div key={module.title} className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-5">
                                     <module.icon className="h-7 w-7 text-violet-300" />
-                                    <h3 className="mt-5 text-lg font-semibold text-white">{module.title}</h3>
+                                    <h3 className="mt-5 text-lg font-semibold text-foreground">{module.title}</h3>
                                     <p className="mt-3 text-sm leading-6 text-muted-foreground">{module.text}</p>
                                 </div>
                             ))}
@@ -181,10 +181,10 @@ const JericoSalesPage = () => {
                 </Container>
 
                 <Container className="mt-20">
-                    <section className="grid gap-8 rounded-2xl border border-white/10 bg-white/[0.04] p-6 md:p-8 lg:grid-cols-2">
+                    <section className="grid gap-8 rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-6 md:p-8 lg:grid-cols-2">
                         <div>
                             <p className="text-sm font-semibold uppercase tracking-wide text-violet-200">Para quem é</p>
-                            <h2 className="mt-3 text-3xl font-bold text-white">Times que precisam criar automações inteligentes com controle.</h2>
+                            <h2 className="mt-3 text-3xl font-bold text-foreground">Times que precisam criar automações inteligentes com controle.</h2>
                             <p className="mt-4 text-sm leading-7 text-muted-foreground">
                                 Ideal para consultores, founders, equipes de dados e operações que querem padronizar projetos de IA sem perder segurança, rastreabilidade e custo previsível.
                             </p>
@@ -201,7 +201,7 @@ const JericoSalesPage = () => {
                 </Container>
 
                 <Container className="mt-20">
-                    <section id="sobre" className="grid gap-8 rounded-3xl border border-white/10 bg-violet-950/90 p-8 lg:grid-cols-[0.95fr_1.05fr]">
+                    <section id="sobre" className="dark-surface grid gap-8 rounded-3xl border border-white/10 bg-violet-950/90 p-8 lg:grid-cols-[0.95fr_1.05fr]">
                         <div className="flex flex-col justify-center rounded-3xl bg-violet-900/70 p-6 text-white shadow-2xl shadow-black/20">
                             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-300">Sobre</p>
                             <h2 className="mt-4 text-3xl font-bold text-white">Maicon Adone</h2>
@@ -237,7 +237,7 @@ const JericoSalesPage = () => {
                 <Container className="mt-20">
                     <section className="relative overflow-hidden rounded-2xl border border-violet-400/20 bg-violet-500/10 p-8 text-center">
                         <GitBranch className="mx-auto h-9 w-9 text-violet-200" />
-                        <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-bold text-white">
+                        <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-bold text-foreground">
                             Comece com o Jericó por R$ 1.199,00
                         </h2>
                         <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">

@@ -85,7 +85,7 @@ const ReviewCard = ({
     review: string;
 }) => {
     return (
-        <figure className="relative w-72 cursor-pointer overflow-hidden rounded-2xl border border-foreground/5 bg-neutral-50/[.03] hover:bg-violet-500/[.05] hover:border-violet-500/20 p-5 transition-all duration-300 ease-in-out flex-shrink-0">
+        <figure className="relative w-72 cursor-pointer overflow-hidden rounded-2xl border border-foreground/5 bg-foreground/[.03] hover:bg-violet-500/[.05] hover:border-violet-500/20 p-5 transition-all duration-300 ease-in-out flex-shrink-0">
             {/* Stars */}
             <div className="flex gap-0.5 mb-3">
                 {[...Array(5)].map((_, i) => (

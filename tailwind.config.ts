@@ -127,6 +127,10 @@ const config = {
     addVariablesForColors,
     require("tailwindcss-animate"),
     require("tailwind-scrollbar-hide"),
+    function ({ addVariant }: any) {
+      // Ajustes específicos do tema claro (o escuro é o padrão)
+      addVariant("light", ".light &");
+    },
     function ({ matchUtilities, theme }: any) {
       matchUtilities(
         {

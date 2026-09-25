@@ -46,7 +46,7 @@ const Hero = () => {
                             <div className="w-2.5 h-2.5 rounded-full bg-primary/60 flex items-center justify-center animate-ping absolute" />
                             <div className="w-1.5 h-1.5 rounded-full bg-primary flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                         </div>
-                        <span className="inline-flex items-center justify-center gap-2 animate-text-gradient animate-background-shine bg-gradient-to-r from-[#b2a8fd] via-[#8678f9] to-[#c7d2fe] bg-[200%_auto] bg-clip-text text-sm text-transparent">
+                        <span className="inline-flex items-center justify-center gap-2 animate-text-gradient animate-background-shine bg-gradient-to-r from-[#b2a8fd] via-[#8678f9] to-[#c7d2fe] light:from-[#6d28d9] light:via-[#8b5cf6] light:to-[#4f46e5] bg-[200%_auto] bg-clip-text text-sm text-transparent">
                             Inteligência Artificial para Negócios Reais
                             <span className="text-xs text-secondary-foreground px-1.5 py-0.5 rounded-full bg-gradient-to-b from-foreground/20 to-foreground/10 flex items-center justify-center">
                                 Conheça
@@ -108,7 +108,7 @@ const Hero = () => {
 
                 <Container delay={0.25}>
                     <div className="mt-16 relative mx-auto w-full max-w-4xl">
-                        <div className="rounded-2xl border border-neutral-700/60 bg-neutral-900/80 backdrop-blur-sm p-6 md:p-8">
+                        <div className="rounded-2xl border border-neutral-700/60 bg-neutral-900/80 light:border-violet-200/70 light:bg-white/80 backdrop-blur-sm p-6 md:p-8">
                             <div className="absolute top-1/2 left-1/2 -z-10 w-3/4 h-32 -translate-x-1/2 -translate-y-1/2 bg-violet-600/20 blur-[5rem] rounded-full" />
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {[
@@ -116,7 +116,7 @@ const Hero = () => {
                                     { icon: "⚡", title: "Resultado Rápido", desc: "Primeiros resultados em até 30 dias de projeto" },
                                     { icon: "📊", title: "Métricas Claras", desc: "ROI mensurável e dashboards em tempo real" },
                                 ].map((item, i) => (
-                                    <div key={i} className="flex flex-col items-center text-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.06] transition-all duration-300">
+                                    <div key={i} className="flex flex-col items-center text-center gap-3 p-4 rounded-xl bg-foreground/[0.03] border border-foreground/[0.05] hover:bg-foreground/[0.06] transition-all duration-300">
                                         <span className="text-3xl">{item.icon}</span>
                                         <h3 className="font-semibold text-foreground">{item.title}</h3>
                                         <p className="text-sm text-muted-foreground">{item.desc}</p>
