@@ -43,3 +43,6 @@ next-env.d.ts
 index.txt
 # vídeos originais (as versões otimizadas ficam em public/videos)
 /videos/
+
+# variáveis de servidor gravadas no build (scripts/write-runtime-env.mjs)
+.runtime-env.json

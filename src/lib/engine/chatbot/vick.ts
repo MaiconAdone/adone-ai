@@ -66,7 +66,8 @@ export class ChatConfigError extends Error {}
 
 // Classifica a falha em um código curto (sem dados sensíveis) para diagnóstico em produção
 export function classifyChatError(err: unknown): string {
-    if (err instanceof ChatConfigError) return "sem_chave";
+    // Sem SITE_URL também: nenhuma variável chega em execução (problema de hospedagem, não da chave)
+    if (err instanceof ChatConfigError) return process.env.SITE_URL ? "sem_chave" : "sem_ambiente";
     if (err instanceof OpenAI.AuthenticationError) return "chave_invalida";
     if (err instanceof OpenAI.PermissionDeniedError) return "sem_permissao";
     if (err instanceof OpenAI.RateLimitError) return "limite_ou_credito";
