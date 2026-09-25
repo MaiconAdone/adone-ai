@@ -13,7 +13,7 @@ const HIGHLIGHTS = [
     { value: "120+", label: "Projetos Entregues" },
     { value: "R$ 48M+", label: "Gerados para Clientes" },
     { value: "98%", label: "Satisfação" },
-    { value: "< 90 dias", label: "Tempo Médio de Entrega" },
+    { value: "30 dias", label: "Tempo Médio de Entrega" },
 ];
 
 const Cases = () => {

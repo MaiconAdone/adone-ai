@@ -13,7 +13,7 @@ const FAQS = [
     },
     {
         question: "Quanto tempo leva para ver os primeiros resultados?",
-        answer: "Nossa Prova de Conceito (PoC) tem duração de 2 a 4 semanas. Após a validação, a implementação completa geralmente leva de 4 a 12 semanas dependendo da complexidade. A maioria dos nossos clientes reporta impacto mensurável em até 90 dias do início do projeto."
+        answer: "Nosso tempo médio de entrega é de 30 dias. A Prova de Conceito (PoC) fica pronta em 2 a 4 semanas e, após a validação, seguimos para a implementação. Projetos de maior complexidade podem levar um pouco mais — o prazo exato é definido no diagnóstico. A maioria dos nossos clientes reporta impacto mensurável logo após a primeira entrega."
     },
     {
         question: "Como fica a integração com meu sistema atual (ERP, CRM)?",

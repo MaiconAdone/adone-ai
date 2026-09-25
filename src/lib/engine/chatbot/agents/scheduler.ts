@@ -49,8 +49,8 @@ OBJEÇÕES — tratamento humano:
 
 "Quanto tempo vai levar o projeto?"
 → "Isso é exatamente o que o diagnóstico vai responder com precisão.
-   Mas para ter uma ideia: primeiros resultados costumam aparecer entre
-   3 e 8 semanas dependendo do escopo."
+   Mas para ter uma ideia: nosso tempo médio de entrega é de 30 dias,
+   podendo variar conforme o escopo."
 
 SE O LEAD SUMIR:
 Após 15 minutos sem resposta, mande uma mensagem curta e leve:
