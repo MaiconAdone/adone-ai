@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { cn } from "@/functions";
 import { useClickOutside } from "@/hooks";
 import { motion } from "framer-motion";
-import { BrainCircuitIcon, TrendingUpIcon, GitMergeIcon, MessageSquareTextIcon, EyeIcon, BarChart3Icon, HelpCircleIcon, BuildingIcon, UsersIcon, BookOpenIcon, BoxIcon } from "lucide-react";
+import { BrainCircuitIcon, TrendingUpIcon, GitMergeIcon, MessageSquareTextIcon, EyeIcon, BarChart3Icon, HelpCircleIcon, BuildingIcon, UsersIcon, BookOpenIcon, BoxIcon, CalendarIcon } from "lucide-react";
 import Link from "next/link";
 import React from 'react';
 
@@ -100,6 +100,12 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                         <Link href="/#faq" className="flex items-center w-full text-start">
                             <HelpCircleIcon className="w-4 h-4 mr-2" />
                             FAQ
+                        </Link>
+                    </li>
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                        <Link href="/agendar" className="flex items-center w-full text-start">
+                            <CalendarIcon className="w-4 h-4 mr-2" />
+                            Agendar
                         </Link>
                     </li>
                 </ul>

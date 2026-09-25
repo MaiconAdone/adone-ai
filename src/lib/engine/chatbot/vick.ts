@@ -6,9 +6,13 @@ import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import { QUALIFIER_SYSTEM_PROMPT, LeadData, QualificationResult } from "./agents/qualifier";
 import { PRESENTER_SYSTEM_PROMPT, buildPresenterContext } from "./agents/presenter";
-import { SCHEDULER_SYSTEM_PROMPT, getSchedulerContext } from "./agents/scheduler";
+import { SCHEDULER_SYSTEM_PROMPT, SCHEDULED_SYSTEM_PROMPT, getSchedulerContext } from "./agents/scheduler";
 import { FOLLOWUP_SYSTEM_PROMPT } from "./agents/followup";
-import { upsertContact, addNote } from "../crm/hubspot";
+import { appendLead } from "../agenda/sheets";
+import { getBookingUrl } from "../agenda/config";
+import { getAvailableDays, type AvailableDay } from "../agenda/availability";
+import { createBooking, SlotUnavailableError, type BookingResult } from "../agenda/booking";
+import { isGoogleConfigured } from "../agenda/google";
 
 type AgentStage = "qualifier" | "presenter" | "scheduler" | "followup" | "closed";
 
@@ -24,9 +28,14 @@ interface Session {
     leadData: LeadData;
     score: number;
     channel: "site" | "whatsapp";
+    booking?: BookingResult;
     createdAt: Date;
     updatedAt: Date;
 }
+
+// Quantos dias com horário livre a Vick recebe por vez (mantém o prompt enxuto)
+const SCHEDULER_MAX_DAYS = 6;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Limites para conter custo e abuso (a rota é pública)
 export const MAX_USER_MESSAGE_CHARS = 1000;
@@ -60,7 +69,7 @@ const QualifierOutput = z.object({
 });
 
 // Intenção de agendar, detectada na mensagem do lead (não na resposta da Vick)
-const SCHEDULING_INTENT = ["agendar", "agenda", "marcar", "reunião", "reuniao", "call", "terça", "terca", "quinta", "sábado", "sabado", "pode ser", "vamos", "topo", "quero"];
+const SCHEDULING_INTENT = ["agendar", "agenda", "marcar", "reunião", "reuniao", "call", "segunda", "terça", "terca", "quarta", "quinta", "sexta", "pode ser", "vamos", "topo", "quero"];
 
 export class ChatConfigError extends Error {}
 
@@ -88,7 +97,7 @@ export class Vick {
 
     constructor() {
         this.model = process.env.OPENAI_MODEL || "gpt-6-luna";
-        this.bookingUrl = process.env.BOOKING_URL || "https://cal.com/maicon-adone/diagnostico";
+        this.bookingUrl = getBookingUrl();
     }
 
     // Cliente criado sob demanda para o build não exigir a chave
@@ -102,17 +111,93 @@ export class Vick {
         return this.client;
     }
 
-    private getSystemPrompt(session: Session): string {
+    private getSystemPrompt(session: Session, days: AvailableDay[]): string {
+        const bookingUrl = this.personalBookingUrl(session);
         switch (session.stage) {
             case "qualifier":
                 return QUALIFIER_SYSTEM_PROMPT;
             case "presenter":
                 return PRESENTER_SYSTEM_PROMPT + "\n\n" + buildPresenterContext(session.leadData);
             case "scheduler":
-            case "closed":
-                return SCHEDULER_SYSTEM_PROMPT + "\n\n" + getSchedulerContext(session.leadData, this.bookingUrl);
+                return (SCHEDULER_SYSTEM_PROMPT + "\n\n" + getSchedulerContext(session.leadData, bookingUrl, days))
+                    .replace(/\[BOOKING_URL\]/g, bookingUrl);
+            case "closed": {
+                const b = session.booking;
+                const details = b ? `\nREUNIÃO AGENDADA: ${b.date}, às ${b.time} (Brasília). Meet: ${b.meetUrl || "enviado por e-mail"}` : "";
+                return SCHEDULED_SYSTEM_PROMPT.replace(/\[BOOKING_URL\]/g, bookingUrl) + details;
+            }
             case "followup":
                 return FOLLOWUP_SYSTEM_PROMPT;
+        }
+    }
+
+    // Horários livres para a Vick oferecer (mesma fonte da página /agendar)
+    private async schedulerDays(): Promise<AvailableDay[]> {
+        if (!isGoogleConfigured()) return [];
+        try {
+            return (await getAvailableDays()).slice(0, SCHEDULER_MAX_DAYS);
+        } catch (err) {
+            console.error("[Vick] Falha ao consultar a agenda:", err);
+            return [];
+        }
+    }
+
+    private schedulerSchema(days: AvailableDay[]) {
+        const starts = days.flatMap(d => d.slots.map(s => s.start));
+        return z.object({
+            mensagem: z.string(),
+            agendamento: z
+                .object({
+                    // Só aceita horários da lista: o modelo não consegue inventar um
+                    inicio: z.enum(starts as [string, ...string[]]),
+                    nome: z.string(),
+                    email: z.string(),
+                    empresa: z.string(),
+                })
+                .nullable(),
+        });
+    }
+
+    private async bookFromChat(
+        session: Session,
+        choice: { inicio: string; nome: string; email: string; empresa: string },
+    ): Promise<string> {
+        const email = choice.email.trim();
+        if (!EMAIL_PATTERN.test(email)) {
+            return "Acho que o e-mail veio com algum erro de digitação 😅 Pode me mandar de novo? É para onde vai o convite com o link da reunião.";
+        }
+
+        try {
+            const booking = await createBooking({
+                start: choice.inicio,
+                name: choice.nome.trim() || session.leadData.nome_lead || "Lead",
+                email,
+                phone: this.whatsAppPhone(session) || "",
+                company: choice.empresa.trim() || session.leadData.empresa,
+                notes: session.leadData.dor_principal,
+                origin: session.channel === "whatsapp" ? "whatsapp" : "vick",
+                // A própria resposta da Vick já é a confirmação no WhatsApp
+                sendWhatsAppConfirmation: false,
+            });
+            session.booking = booking;
+            session.stage = "closed";
+            console.log(`[Vick] Lead ${session.id} agendado para ${booking.date} às ${booking.time}.`);
+
+            return [
+                "Pronto, está agendado! ✅",
+                "",
+                `📅 *${booking.date}*`,
+                `🕐 *${booking.time}* (horário de Brasília) — 30 minutos`,
+                booking.meetUrl ? `🔗 Link do Google Meet:\n${booking.meetUrl}` : "",
+                "",
+                `Mandei o convite do Google Agenda para ${email}. Vou te lembrar aqui 24h e 1h antes 😊`,
+            ].filter((line, i, all) => line || all[i - 1]).join("\n");
+        } catch (err) {
+            if (err instanceof SlotUnavailableError) {
+                return "Poxa, esse horário acabou de ser ocupado 😕 Quer escolher outro? Posso te passar as opções que ainda estão livres.";
+            }
+            console.error("[Vick] Falha ao agendar:", err);
+            return `Tive um problema para reservar agora 😕 Você pode escolher o horário direto aqui: ${this.personalBookingUrl(session)} — ou me chamar de novo em instantes.`;
         }
     }
 
@@ -145,8 +230,15 @@ export class Vick {
         session.messages.push({ role: "user", content: userMessage.slice(0, MAX_USER_MESSAGE_CHARS) });
         session.updatedAt = new Date();
 
+        // Lead pediu para marcar: a própria resposta já oferece os horários
+        if (session.stage === "presenter" && SCHEDULING_INTENT.some(k => userMessage.toLowerCase().includes(k))) {
+            session.stage = "scheduler";
+        }
+
+        const days = session.stage === "scheduler" ? await this.schedulerDays() : [];
+
         const input = [
-            { role: "system" as const, content: this.getSystemPrompt(session) },
+            { role: "system" as const, content: this.getSystemPrompt(session, days) },
             ...session.messages.map(m => ({ role: m.role, content: m.content })),
         ];
 
@@ -165,6 +257,18 @@ export class Vick {
                 const parsed = response.output_parsed;
                 reply = parsed?.mensagem?.trim() || "";
                 qualification = parsed?.qualificacao ?? null;
+            } else if (session.stage === "scheduler" && days.length > 0) {
+                const response = await this.getClient().responses.parse({
+                    model: this.model,
+                    input,
+                    reasoning: { effort: "low" },
+                    max_output_tokens: MAX_OUTPUT_TOKENS,
+                    text: { format: zodTextFormat(this.schedulerSchema(days), "agendamento_vick") },
+                });
+                const parsed = response.output_parsed;
+                reply = parsed?.agendamento
+                    ? await this.bookFromChat(session, parsed.agendamento)
+                    : parsed?.mensagem?.trim() || "";
             } else {
                 const response = await this.getClient().responses.create({
                     model: this.model,
@@ -187,14 +291,13 @@ export class Vick {
 
         session.messages.push({ role: "assistant", content: reply });
 
-        await this.detectStageTransition(session, userMessage, reply, qualification);
+        await this.detectStageTransition(session, reply, qualification);
 
         return reply;
     }
 
     private async detectStageTransition(
         session: Session,
-        userMessage: string,
         reply: string,
         qualification: QualificationResult | null,
     ): Promise<void> {
@@ -204,34 +307,42 @@ export class Vick {
             session.stage = qualification.proximo_agente;
             console.log(`[Vick] Lead ${session.id} qualificado. Score: ${qualification.score}. Próximo: ${qualification.proximo_agente}`);
 
-            const isWhatsApp = session.channel === "whatsapp";
-            const contactId = await upsertContact({
-                name: qualification.dados.nome_lead || (isWhatsApp ? "Lead WhatsApp" : "Lead Site"),
-                phone: isWhatsApp ? session.id.replace("whatsapp_", "") : undefined,
-                company: qualification.dados.empresa,
-                sector: qualification.dados.setor,
-                score: qualification.score,
-                source: session.channel,
-                notes: `Lead qualificado pela Vick. Score: ${qualification.score}. Canal: ${session.channel}.`,
+            const d = qualification.dados;
+            await appendLead({
+                Canal: session.channel === "whatsapp" ? "Vick (WhatsApp)" : "Vick (chat do site)",
+                Nome: d.nome_lead || "",
+                Empresa: d.empresa || "",
+                Setor: d.setor || "",
+                Telefone: this.whatsAppPhone(session) || "",
+                "Desafio / mensagem": d.dor_principal || "",
+                "Tem dados": d.tem_dados || "",
+                "Urgência": d.urgencia || "",
+                "Orçamento": d.orcamento || "",
+                Score: qualification.score,
+                Qualificado: qualification.qualificado ? "Sim" : "Não",
             });
-            if (contactId) {
-                await addNote(contactId, `Conversa com a Vick:\nDesafio: ${qualification.dados.dor_principal || "não informado"}\nUrgência: ${qualification.dados.urgencia || "não informada"}`);
-            }
             return;
         }
 
-        if (session.stage === "presenter") {
-            const text = userMessage.toLowerCase();
-            if (SCHEDULING_INTENT.some(k => text.includes(k))) {
-                session.stage = "scheduler";
-            }
-            return;
-        }
-
-        if (session.stage === "scheduler" && reply.includes(this.bookingUrl)) {
+        // Sem Google configurado a Vick só consegue mandar o link da agenda
+        if (session.stage === "scheduler" && !isGoogleConfigured() && reply.includes(this.bookingUrl)) {
             session.stage = "closed";
-            console.log(`[Vick] Lead ${session.id} enviado para agendamento.`);
+            console.log(`[Vick] Lead ${session.id} enviado para agendamento pelo link.`);
         }
+    }
+
+    private whatsAppPhone(session: Session): string | null {
+        return session.channel === "whatsapp" ? session.id.replace("whatsapp_", "") : null;
+    }
+
+    // Link da agenda com os dados já coletados, para o lead não digitar de novo
+    private personalBookingUrl(session: Session): string {
+        const params = new URLSearchParams({ origem: session.channel === "whatsapp" ? "whatsapp" : "vick" });
+        if (session.leadData.nome_lead) params.set("nome", session.leadData.nome_lead);
+        if (session.leadData.empresa) params.set("empresa", session.leadData.empresa);
+        const phone = this.whatsAppPhone(session);
+        if (phone) params.set("telefone", phone);
+        return `${this.bookingUrl}?${params.toString()}`;
     }
 
     getSession(sessionId: string): Session | undefined {

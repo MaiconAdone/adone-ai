@@ -51,7 +51,7 @@ const Navbar = () => {
                                     className="h-9 w-auto object-contain"
                                     priority
                                 />
-                                <span style={{ fontFamily: "var(--font-space)" }} className="text-[15px] font-semibold tracking-tight text-foreground whitespace-nowrap">
+                                <span style={{ fontFamily: "var(--font-space)" }} className="text-[15px] font-semibold tracking-tight text-foreground whitespace-nowrap lg:hidden xl:inline">
                                     Adone Intelligence
                                 </span>
                             </Link>

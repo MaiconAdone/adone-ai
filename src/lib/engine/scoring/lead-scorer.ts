@@ -1,3 +1,5 @@
+import { getBookingUrl } from "../agenda/config";
+
 // Módulo 3 — Lead Scoring com IA
 // Pontua empresas automaticamente com base em dados coletados
 
@@ -133,7 +135,7 @@ Desenvolvemos um diagnóstico de 30 minutos onde identificamos exatamente onde M
 
 Teria 30 minutos essa semana?
 
-${process.env.BOOKING_URL || "https://cal.com/maicon-adone/diagnostico"}`;
+${getBookingUrl()}`;
 }
 
 export function batchScore(companies: Company[]): ScoredLead[] {

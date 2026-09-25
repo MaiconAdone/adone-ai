@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { appendLead } from "@/lib/engine/agenda/sheets";
 
 const transporter = nodemailer.createTransport({
     host:   process.env.EMAIL_HOST   || "smtp.hostinger.com",
@@ -118,6 +119,18 @@ export async function POST(req: NextRequest) {
   </div>
 </div>
 </body></html>`;
+
+    // Registra na planilha antes do e-mail: o lead não se perde se o SMTP falhar
+    await appendLead({
+        Canal:                "Formulário do site",
+        Nome:                 String(name).slice(0, 120),
+        Empresa:              String(company).slice(0, 120),
+        Telefone:             String(phone || "").slice(0, 30),
+        "E-mail":             String(email).slice(0, 120),
+        "Desafio / mensagem": String(message || "").slice(0, 2000),
+        Porte:                String(companySize || "").slice(0, 60),
+        Interesse:            String(interest || "").slice(0, 120),
+    });
 
     try {
         await transporter.sendMail({
