@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isInternalRequest, unauthorized } from "@/lib/internal-auth";
 import { generateAndPost } from "@/lib/engine/linkedin/scheduler";
 import { postToLinkedIn } from "@/lib/engine/linkedin/poster";
 
 // POST /api/linkedin — postar no LinkedIn
 export async function POST(req: NextRequest) {
     try {
-        // Validar secret para evitar uso não autorizado
-        const auth = req.headers.get("x-webhook-secret");
-        if (process.env.WEBHOOK_SECRET && auth !== process.env.WEBHOOK_SECRET) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
+        // Publica em nome da Adone: sempre exige o segredo (sem WEBHOOK_SECRET a rota fica fechada)
+        if (!isInternalRequest(req)) return unauthorized();
 
         const body = await req.json();
 

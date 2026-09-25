@@ -7,6 +7,8 @@ import { SectionBadge } from "../ui/section-bade";
 import { Button } from "../ui/button";
 import { ArrowRightIcon, CheckIcon, PhoneIcon, MailIcon, MapPinIcon, CalendarIcon, MessageCircleIcon } from "lucide-react";
 import { toast } from "sonner";
+import { getAttribution } from "@/lib/attribution";
+import { trackConversion } from "@/lib/analytics";
 
 const INTERESTS = [
     "Consultoria em IA",
@@ -86,11 +88,12 @@ const Contact = () => {
             const res = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
+                body: JSON.stringify({ ...form, attribution: getAttribution() }),
             });
             const data = await res.json();
             if (data.ok) {
                 setSubmitted(true);
+                trackConversion("lead", { form: "contato" });
                 toast.success("Mensagem enviada! Retornaremos em até 24 horas.");
             } else {
                 toast.error(data.message || "Erro ao enviar. Tente novamente.");

@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { CalendarCheckIcon, CalendarIcon, ClockIcon, Loader2Icon, VideoIcon } from "lucide-react";
 import { cn } from "@/functions";
 import { Button } from "../ui/button";
+import { getAttribution } from "@/lib/attribution";
+import { trackConversion } from "@/lib/analytics";
 
 interface Slot { start: string; time: string }
 interface Day { date: string; label: string; slots: Slot[] }
@@ -72,7 +74,7 @@ export function BookingForm() {
             const res = await fetch("/api/agenda/book", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...form, start: selectedSlot.start, origin }),
+                body: JSON.stringify({ ...form, start: selectedSlot.start, origin, attribution: getAttribution() }),
             });
             const data = await res.json();
             if (!res.ok) {
@@ -84,6 +86,7 @@ export function BookingForm() {
                 return;
             }
             setConfirmation({ date: data.date, time: data.time, meetUrl: data.meetUrl });
+            trackConversion("booking", { origin });
         } catch {
             setSubmitError("Não foi possível concluir o agendamento. Verifique sua conexão e tente de novo.");
         } finally {

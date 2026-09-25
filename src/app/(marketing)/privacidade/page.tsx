@@ -89,13 +89,15 @@ const SECTIONS = [
     {
         id: "cookies",
         title: "8. Cookies e Tecnologias de Rastreamento",
-        content: `Utilizamos cookies para melhorar a experiência de navegação e analisar o desempenho do site:`,
+        content: `Utilizamos cookies para melhorar a experiência de navegação, analisar o desempenho do site e medir nossos anúncios:`,
         list: [
             "Cookies essenciais: necessários para o funcionamento básico do site. Não podem ser desativados.",
-            "Cookies analíticos: coletam informações sobre como os visitantes utilizam o site (páginas visitadas, tempo de permanência). Podem ser desativados nas configurações do navegador.",
-            "Cookies de preferências: armazenam configurações do usuário, como idioma ou tema. Podem ser desativados.",
+            "Cookies analíticos (Google Analytics): coletam informações sobre como os visitantes utilizam o site (páginas visitadas, tempo de permanência). Só são ativados se você aceitar no aviso de cookies.",
+            "Cookies de marketing (Google Ads): medem se uma visita vinda de anúncio resultou em contato ou agendamento. Só são ativados se você aceitar no aviso de cookies.",
+            "Cookies de preferências: armazenam configurações do usuário, como tema e a própria escolha sobre cookies.",
+            "Origem da visita: ao enviar um formulário ou agendar uma reunião, registramos junto do seu contato de onde você chegou ao site (por exemplo, campanha ou site de referência), para entender quais canais funcionam.",
         ],
-        extra: "Você pode gerenciar ou desativar os cookies a qualquer momento nas configurações do seu navegador. A desativação de cookies essenciais pode impactar a funcionalidade do site.",
+        extra: "No primeiro acesso, o aviso de cookies permite aceitar ou recusar os cookies analíticos e de marketing — o site funciona normalmente nos dois casos. Você também pode gerenciar ou apagar cookies a qualquer momento nas configurações do seu navegador.",
     },
     {
         id: "direitos",

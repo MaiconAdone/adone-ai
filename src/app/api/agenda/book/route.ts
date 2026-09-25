@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createBooking, SlotUnavailableError } from "@/lib/engine/agenda/booking";
+import { AttributionSchema } from "@/lib/attribution";
 import { isGoogleConfigured } from "@/lib/engine/agenda/google";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
 
@@ -13,6 +14,7 @@ const BookingSchema = z.object({
     notes: z.string().trim().max(1000).optional(),
     origin: z.enum(["site", "vick", "whatsapp"]).default("site"),
     website: z.string().optional(), // campo-armadilha para robôs
+    attribution: AttributionSchema.optional(),
 });
 
 // POST /api/agenda/book — confirma um agendamento

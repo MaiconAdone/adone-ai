@@ -6,6 +6,7 @@ import { isSlotAvailable } from "./availability";
 import { calendarApi, calendarId } from "./google";
 import { appendBooking } from "./sheets";
 import { notifyMeetingBooked } from "./notifications";
+import { attributionColumns, type Attribution } from "@/lib/attribution";
 
 export type BookingOrigin = "site" | "vick" | "whatsapp";
 
@@ -19,6 +20,7 @@ export interface BookingInput {
     origin: BookingOrigin;
     // false quando a confirmação já é dada na própria conversa do WhatsApp
     sendWhatsAppConfirmation?: boolean;
+    attribution?: Attribution;
 }
 
 export interface BookingResult {
@@ -92,6 +94,7 @@ export async function createBooking(input: BookingInput): Promise<BookingResult>
             "Observações": input.notes || "",
             "Link do Meet": meetUrl,
             "ID do evento": event.id || "",
+            ...attributionColumns(input.attribution),
         });
 
         await notifyMeetingBooked({

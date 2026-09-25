@@ -4,6 +4,18 @@
 export const LEADS_SHEET = "Leads";
 export const BOOKINGS_SHEET = "Agendamentos";
 
+// Origem do visitante (ver src/lib/attribution.ts), no fim das duas abas
+export const ATTRIBUTION_HEADERS = [
+    "UTM source",
+    "UTM medium",
+    "UTM campaign",
+    "UTM term",
+    "UTM content",
+    "gclid",
+    "Página de entrada",
+    "Referência",
+];
+
 export const LEADS_HEADERS = [
     "Data",
     "Canal",
@@ -20,6 +32,7 @@ export const LEADS_HEADERS = [
     "Interesse",
     "Score",
     "Qualificado",
+    ...ATTRIBUTION_HEADERS,
 ];
 
 export const BOOKINGS_HEADERS = [
@@ -34,4 +47,5 @@ export const BOOKINGS_HEADERS = [
     "Observações",
     "Link do Meet",
     "ID do evento",
+    ...ATTRIBUTION_HEADERS,
 ];

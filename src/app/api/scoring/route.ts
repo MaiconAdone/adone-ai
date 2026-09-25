@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isInternalRequest, unauthorized } from "@/lib/internal-auth";
 import { scoreCompany, batchScore } from "@/lib/engine/scoring/lead-scorer";
 
 // POST /api/scoring — pontua uma ou várias empresas
 export async function POST(req: NextRequest) {
+    // Rota interna: gera conteúdo com IA paga / expõe lógica de pontuação
+    if (!isInternalRequest(req)) return unauthorized();
+
     try {
         const body = await req.json();
 

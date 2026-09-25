@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { appendLead } from "@/lib/engine/agenda/sheets";
+import { AttributionSchema, attributionColumns } from "@/lib/attribution";
 
 const transporter = nodemailer.createTransport({
     host:   process.env.EMAIL_HOST   || "smtp.hostinger.com",
@@ -15,6 +16,7 @@ const transporter = nodemailer.createTransport({
 export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name, email, company, phone, companySize, interest, message, website } = body;
+    const attribution = AttributionSchema.safeParse(body.attribution).data;
 
     // Honeypot anti-spam
     if (website) {
@@ -130,6 +132,7 @@ export async function POST(req: NextRequest) {
         "Desafio / mensagem": String(message || "").slice(0, 2000),
         Porte:                String(companySize || "").slice(0, 60),
         Interesse:            String(interest || "").slice(0, 120),
+        ...attributionColumns(attribution),
     });
 
     try {

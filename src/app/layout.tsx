@@ -3,6 +3,7 @@ import { cn, generateMetadata } from "@/functions";
 import { inter, satoshi, spaceGrotesk } from "@/constants";
 import { Toaster } from "@/components/ui/sonner";
 import { Providers } from "@/components";
+import { Analytics } from "@/components/global/analytics";
 
 export const metadata = generateMetadata();
 
@@ -27,6 +28,7 @@ export default function RootLayout({
                         position="top-right"
                     />
                     {children}
+                    <Analytics />
                 </Providers>
             </body>
         </html>
