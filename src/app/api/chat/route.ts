@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ada, MAX_USER_MESSAGE_CHARS } from "@/lib/engine/chatbot/vick";
+import { ada, classifyChatError, MAX_USER_MESSAGE_CHARS } from "@/lib/engine/chatbot/vick";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
 
 const SESSION_ID_PATTERN = /^[\w-]{8,80}$/;
@@ -49,7 +49,8 @@ export async function POST(req: NextRequest) {
         const reply = await ada.chat(internalId, message.trim(), "site");
         return NextResponse.json({ sessionId, message: reply });
     } catch (err) {
-        console.error("[/api/chat]", err);
-        return NextResponse.json({ error: "Erro interno", message: FALLBACK_MESSAGE }, { status: 500 });
+        const code = classifyChatError(err);
+        console.error(`[/api/chat] ${code}`, err);
+        return NextResponse.json({ error: "Erro interno", code, message: FALLBACK_MESSAGE }, { status: 500 });
     }
 }

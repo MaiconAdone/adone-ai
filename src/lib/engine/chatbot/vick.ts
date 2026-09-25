@@ -62,6 +62,20 @@ const QualifierOutput = z.object({
 // Intenção de agendar, detectada na mensagem do lead (não na resposta da Vick)
 const SCHEDULING_INTENT = ["agendar", "agenda", "marcar", "reunião", "reuniao", "call", "terça", "terca", "quinta", "sábado", "sabado", "pode ser", "vamos", "topo", "quero"];
 
+export class ChatConfigError extends Error {}
+
+// Classifica a falha em um código curto (sem dados sensíveis) para diagnóstico em produção
+export function classifyChatError(err: unknown): string {
+    if (err instanceof ChatConfigError) return "sem_chave";
+    if (err instanceof OpenAI.AuthenticationError) return "chave_invalida";
+    if (err instanceof OpenAI.PermissionDeniedError) return "sem_permissao";
+    if (err instanceof OpenAI.RateLimitError) return "limite_ou_credito";
+    if (err instanceof OpenAI.NotFoundError || err instanceof OpenAI.BadRequestError) return "modelo_ou_requisicao";
+    if (err instanceof OpenAI.APIConnectionError) return "rede";
+    if (err instanceof OpenAI.APIError) return "erro_openai";
+    return "interno";
+}
+
 // Armazenamento em memória (substituir por Redis se houver mais de uma instância)
 const sessions = new Map<string, Session>();
 
@@ -78,7 +92,12 @@ export class Vick {
 
     // Cliente criado sob demanda para o build não exigir a chave
     private getClient(): OpenAI {
-        if (!this.client) this.client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+        if (!this.client) {
+            // Tolera espaços, quebras de linha e aspas coladas junto ao valor no painel de hospedagem
+            const apiKey = process.env.OPENAI_API_KEY?.trim().replace(/^["']|["']$/g, "");
+            if (!apiKey) throw new ChatConfigError("OPENAI_API_KEY ausente");
+            this.client = new OpenAI({ apiKey });
+        }
         return this.client;
     }
 

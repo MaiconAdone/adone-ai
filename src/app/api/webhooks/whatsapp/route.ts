@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ada, MAX_USER_MESSAGE_CHARS } from "@/lib/engine/chatbot/vick";
+import { ada, classifyChatError, MAX_USER_MESSAGE_CHARS } from "@/lib/engine/chatbot/vick";
 import { rateLimit, safeEqual } from "@/lib/rate-limit";
 import axios from "axios";
 
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ ok: true });
     } catch (err) {
-        console.error("[/api/webhooks/whatsapp]", err);
+        console.error(`[/api/webhooks/whatsapp] ${classifyChatError(err)}`, err);
         if (phone) {
             await sendWhatsAppReply(phone, FALLBACK_MESSAGE).catch(() => undefined);
         }
