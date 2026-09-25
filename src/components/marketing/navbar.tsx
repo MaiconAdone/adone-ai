@@ -64,7 +64,7 @@ const Navbar = () => {
                             <>
                                 <Button size="sm" variant="white" asChild className="hidden sm:flex">
                                     <Link href="/#contato">
-                                        Diagnóstico Gratuito
+                                        Diagnóstico
                                         <ArrowRightIcon className="w-4 h-4 ml-2 hidden lg:block" />
                                     </Link>
                                 </Button>

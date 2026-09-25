@@ -9,7 +9,7 @@ import { ArrowRightIcon } from "lucide-react";
 const FAQS = [
     {
         question: "Minha empresa precisa ter muito volume de dados para começar?",
-        answer: "Não necessariamente. Trabalhamos com empresas em diferentes estágios de maturidade de dados. Em alguns casos, até 6 meses de histórico já são suficientes para construir modelos úteis. No diagnóstico gratuito, avaliamos o que você tem disponível e identificamos o melhor ponto de partida."
+        answer: "Não necessariamente. Trabalhamos com empresas em diferentes estágios de maturidade de dados. Em alguns casos, até 6 meses de histórico já são suficientes para construir modelos úteis. No diagnóstico, avaliamos o que você tem disponível e identificamos o melhor ponto de partida."
     },
     {
         question: "Quanto tempo leva para ver os primeiros resultados?",
@@ -25,7 +25,7 @@ const FAQS = [
     },
     {
         question: "Qual o investimento mínimo para trabalhar com a Adone AI?",
-        answer: "Os projetos variam conforme escopo, complexidade e volume de dados. Temos soluções a partir de R$ 25.000 para projetos pontuais de análise e PoC, até contratos de parceria anual para empresas que querem escalar IA em múltiplas frentes. O diagnóstico é sempre gratuito."
+        answer: "Os projetos variam conforme escopo, complexidade e volume de dados. Temos soluções a partir de R$ 25.000 para projetos pontuais de análise e PoC, até contratos de parceria anual para empresas que querem escalar IA em múltiplas frentes. O primeiro passo é o diagnóstico, que define o escopo e o investimento ideal para o seu caso."
     },
     {
         question: "O que acontece após a entrega? Vocês oferecem suporte?",

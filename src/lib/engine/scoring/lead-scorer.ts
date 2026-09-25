@@ -129,7 +129,7 @@ Acompanho empresas de ${company.sector || "seu setor"} e vi que a ${company.name
 
 Empresas similares à de vocês geralmente têm ganhos expressivos com IA em ${sectorPain}.
 
-Desenvolvemos um diagnóstico gratuito de 30 minutos onde identificamos exatamente onde ML pode gerar ROI mensurável para vocês.
+Desenvolvemos um diagnóstico de 30 minutos onde identificamos exatamente onde ML pode gerar ROI mensurável para vocês.
 
 Teria 30 minutos essa semana?
 

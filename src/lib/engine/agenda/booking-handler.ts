@@ -61,7 +61,7 @@ async function sendConfirmationEmail(
     await transporter.sendMail({
         from: `"Adone AI" <${process.env.EMAIL_USER}>`,
         to,
-        subject: "Reunião confirmada — Diagnóstico Gratuito Adone AI",
+        subject: "Reunião confirmada — Diagnóstico Adone AI",
         html: emailBase(`
     <h2 style="color:#1f2937;margin-top:0;">Sua reunião está confirmada! 🎉</h2>
     <p style="margin:0 0 8px;">Olá, <strong>${name}</strong>!</p>

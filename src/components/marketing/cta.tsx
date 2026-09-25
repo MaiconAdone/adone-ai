@@ -24,7 +24,7 @@ const CTA = () => {
                     <div className="flex flex-col items-center justify-center w-full z-20 py-16 gap-6 max-w-3xl mx-auto">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-xs font-medium text-violet-300 mb-2">
                             <CalendarIcon className="w-3.5 h-3.5" />
-                            Diagnóstico 100% gratuito e sem compromisso
+                            Diagnóstico personalizado para o seu negócio
                         </div>
 
                         <h2 className="text-3xl md:text-5xl lg:text-6xl font-heading font-semibold !leading-tight">
@@ -36,13 +36,13 @@ const CTA = () => {
                         </h2>
 
                         <p className="text-base md:text-lg text-accent-foreground/70 max-w-xl mx-auto">
-                            Cada mês sem IA é um mês perdendo para concorrentes que já automatizam, preveem e escalam. Comece agora com um diagnóstico gratuito de 60 minutos.
+                            Cada mês sem IA é um mês perdendo para concorrentes que já automatizam, preveem e escalam. Comece agora com um diagnóstico de 60 minutos.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2 w-full">
                             <TechButton asChild className="w-full sm:w-auto text-base">
                                 <Link href="#contato">
-                                    Agendar Diagnóstico Gratuito
+                                    Agendar Diagnóstico
                                     <ArrowRightIcon className="w-4 h-4 ml-2" />
                                 </Link>
                             </TechButton>

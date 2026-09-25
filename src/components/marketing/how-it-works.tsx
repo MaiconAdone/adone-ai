@@ -10,7 +10,7 @@ const STEPS = [
     {
         number: "01",
         icon: SearchIcon,
-        title: "Diagnóstico Gratuito",
+        title: "Diagnóstico",
         description: "Em uma reunião de 60 minutos, nossos especialistas mapeiam seus principais gargalos operacionais, analisam seus dados disponíveis e identificam onde a IA pode gerar o maior impacto financeiro.",
         deliverable: "Relatório de Oportunidades em IA",
     },
@@ -109,13 +109,13 @@ const HowItWorks = () => {
             <Container delay={0.3}>
                 <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
                     <p className="text-muted-foreground text-sm">
-                        Pronto para começar? O diagnóstico inicial é gratuito e sem compromisso.
+                        Pronto para começar? Agende um diagnóstico com nossos especialistas.
                     </p>
                     <Link
                         href="#contato"
                         className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-violet-600 hover:bg-violet-500 px-6 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/25 whitespace-nowrap"
                     >
-                        Agendar Diagnóstico Gratuito
+                        Agendar Diagnóstico
                         <ArrowRightIcon className="w-4 h-4" />
                     </Link>
                 </div>

@@ -110,7 +110,7 @@ const Contact = () => {
                     <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-semibold !leading-snug mt-6">
                         Agende um{" "}
                         <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-                            diagnóstico gratuito
+                            diagnóstico
                         </span>
                     </h2>
                     <p className="text-base md:text-lg text-center text-accent-foreground/70 mt-6">
@@ -130,7 +130,7 @@ const Contact = () => {
                                 </div>
                                 <h3 className="text-xl font-semibold text-foreground">Mensagem enviada!</h3>
                                 <p className="text-muted-foreground max-w-sm">
-                                    Nossa equipe comercial retornará em até 24 horas úteis para agendar o diagnóstico gratuito.
+                                    Nossa equipe comercial retornará em até 24 horas úteis para agendar o diagnóstico.
                                 </p>
                                 <button
                                     onClick={() => setSubmitted(false)}
@@ -268,7 +268,7 @@ const Contact = () => {
                                         </span>
                                     ) : (
                                         <span className="flex items-center gap-2">
-                                            Agendar Diagnóstico Gratuito
+                                            Agendar Diagnóstico
                                             <ArrowRightIcon className="w-4 h-4" />
                                         </span>
                                     )}

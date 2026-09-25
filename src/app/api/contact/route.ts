@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
 <div class="card">
   <div class="header">
     <h1>🧠 Novo Lead — Adone AI</h1>
-    <p>Um novo contato preencheu o formulário de diagnóstico gratuito</p>
+    <p>Um novo contato preencheu o formulário de diagnóstico</p>
   </div>
   <div class="body">
     <div class="field"><div class="label">Nome</div><div class="value">${name}</div></div>
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
   </div>
   <div class="body">
     <p>Olá, <strong>${name}</strong>!</p>
-    <p>Recebemos sua mensagem e nossa equipe comercial já foi notificada. Entraremos em contato em até <strong>4 horas úteis</strong> para agendar o diagnóstico gratuito.</p>
+    <p>Recebemos sua mensagem e nossa equipe comercial já foi notificada. Entraremos em contato em até <strong>4 horas úteis</strong> para agendar o diagnóstico.</p>
     <div class="highlight">
       <p><strong>O que você pode esperar do diagnóstico:</strong></p>
       <p>✓ Reunião de 60 min com especialista em IA</p>

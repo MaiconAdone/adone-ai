@@ -80,7 +80,7 @@ const Hero = () => {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
                         <TechButton asChild className="w-full sm:w-auto text-base">
                             <Link href="#contato">
-                                Agendar Diagnóstico Gratuito
+                                Agendar Diagnóstico
                                 <ArrowRightIcon className="w-4 h-4 ml-2" />
                             </Link>
                         </TechButton>

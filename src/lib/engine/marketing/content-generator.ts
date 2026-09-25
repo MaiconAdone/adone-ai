@@ -37,7 +37,7 @@ Crie um artigo otimizado para SEO com:
 - Introdução de 2 parágrafos (problema + solução)
 - 5-7 seções H2 com conteúdo denso
 - Exemplos reais com números
-- CTA final para diagnóstico gratuito da Adone AI
+- CTA final para diagnóstico da Adone AI
 - Tom: técnico mas acessível para tomadores de decisão
 - 1.500 a 2.500 palavras
 `,
@@ -48,7 +48,7 @@ Crie um e-mail de prospecção fria com:
 - Assunto: máximo 50 caracteres, personalizado com nome da empresa
 - Parágrafo 1: observação específica sobre a empresa (use os dados fornecidos)
 - Parágrafo 2: conexão com uma dor comum do setor + resultado que já geramos
-- Parágrafo 3: CTA único e direto (30 minutos de diagnóstico gratuito)
+- Parágrafo 3: CTA único e direto (30 minutos de diagnóstico)
 - Tom: humano, direto, sem floreios corporativos
 - Máximo 150 palavras no corpo
 `,

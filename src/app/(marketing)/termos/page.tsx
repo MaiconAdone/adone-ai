@@ -96,7 +96,6 @@ const SECTIONS = [
         list: [
             "Os valores dos projetos são acordados previamente em proposta comercial aprovada pelo Cliente.",
             "Atrasos no pagamento podem resultar na suspensão dos serviços, conforme cláusulas contratuais.",
-            "O diagnóstico inicial é gratuito e sem compromisso de contratação.",
             "Cancelamentos após o início da execução do projeto estão sujeitos às penalidades previstas em contrato.",
             "Reembolsos são avaliados caso a caso, considerando o estágio de execução dos serviços.",
         ],

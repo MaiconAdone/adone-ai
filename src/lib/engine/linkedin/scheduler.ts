@@ -28,7 +28,7 @@ const TOPICS: Record<string, string[]> = {
         "chatbot IA triplicando atendimentos sem aumentar equipe",
     ],
     cta: [
-        "diagnóstico gratuito de IA para sua empresa",
+        "diagnóstico de IA para sua empresa",
         "60 minutos para descobrir onde a IA gera resultado no seu negócio",
         "como começar com IA sem investimento alto",
     ],
