@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Footer } from "@/components";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
+import { ChatWidget } from "@/components/ui/chat-widget";
 import { ScrollProgress } from "@/components/motion/scroll-progress";
 import { CursorGlow } from "@/components/effects/cursor-glow";
 
@@ -20,6 +21,7 @@ const MarketingLayout = ({ children }: Props) => {
             </main>
             <Footer />
             <WhatsAppButton />
+            <ChatWidget />
         </>
     );
 };

@@ -9,6 +9,8 @@ interface Message {
     content: string;
 }
 
+const FALLBACK_MESSAGE = "Desculpe, tive um problema técnico. Pode tentar novamente?";
+
 function generateSessionId() {
     return `session_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
 }
@@ -71,11 +73,10 @@ export function ChatWidget() {
                 body: JSON.stringify({ sessionId, message: text }),
             });
             const data = await res.json();
-            if (data.message) {
-                setMessages((prev) => [...prev, { role: "assistant", content: data.message }]);
-            }
+            // Em caso de erro o servidor também devolve uma mensagem amigável em data.message
+            setMessages((prev) => [...prev, { role: "assistant", content: data.message || FALLBACK_MESSAGE }]);
         } catch {
-            setMessages((prev) => [...prev, { role: "assistant", content: "Desculpe, tive um problema técnico. Pode tentar novamente?" }]);
+            setMessages((prev) => [...prev, { role: "assistant", content: FALLBACK_MESSAGE }]);
         } finally {
             setLoading(false);
         }
@@ -164,6 +165,7 @@ export function ChatWidget() {
                             onChange={(e) => setInput(e.target.value)}
                             onKeyDown={handleKey}
                             placeholder="Digite sua mensagem..."
+                            maxLength={1000}
                             disabled={loading}
                             className="flex-1 bg-foreground/5 border border-foreground/10 rounded-xl px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-violet-500/50 transition-all disabled:opacity-50"
                         />
