@@ -108,7 +108,7 @@ const Hero = () => {
 
                 <Container delay={0.25}>
                     <div className="mt-16 relative mx-auto w-full max-w-4xl">
-                        <div className="rounded-2xl border border-neutral-700/60 bg-neutral-900/80 light:border-violet-200/70 light:bg-white/80 backdrop-blur-sm p-6 md:p-8">
+                        <div className="rounded-2xl border border-neutral-700/60 bg-neutral-900/80 light:border-violet-300/80 light:bg-white/80 backdrop-blur-sm p-6 md:p-8">
                             <div className="absolute top-1/2 left-1/2 -z-10 w-3/4 h-32 -translate-x-1/2 -translate-y-1/2 bg-violet-600/20 blur-[5rem] rounded-full" />
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {[

@@ -112,8 +112,8 @@
     --accent-foreground: 250 24% 12%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 250 15% 88%;
-    --input: 250 15% 88%;
+    --border: 250 12% 80%;
+    --input: 250 12% 80%;
     --ring: 262 83% 58%;
   }
 }
@@ -638,6 +638,50 @@ img {
   --tw-gradient-stops: var(--tw-gradient-from), #9333ea var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
+/*
+ * Bordas translúcidas pensadas para fundo escuro somem no fundo claro.
+ * :where() mantém a especificidade baixa para que hover/focus continuem vencendo.
+ */
+.light :where(.border-foreground\/5, .border-foreground\/\[0\.05\]) {
+  border-color: rgb(19 17 28 / .16);
+}
+
+.light :where(.border-foreground\/10) {
+  border-color: rgb(19 17 28 / .2);
+}
+
+.light :where(.border-\[rgba\(124\,124\,124\,0\.2\)\]) {
+  border-color: rgb(19 17 28 / .16);
+}
+
+.light :where(.border-violet-400\/10, .border-violet-400\/20, .border-violet-500\/20):not(.dark-surface *) {
+  border-color: rgb(124 58 237 / .3);
+}
+
+.light :where(.border-violet-400\/30, .border-violet-500\/30):not(.dark-surface *) {
+  border-color: rgb(124 58 237 / .42);
+}
+
+/* Estados interativos precisam ficar mais fortes que a borda base acima */
+.light .hover\:border-violet-500\/20:hover,
+.light .data-\[state\=open\]\:border-violet-500\/20[data-state="open"] {
+  border-color: rgb(124 58 237 / .45);
+}
+
+.light .hover\:border-violet-500\/30:hover,
+.light .group:hover .group-hover\:border-violet-500\/30 {
+  border-color: rgb(124 58 237 / .5);
+}
+
+.light .group:hover .group-hover\:border-violet-400\/50,
+.light .focus\:border-violet-500\/50:focus {
+  border-color: rgb(124 58 237 / .6);
+}
+
+.light .hover\:border-foreground\/20:hover {
+  border-color: rgb(19 17 28 / .32);
+}
+
 .light ::selection {
   background-color: #ddd6fe;
   color: #1e1b4b;
@@ -665,7 +709,7 @@ img {
 }
 
 .light .glow-card {
-  border-color: rgba(76, 29, 149, .1);
+  border-color: rgba(76, 29, 149, .2);
   background:
     radial-gradient(420px circle at var(--glow-x) var(--glow-y), rgba(139, 92, 246, .1), transparent 42%),
     rgba(255, 255, 255, .7);
@@ -673,7 +717,7 @@ img {
 }
 
 .light .glow-card:hover {
-  border-color: rgba(124, 58, 237, .3);
+  border-color: rgba(124, 58, 237, .45);
   box-shadow: 0 18px 45px -30px rgba(124, 58, 237, .55);
 }
 
