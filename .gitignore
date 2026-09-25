@@ -41,3 +41,5 @@ next-env.d.ts
 
 # other
 index.txt
+# vídeos originais (as versões otimizadas ficam em public/videos)
+/videos/

@@ -11,6 +11,7 @@ import { AuroraBackground } from "../effects/aurora-background";
 import { DataFlowLines } from "../effects/data-flow-lines";
 import { TechButton } from "../ui/tech-button";
 import { AiBeamsBackground } from "../effects/ai-beams-background";
+import { HeroVideo } from "../effects/hero-video";
 
 const NeuralParticlesBackground = dynamic(
     () =>
@@ -29,6 +30,7 @@ const STATS = [
 const Hero = () => {
     return (
         <div className="tech-hero flex flex-col items-center text-center w-full max-w-5xl my-24 mx-auto z-40 relative overflow-hidden rounded-[2rem] border border-violet-400/10">
+            <HeroVideo />
             <AuroraBackground />
             <NeuralParticlesBackground />
             <DataFlowLines className="opacity-40" />
