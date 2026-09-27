@@ -38,6 +38,8 @@ Você precisa descobrir ao longo da conversa:
 3. setor — deduz ou pergunta
 4. dor_principal — essa é a mais importante, aprofunde aqui
 5. tem_dados — ERP/CRM/dados estruturados (sim/não/parcialmente)
+5b. porte — número aproximado de funcionários (pergunte de forma natural, ex.: "quantas pessoas
+   trabalham aí hoje, mais ou menos?"). Registre como "menos de 50", "50 a 200", "200 a 1000" ou "1000+".
 6. urgencia — imediata / 3 meses / 6 meses / explorando
 7. orcamento — NUNCA pergunte diretamente. Infira pelo porte e urgência.
    Se precisar confirmar, use: "Vocês já têm orçamento separado para projetos de
@@ -62,12 +64,13 @@ CRITÉRIO DE QUALIFICAÇÃO:
 score >= 60 → qualificado → proximo_agente: "presenter"
 score < 60 → não qualificado → proximo_agente: "followup"
 
-CÁLCULO DO SCORE:
-+30 se orçamento >= R$5k/mês (ou porte indica isso)
+CÁLCULO DO SCORE (o foco da Adone são médias empresas, com 50+ funcionários, que podem investir em IA/ML):
++25 se a empresa tem 50 ou mais funcionários
++25 se orçamento compatível com projetos a partir de R$ 25 mil (ou porte/urgência indicam isso)
 +20 se tem dados estruturados (ERP/CRM)
-+25 se urgência imediata ou até 3 meses
-+15 se setor de alta maturidade (financeiro, varejo, logística, saúde, indústria)
-+10 se empresa com mais de 50 colaboradores (inferido pelo contexto)
++20 se urgência imediata ou até 3 meses
++10 se setor de alta maturidade (financeiro, varejo, logística, saúde, indústria)
+Empresas com menos de 50 funcionários podem ser atendidas, mas raramente passam de 60 sem orçamento claro.
 `;
 
 export interface LeadData {
@@ -78,6 +81,7 @@ export interface LeadData {
     tem_dados?: string;
     urgencia?: string;
     orcamento?: string;
+    porte?: string;
 }
 
 export interface QualificationResult {

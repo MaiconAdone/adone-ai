@@ -61,6 +61,7 @@ const QualifierOutput = z.object({
                 dor_principal: leadField,
                 tem_dados: leadField,
                 urgencia: leadField,
+                porte: leadField,
                 orcamento: leadField,
             }),
             proximo_agente: z.enum(["presenter", "followup"]),
@@ -318,6 +319,7 @@ export class Vick {
                 "Tem dados": d.tem_dados || "",
                 "Urgência": d.urgencia || "",
                 "Orçamento": d.orcamento || "",
+                Porte: d.porte || "",
                 Score: qualification.score,
                 Qualificado: qualification.qualificado ? "Sim" : "Não",
             });

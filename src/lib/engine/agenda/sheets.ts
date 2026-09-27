@@ -14,7 +14,7 @@ export function nowLabel(): string {
     return new Date().toLocaleString("pt-BR", { timeZone: AGENDA_TIMEZONE });
 }
 
-async function appendRow(sheet: string, headers: readonly string[], row: Record<string, string | number | undefined>) {
+export async function appendRow(sheet: string, headers: readonly string[], row: Record<string, string | number | undefined>) {
     if (!isGoogleConfigured()) {
         console.log(`[Planilha] Google não configurado; linha de "${sheet}" não gravada`);
         return;

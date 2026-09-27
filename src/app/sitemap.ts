@@ -1,7 +1,12 @@
 import { MetadataRoute } from "next";
+import { getPublishedPosts } from "@/lib/engine/marketing/blog";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Inclui os artigos aprovados do blog; atualizado junto com o blog
+export const revalidate = 600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const base = "https://adoneintelligence.com.br";
+    const posts = await getPublishedPosts();
 
     return [
         {
@@ -46,5 +51,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: "monthly",
             priority: 0.5,
         },
+        {
+            url: `${base}/blog`,
+            lastModified: new Date(),
+            changeFrequency: "weekly",
+            priority: 0.8,
+        },
+        ...posts.map(post => ({
+            url: `${base}/blog/${post.slug}`,
+            lastModified: new Date(),
+            changeFrequency: "monthly" as const,
+            priority: 0.7,
+        })),
     ];
 }

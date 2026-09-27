@@ -91,6 +91,8 @@ const Footer = () => {
                         &copy; {new Date().getFullYear()} Adone AI. Todos os direitos reservados.
                     </p>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
+                        <span className="text-foreground/20">·</span>
                         <Link href="/privacidade" className="hover:text-foreground transition-colors">Privacidade</Link>
                         <span className="text-foreground/20">·</span>
                         <Link href="/termos" className="hover:text-foreground transition-colors">Termos</Link>
