@@ -2,13 +2,13 @@
 // Semanal: lê os números da planilha e a estratégia anterior e propõe a estratégia da semana.
 // Tudo fica "Aguardando aprovação" até o Maicon aprovar na planilha.
 
-import { z } from "zod/v4"; // o helper de saída estruturada da Anthropic usa Zod 4
+import { z } from "zod";
 import { AGENDA_TIMEZONE } from "../agenda/config";
 import { COMPANY_CONTEXT } from "./company";
-import { generateStructured, STRATEGY_MODEL } from "./anthropic";
+import { generateStructured, STRATEGY_MODEL } from "./llm";
 import { notifyOwner } from "./notify";
 import {
-    appendStrategy, parseSheetDate, readBookings, readLeads, readSheet, SheetRow, STATUS, STRATEGY_SHEET,
+    appendStrategy, parseSheetDate, readBookings, parseMoney, readInvestment, readLeads, readSheet, SheetRow, STATUS, STRATEGY_SHEET,
 } from "./workspace";
 
 const StrategySchema = z.object({
@@ -37,6 +37,13 @@ Você trabalha com um ciclo de quatro pilares — aquisição, engajamento, mone
 com base em dados. Seu foco é gerar reuniões de diagnóstico com empresas que PODEM pagar por projetos de IA/ML.
 
 ${COMPANY_CONTEXT}
+
+COMO DECIDIR (princípio "um lead que paga vale mais que 100 que só olham"):
+- Avalie canais e temas pela TAXA DE QUALIFICAÇÃO e pelas reuniões com empresas do perfil, nunca pelo volume.
+- Corte ou reduza o que traz leads fora do perfil, mesmo que traga muitos. Reforce o que traz poucos e bons.
+- Toda hipótese de campanha deve ter métrica de sucesso em leads qualificados, reuniões qualificadas ou custo
+  por lead qualificado — nunca em cliques, visitas ou total de leads.
+- Prefira temas e canais de alta intenção de compra (quem está decidindo contratar) a temas de topo de funil.
 
 Seja específico e acionável. Se os dados forem poucos ou zero, diga isso claramente e proponha como gerar
 dados (ex.: primeiros testes), em vez de tirar conclusões. Escreva em português do Brasil.`;
@@ -68,7 +75,7 @@ function inRange(rows: SheetRow[], dateColumn: string, from: Date, to: Date): Sh
 // Resumo textual dos números (últimos 30 dias vs. 30 anteriores) para o modelo
 export async function buildMetricsSummary(now = new Date()): Promise<string> {
     const day = 24 * 60 * 60 * 1000;
-    const [leads, bookings] = await Promise.all([readLeads(), readBookings()]);
+    const [leads, bookings, investment] = await Promise.all([readLeads(), readBookings(), readInvestment().catch(() => [])]);
     const cur = { from: new Date(now.getTime() - 30 * day), to: now };
     const prev = { from: new Date(now.getTime() - 60 * day), to: cur.from };
 
@@ -77,10 +84,22 @@ export async function buildMetricsSummary(now = new Date()): Promise<string> {
     const bookCur = inRange(bookings, "Criado em", cur.from, cur.to);
     const bookPrev = inRange(bookings, "Criado em", prev.from, prev.to);
     const qualified = leadsCur.filter(r => r.Qualificado === "Sim" || Number(r.Score) >= 60);
+    const spend = investment
+        .filter(r => {
+            const d = parseSheetDate(r["Semana (início)"] || "");
+            return d !== null && d >= cur.from && d <= cur.to;
+        })
+        .reduce((sum, r) => sum + parseMoney(r["Valor gasto (R$)"]), 0);
 
     return [
         `Leads (últimos 30 dias): ${leadsCur.length} | 30 dias anteriores: ${leadsPrev.length}`,
         `Leads qualificados (últimos 30 dias): ${qualified.length}`,
+        `Taxa de qualificação: ${leadsCur.length ? Math.round((qualified.length / leadsCur.length) * 100) + "%" : "sem leads"}`,
+        `Investimento em mídia lançado (últimos 30 dias): R$ ${spend.toFixed(2)}`,
+        `Custo por lead qualificado: ${spend > 0 && qualified.length > 0 ? "R$ " + (spend / qualified.length).toFixed(2) : "sem base (sem gasto ou sem qualificados)"}`,
+        `Custo por reunião: ${spend > 0 && bookCur.length > 0 ? "R$ " + (spend / bookCur.length).toFixed(2) : "sem base"}`,
+        `Qualificados por canal: ${countBy(qualified, "Canal")}`,
+        `Qualificados por campanha (UTM campaign): ${countBy(qualified, "UTM campaign")}`,
         `Leads por canal: ${countBy(leadsCur, "Canal")}`,
         `Leads por origem (UTM source): ${countBy(leadsCur, "UTM source")}`,
         `Leads por campanha (UTM campaign): ${countBy(leadsCur, "UTM campaign")}`,
@@ -89,7 +108,7 @@ export async function buildMetricsSummary(now = new Date()): Promise<string> {
         `Reuniões agendadas (últimos 30 dias): ${bookCur.length} | 30 dias anteriores: ${bookPrev.length}`,
         `Reuniões por origem: ${countBy(bookCur, "Origem")}`,
         `Reuniões por campanha: ${countBy(bookCur, "UTM campaign")}`,
-        "Observação: ainda não há dados de custo de mídia nem do Google Analytics nesta leitura.",
+        "Observação: custos vêm da aba Investimento (lançamento manual); ainda não há dados do Google Analytics nesta leitura.",
     ].join("\n");
 }
 
@@ -134,6 +153,7 @@ export async function runStrategist(): Promise<Strategy> {
         system: SYSTEM,
         prompt,
         schema: StrategySchema,
+        name: "estrategia_semanal",
     });
 
     await appendStrategy({

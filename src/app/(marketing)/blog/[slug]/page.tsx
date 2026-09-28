@@ -31,7 +31,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: post.title,
         description: post.description,
         alternates: { canonical: `${SITE_URL}/blog/${post.slug}` },
-        openGraph: { title: post.title, description: post.description, type: "article", url: `${SITE_URL}/blog/${post.slug}` },
+        openGraph: {
+            title: post.title,
+            description: post.description,
+            type: "article",
+            url: `${SITE_URL}/blog/${post.slug}`,
+            ...(post.imageId ? { images: [{ url: `${SITE_URL}/blog/imagem/${post.imageId}`, width: 1536, height: 1024 }] } : {}),
+        },
     };
 }
 
@@ -74,6 +80,7 @@ const BlogPostPage = async ({ params }: Props) => {
         publisher: { "@type": "Organization", name: "Adone Intelligence", url: SITE_URL },
         mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
         keywords: post.keyword,
+        ...(post.imageId ? { image: `${SITE_URL}/blog/imagem/${post.imageId}` } : {}),
     };
 
     return (
@@ -90,6 +97,16 @@ const BlogPostPage = async ({ params }: Props) => {
                         <h1 className="mt-2 text-3xl md:text-4xl font-heading font-semibold !leading-tight text-foreground">
                             {post.title}
                         </h1>
+                        {post.imageId && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                                src={`/blog/imagem/${post.imageId}`}
+                                alt={post.title}
+                                width={1536}
+                                height={1024}
+                                className="mt-8 aspect-[3/2] w-full rounded-2xl border border-foreground/10 object-cover"
+                            />
+                        )}
                         <div className="mt-6">
                             <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
                                 {post.markdown}

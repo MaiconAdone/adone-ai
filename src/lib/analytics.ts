@@ -7,11 +7,21 @@ declare global {
     interface Window {
         gtag?: Gtag;
         dataLayer?: unknown[];
+        lintrk?: (action: string, data: Record<string, unknown>) => void;
     }
 }
 
 export const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID || "";
 export const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "";
+// LinkedIn Insight Tag (Campaign Manager → Fontes de dados → Insight Tag)
+export const LINKEDIN_PARTNER_ID = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID || "";
+
+// IDs de conversão do LinkedIn (Campaign Manager → Conversões), um por tipo
+const LINKEDIN_CONVERSIONS = {
+    lead: process.env.NEXT_PUBLIC_LINKEDIN_CONVERSION_LEAD || "",
+    booking: process.env.NEXT_PUBLIC_LINKEDIN_CONVERSION_BOOKING || "",
+    whatsapp: process.env.NEXT_PUBLIC_LINKEDIN_CONVERSION_WHATSAPP || "",
+};
 
 // Rótulos de conversão do Google Ads (Ferramentas → Conversões → Tag → send_to = AW-XXX/<rótulo>)
 const ADS_LABELS = {
@@ -29,16 +39,23 @@ const GA4_EVENTS: Record<ConversionKind, string> = {
     whatsapp: "clique_whatsapp",
 };
 
-export const analyticsEnabled = Boolean(GA4_ID || GOOGLE_ADS_ID);
+export const analyticsEnabled = Boolean(GA4_ID || GOOGLE_ADS_ID || LINKEDIN_PARTNER_ID);
 
 export function trackConversion(kind: ConversionKind, params: Record<string, string | number> = {}): void {
-    if (typeof window === "undefined" || !window.gtag) return;
+    if (typeof window === "undefined") return;
 
-    window.gtag("event", GA4_EVENTS[kind], params);
+    if (window.gtag) {
+        window.gtag("event", GA4_EVENTS[kind], params);
+        const label = ADS_LABELS[kind];
+        if (GOOGLE_ADS_ID && label) {
+            window.gtag("event", "conversion", { send_to: `${GOOGLE_ADS_ID}/${label}` });
+        }
+    }
 
-    const label = ADS_LABELS[kind];
-    if (GOOGLE_ADS_ID && label) {
-        window.gtag("event", "conversion", { send_to: `${GOOGLE_ADS_ID}/${label}` });
+    // Só existe se o visitante aceitou os cookies (a Insight Tag carrega apenas com consentimento)
+    const linkedinConversion = LINKEDIN_CONVERSIONS[kind];
+    if (window.lintrk && linkedinConversion) {
+        window.lintrk("track", { conversion_id: Number(linkedinConversion) });
     }
 }
 

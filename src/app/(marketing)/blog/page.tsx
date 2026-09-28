@@ -44,18 +44,31 @@ const BlogPage = async () => {
                                 <Link
                                     key={post.slug}
                                     href={`/blog/${post.slug}`}
-                                    className="group rounded-2xl border border-foreground/10 bg-foreground/[0.02] p-6 hover:border-violet-500/30 transition-colors"
+                                    className="group overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/[0.02] hover:border-violet-500/30 transition-colors"
                                 >
-                                    <p className="text-xs text-muted-foreground">
-                                        {post.date}{post.sector ? ` · ${post.sector}` : ""}
-                                    </p>
-                                    <h2 className="mt-2 text-lg font-semibold text-foreground group-hover:text-violet-400 transition-colors">
-                                        {post.title}
-                                    </h2>
-                                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{post.excerpt}</p>
-                                    <span className="mt-4 inline-flex items-center text-sm font-medium text-violet-400">
-                                        Ler artigo <ArrowRight className="ml-1 h-4 w-4" />
-                                    </span>
+                                    {post.imageId && (
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img
+                                            src={`/blog/imagem/${post.imageId}`}
+                                            alt=""
+                                            width={1536}
+                                            height={1024}
+                                            loading="lazy"
+                                            className="aspect-[3/2] w-full object-cover"
+                                        />
+                                    )}
+                                    <div className="p-6">
+                                        <p className="text-xs text-muted-foreground">
+                                            {post.date}{post.sector ? ` · ${post.sector}` : ""}
+                                        </p>
+                                        <h2 className="mt-2 text-lg font-semibold text-foreground group-hover:text-violet-400 transition-colors">
+                                            {post.title}
+                                        </h2>
+                                        <p className="mt-2 text-sm leading-6 text-muted-foreground">{post.excerpt}</p>
+                                        <span className="mt-4 inline-flex items-center text-sm font-medium text-violet-400">
+                                            Ler artigo <ArrowRight className="ml-1 h-4 w-4" />
+                                        </span>
+                                    </div>
                                 </Link>
                             ))}
                         </div>

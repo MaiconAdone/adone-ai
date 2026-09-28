@@ -4,7 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { captureAttribution } from "@/lib/attribution";
-import { analyticsEnabled, GA4_ID, getConsent, GOOGLE_ADS_ID, setConsent, trackConversion } from "@/lib/analytics";
+import { analyticsEnabled, GA4_ID, getConsent, GOOGLE_ADS_ID, LINKEDIN_PARTNER_ID, setConsent, trackConversion } from "@/lib/analytics";
 import { Button } from "../ui/button";
 
 // Consent Mode: tudo negado até o visitante aceitar; escolha anterior reaplicada antes de configurar as tags
@@ -19,12 +19,26 @@ ${GA4_ID ? `gtag('config', '${GA4_ID}');` : ""}
 ${GOOGLE_ADS_ID ? `gtag('config', '${GOOGLE_ADS_ID}');` : ""}
 `;
 
+// LinkedIn não tem modo de consentimento: a Insight Tag só é carregada depois do "Aceitar"
+const linkedinScript = `
+window._linkedin_partner_id = "${LINKEDIN_PARTNER_ID}";
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(window._linkedin_partner_id);
+(function(l){ if (!l) { window.lintrk = function(a,b){ window.lintrk.q.push([a,b]) }; window.lintrk.q = []; }
+var s = document.getElementsByTagName("script")[0]; var b = document.createElement("script");
+b.type = "text/javascript"; b.async = true; b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s); })(window.lintrk);
+`;
+
 export function Analytics() {
     const [showBanner, setShowBanner] = useState(false);
+    const [marketingConsent, setMarketingConsent] = useState(false);
 
     useEffect(() => {
         captureAttribution();
-        if (analyticsEnabled && getConsent() === null) setShowBanner(true);
+        const consent = getConsent();
+        if (analyticsEnabled && consent === null) setShowBanner(true);
+        setMarketingConsent(consent === "granted");
 
         // Qualquer link de WhatsApp do site conta como conversão de contato
         const onClick = (event: MouseEvent) => {
@@ -37,12 +51,17 @@ export function Analytics() {
 
     const choose = (choice: "granted" | "denied") => {
         setConsent(choice);
+        setMarketingConsent(choice === "granted");
         setShowBanner(false);
     };
 
     return (
         <>
-            {analyticsEnabled && (
+            {LINKEDIN_PARTNER_ID && marketingConsent && (
+                <Script id="linkedin-insight" strategy="afterInteractive">{linkedinScript}</Script>
+            )}
+
+            {(GA4_ID || GOOGLE_ADS_ID) && (
                 <>
                     <Script id="gtag-init" strategy="afterInteractive">{initScript}</Script>
                     <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID || GOOGLE_ADS_ID}`} strategy="afterInteractive" />

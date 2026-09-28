@@ -29,12 +29,15 @@ importers:
 
   .:
     dependencies:
-      '@anthropic-ai/sdk':
-        specifier: ^0.91.1
-        version: 0.91.1(zod@3.25.76)
+      '@googleapis/analyticsdata':
+        specifier: ^10.1.0
+        version: 10.1.0
       '@googleapis/calendar':
         specifier: ^20.0.1
         version: 20.0.1
+      '@googleapis/drive':
+        specifier: ^26.0.1
+        version: 26.0.1
       '@googleapis/sheets':
         specifier: ^18.0.1
         version: 18.0.1
@@ -208,15 +211,6 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  '@anthropic-ai/sdk@0.91.1':
-    resolution: {integrity: sha512-LAmu761tSN9r66ixvmciswUj/ZC+1Q4iAfpedTfSVLeswRwnY3n2Nb6Tsk+cLPP28aLOPWeMgIuTuCcMC6W/iw==}
-    hasBin: true
-    peerDependencies:
-      zod: ^3.25.0 || ^4.0.0
-    peerDependenciesMeta:
-      zod:
-        optional: true
-
   '@babel/runtime@7.26.10':
     resolution: {integrity: sha512-2WJMeRQPHKSPemqk/awGrAiuFfzBmOIPXKizAsVhWH9YJqLZ0H+HS4c8loHGgW6utJ3E/ejXQUsiGaQy2NZ9Fw==}
     engines: {node: '>=6.9.0'}
@@ -273,8 +267,16 @@ packages:
   '@floating-ui/utils@0.2.7':
     resolution: {integrity: sha512-X8R8Oj771YRl/w+c1HqAC1szL8zWQRwFvgDwT129k9ACdBoud/+/rX9V0qiMl6LWUdP9voC2nDVZYPMQQsb6eA==}
 
+  '@googleapis/analyticsdata@10.1.0':
+    resolution: {integrity: sha512-YpX5QkZIqMQpjC3aW5+ifBp2fC3hQcbJE4LNKtf5GFSG36nS6ek31d2U8o1TeOVbGPIVHScLMDuQD4tt8kC/DQ==}
+    engines: {node: '>=22.0.0'}
+
   '@googleapis/calendar@20.0.1':
     resolution: {integrity: sha512-NclDdcEoPvPBCHwUtcQj9rqWelAVl/nRj98WLUrNM2ByvqXjjUP0Ux/0nVb/FH9hoLR+dw9f0zHDOu2Di8oqrg==}
+    engines: {node: '>=22.0.0'}
+
+  '@googleapis/drive@26.0.1':
+    resolution: {integrity: sha512-q1U+WNS2OPAS3Prn3FD0otYNudnv+feXX9DP8qrDqGGwIVU90OBnP6NV66aTc0qJrqeJvnrCYcnjddjm4h23iQ==}
     engines: {node: '>=22.0.0'}
 
   '@googleapis/sheets@18.0.1':
@@ -2425,10 +2427,6 @@ packages:
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
-  json-schema-to-ts@3.1.1:
-    resolution: {integrity: sha512-+DWg8jCJG2TEnpy7kOm/7/AxaYoaRbjVB4LFZLySZlWn8exGs3A4OLJR966cVvU26N7X9TWxl+Jsw7dzAqKT6g==}
-    engines: {node: '>=16'}
-
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
 
@@ -3368,9 +3366,6 @@ packages:
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
 
-  ts-algebra@2.0.0:
-    resolution: {integrity: sha512-FPAhNPFMrkwz76P7cdjdmiShwMynZYN6SgOujD1urY4oNm80Ou9oMdmbR45LotcKOXoy7wSmHkRFE6Mxbrhefw==}
-
   ts-api-utils@2.5.0:
     resolution: {integrity: sha512-OJ/ibxhPlqrMM0UiNHJ/0CKQkoKF243/AEmplt3qpRgkW8VG7IfOS41h7V8TjITqdByHzrjcS/2si+y4lIh8NA==}
     engines: {node: '>=18.12'}
@@ -3549,12 +3544,6 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@anthropic-ai/sdk@0.91.1(zod@3.25.76)':
-    dependencies:
-      json-schema-to-ts: 3.1.1
-    optionalDependencies:
-      zod: 3.25.76
-
   '@babel/runtime@7.26.10':
     dependencies:
       regenerator-runtime: 0.14.1
@@ -3619,7 +3608,19 @@ snapshots:
 
   '@floating-ui/utils@0.2.7': {}
 
+  '@googleapis/analyticsdata@10.1.0':
+    dependencies:
+      googleapis-common: 9.1.0
+    transitivePeerDependencies:
+      - supports-color
+
   '@googleapis/calendar@20.0.1':
+    dependencies:
+      googleapis-common: 9.1.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@googleapis/drive@26.0.1':
     dependencies:
       googleapis-common: 9.1.0
     transitivePeerDependencies:
@@ -5942,11 +5943,6 @@ snapshots:
 
   json-buffer@3.0.1: {}
 
-  json-schema-to-ts@3.1.1:
-    dependencies:
-      '@babel/runtime': 7.26.10
-      ts-algebra: 2.0.0
-
   json-schema-traverse@0.4.1: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
@@ -7207,8 +7203,6 @@ snapshots:
   trim-lines@3.0.1: {}
 
   trough@2.2.0: {}
-
-  ts-algebra@2.0.0: {}
 
   ts-api-utils@2.5.0(typescript@5.5.4):
     dependencies:

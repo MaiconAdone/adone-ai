@@ -1,13 +1,16 @@
 // Agente de Conteúdo: transforma os temas da estratégia aprovada em artigos de blog (SEO)
 // Cada artigo fica "Aguardando aprovação"; só "Aprovado"/"Publicado" aparece em /blog.
 
-import { z } from "zod/v4"; // o helper de saída estruturada da Anthropic usa Zod 4
+import { z } from "zod";
 import { COMPANY_CONTEXT } from "./company";
-import { CONTENT_MODEL, generateStructured } from "./anthropic";
+import { CONTENT_MODEL, generateStructured } from "./llm";
 import { notifyOwner } from "./notify";
-import { appendContent, CONTENT_SHEET, readSheet, STATUS, STRATEGY_SHEET } from "./workspace";
+import { appendContent, CONTENT_SHEET, formatSheetDate, readSheet, STATUS, STRATEGY_SHEET } from "./workspace";
+import { createCoverImage, imagesConfigured } from "./images";
 
 const ARTICLES_PER_RUN = Number(process.env.MARKETING_ARTICLES_PER_RUN || 2);
+// Publicação automática: vai ao ar após este prazo, a menos que o Maicon marque "Rejeitado"
+export const PUBLISH_DELAY_HOURS = Number(process.env.MARKETING_PUBLISH_DELAY_HOURS || 24);
 
 const PlanSchema = z.object({
     escolhidos: z.array(z.object({
@@ -24,6 +27,7 @@ const ArticleSchema = z.object({
     meta_description: z.string().describe("Descrição para o Google, 140 a 155 caracteres"),
     resumo: z.string().describe("Resumo de 1 a 2 frases para a lista do blog"),
     markdown: z.string().describe("Corpo do artigo em Markdown, sem o título H1"),
+    imagem_tema: z.string().describe("Uma frase descrevendo a cena da imagem de capa (conceito visual do tema, sem texto na imagem)"),
 });
 
 export type Article = z.infer<typeof ArticleSchema>;
@@ -40,8 +44,14 @@ REGRAS DO ARTIGO:
 - Explique conceitos sem jargão; quando usar um termo técnico, explique em uma frase.
 - Estrutura sugerida: o problema de negócio → como a IA/ML resolve → o que é preciso (dados, prazo,
   equipe) → como começar → erros comuns.
+- Escreva para quem vai DECIDIR e PAGAR, não para curiosos: aprofunde em custo, prazo, pré-requisitos,
+  riscos e retorno — o que um diretor precisa para aprovar um projeto.
+- Inclua, de forma natural, sinais que filtram quem não tem perfil: para quem a solução faz sentido (empresas
+  médias, com dados em ERP/CRM e um problema de negócio mensurável) e que os projetos começam a partir de
+  R$ 25 mil. Quem não tem perfil deve perceber isso lendo o artigo.
 - Termine com uma seção "Próximo passo" convidando para o diagnóstico de 30 minutos em
-  https://adoneintelligence.com.br/agendar (um único convite, sem pressão).
+  https://adoneintelligence.com.br/agendar, deixando claro que é para empresas com esse perfil
+  (um único convite, sem pressão).
 - Nada de números, clientes ou estudos inventados; exemplos hipotéticos devem ser marcados como tal.`;
 
 function slugify(text: string): string {
@@ -79,6 +89,7 @@ export async function runContent(): Promise<Article[]> {
             `\nEscolha até ${ARTICLES_PER_RUN} temas da estratégia que ainda NÃO foram escritos (não repita palavra-chave).`,
         ].join("\n"),
         schema: PlanSchema,
+        name: "pauta_blog",
     });
 
     const articles: Article[] = [];
@@ -95,11 +106,22 @@ export async function runContent(): Promise<Article[]> {
                 `Posicionamento da semana: ${strategy.Posicionamento}`,
             ].join("\n"),
             schema: ArticleSchema,
+            name: "artigo_blog",
         });
 
         let slug = slugify(article.slug || article.titulo);
         if (existingSlugs.has(slug)) slug = `${slug}-${Date.now().toString(36)}`;
         existingSlugs.add(slug);
+
+        // Capa gerada por IA; se falhar, o artigo segue sem imagem em vez de travar a rodada
+        let imageId = "";
+        if (imagesConfigured()) {
+            try {
+                imageId = await createCoverImage(article.imagem_tema, slug);
+            } catch (err) {
+                console.error(`[Marketing] Falha ao gerar a capa de "${article.titulo}":`, err);
+            }
+        }
 
         await appendContent({
             Tipo: "Artigo de blog",
@@ -111,6 +133,8 @@ export async function runContent(): Promise<Article[]> {
             Resumo: article.resumo,
             "Texto (Markdown)": article.markdown,
             "Semana da estratégia": strategy.Semana,
+            "Imagem (ID no Drive)": imageId,
+            "Publicar em": formatSheetDate(new Date(Date.now() + PUBLISH_DELAY_HOURS * 60 * 60 * 1000)),
         });
         articles.push({ ...article, slug });
     }
@@ -119,7 +143,8 @@ export async function runContent(): Promise<Article[]> {
         await notifyOwner(
             `✍️ *${articles.length} artigo(s) novo(s) para revisão*\n\n` +
             articles.map(a => `• ${a.titulo}`).join("\n") +
-            `\n\nRevise na aba "Conteúdo" (pode editar o texto direto na célula) e mude o Status para *Aprovado* para publicar no blog.`
+            `\n\nEles vão ao ar no blog *automaticamente em ${PUBLISH_DELAY_HOURS}h*. Para vetar, marque o Status como *Rejeitado* ` +
+            `na aba "Conteúdo" (pode editar o texto direto na célula; para publicar antes, marque *Aprovado*).`
         );
     }
     return articles;

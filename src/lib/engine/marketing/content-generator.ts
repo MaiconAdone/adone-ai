@@ -1,9 +1,7 @@
 // Módulo 1 — Gerador de Conteúdo com IA
 // Gera posts LinkedIn, artigos SEO e e-mails de nutrição
 
-import Anthropic from "@anthropic-ai/sdk";
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+import { generateText } from "./llm";
 
 export type ContentType = "linkedin_post" | "seo_article" | "cold_email" | "nurture_email" | "whatsapp_message";
 
@@ -90,29 +88,15 @@ export async function generateContent(request: ContentRequest): Promise<string> 
         ? `CONTEXTO:\n${contextLines.join("\n")}\n\nGere o conteúdo agora.`
         : "Gere o conteúdo agora.";
 
-    const response = await client.messages.create({
-        model: "claude-sonnet-4-6",
-        max_tokens: 2048,
-        system: basePrompt,
-        messages: [{ role: "user", content: userPrompt }],
-    });
-
-    return response.content[0].type === "text" ? response.content[0].text : "";
+    return generateText({ system: basePrompt, prompt: userPrompt });
 }
 
 // Gera calendário semanal de conteúdo para LinkedIn
 export async function generateWeeklyContentCalendar(sector: string): Promise<string> {
-    const response = await client.messages.create({
-        model: "claude-sonnet-4-6",
-        max_tokens: 2048,
+    return generateText({
         system: `Você é um estrategista de conteúdo B2B especializado em IA para empresas brasileiras.
 Crie um calendário de conteúdo semanal para o LinkedIn da Adone AI focado no setor de ${sector}.
 Inclua: dia da semana, tema, gancho inicial, formato (texto/carrossel/vídeo), objetivo (alcance/engajamento/conversão).`,
-        messages: [{
-            role: "user",
-            content: `Crie um calendário de 4 semanas de posts para o setor: ${sector}. Formato: tabela markdown.`,
-        }],
+        prompt: `Crie um calendário de 4 semanas de posts para o setor: ${sector}. Formato: tabela markdown.`,
     });
-
-    return response.content[0].type === "text" ? response.content[0].text : "";
 }

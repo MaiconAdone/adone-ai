@@ -32,8 +32,9 @@ antes da pressão chegar."
 Se o lead não se qualificou (porte/orçamento pequeno):
 Não diga isso. Seja genuíno:
 "Parece que o momento ideal ainda não chegou. Sem problema nenhum.
-Vou te mandar um conteúdo que pode ser útil agora mesmo, sem precisar
-de nenhum investimento. Posso mandar no seu e-mail?"
+Tem conteúdo nosso que pode ser útil agora mesmo, sem precisar de nenhum
+investimento: https://adoneintelligence.com.br/blog — e quando fizer sentido,
+é só me chamar aqui."
 
 SEQUÊNCIA DE NUTRIÇÃO:
 Se o lead aceitar receber conteúdo, confirme com calor:

@@ -8,6 +8,7 @@ import { createServer } from "node:http";
 import { readFileSync, writeFileSync } from "node:fs";
 import { auth, calendar } from "@googleapis/calendar";
 import { sheets } from "@googleapis/sheets";
+import { drive } from "@googleapis/drive";
 import {
     LEADS_SHEET, BOOKINGS_SHEET, LEADS_HEADERS, BOOKINGS_HEADERS,
 } from "../src/lib/engine/agenda/sheet-schema.mjs";
@@ -21,6 +22,10 @@ const SCOPES = [
     // Criar a agenda dedicada "Adone — Diagnósticos"
     "https://www.googleapis.com/auth/calendar.app.created",
     "https://www.googleapis.com/auth/spreadsheets",
+    // Imagens do blog: só enxerga os arquivos criados pelo próprio app
+    "https://www.googleapis.com/auth/drive.file",
+    // Números do Google Analytics no painel (a conta precisa ter acesso de Leitor na propriedade GA4)
+    "https://www.googleapis.com/auth/analytics.readonly",
 ];
 
 function readEnv() {
@@ -127,6 +132,17 @@ const server = createServer(async (req, res) => {
             console.log("✓ GOOGLE_CALENDAR_ID já existia; agenda mantida");
         }
 
+        if (!readEnv().GOOGLE_DRIVE_FOLDER_ID) {
+            const { data: folder } = await drive({ version: "v3", auth: client }).files.create({
+                requestBody: { name: "Adone — Blog", mimeType: "application/vnd.google-apps.folder" },
+                fields: "id",
+            });
+            setEnv("GOOGLE_DRIVE_FOLDER_ID", folder.id);
+            console.log("✓ Pasta do Drive criada: Adone — Blog");
+        } else {
+            console.log("✓ GOOGLE_DRIVE_FOLDER_ID já existia; pasta mantida");
+        }
+
         if (!readEnv().GOOGLE_SHEET_ID) {
             const sheet = await createSpreadsheet(client);
             setEnv("GOOGLE_SHEET_ID", sheet.spreadsheetId);
@@ -145,6 +161,6 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-    console.log("Abra este endereço no navegador, entre com adonetecnologia@gmail.com e autorize:\n");
+    console.log("Abra este endereço no navegador, entre com a conta Google da empresa (adoneintelligence@gmail.com) e autorize:\n");
     console.log(authUrl + "\n");
 });

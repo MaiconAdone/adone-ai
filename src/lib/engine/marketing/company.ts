@@ -28,6 +28,16 @@ ERP/CRM e um decisor de diretoria, operações ou TI — empresas capazes de inv
 TOM: "IA sem mistério para o seu negócio" — educativo, direto, sem jargão desnecessário, focado em
 resultado de negócio. O público ainda está entrando nesse mundo e precisa confiar antes de comprar.
 
+PRINCÍPIO DO MARKETING (decisão do Maicon): "Prefiro um lead que paga do que 100 que só olham."
+- Sucesso = leads QUALIFICADOS e reuniões com empresas do cliente ideal que podem investir a partir de
+  R$ 25 mil. Visitas, cliques, curtidas e volume de leads NÃO são objetivo — são só meio.
+- Prefira sempre menos volume com mais intenção de compra. Um canal que traz muitos leads fora do perfil
+  é pior do que um que traz poucos dentro do perfil.
+- Filtre ativamente os curiosos: comunicação clara sobre para quem é (médias empresas, 50+ funcionários,
+  com dados em ERP/CRM) e sobre o investimento de entrada, para quem não tem perfil se desqualificar sozinho.
+- Métricas que importam: taxa de qualificação, custo por lead qualificado, reuniões com empresas do perfil,
+  custo por reunião qualificada e, depois, propostas e contratos.
+
 REGRAS OBRIGATÓRIAS:
 - Nunca cite a V4 Company nem outras marcas de agências. A metodologia (aquisição, engajamento,
   monetização, retenção) é só inspiração interna.

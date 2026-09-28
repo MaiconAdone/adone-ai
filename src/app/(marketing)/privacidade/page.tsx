@@ -93,7 +93,7 @@ const SECTIONS = [
         list: [
             "Cookies essenciais: necessários para o funcionamento básico do site. Não podem ser desativados.",
             "Cookies analíticos (Google Analytics): coletam informações sobre como os visitantes utilizam o site (páginas visitadas, tempo de permanência). Só são ativados se você aceitar no aviso de cookies.",
-            "Cookies de marketing (Google Ads): medem se uma visita vinda de anúncio resultou em contato ou agendamento. Só são ativados se você aceitar no aviso de cookies.",
+            "Cookies de marketing (Google Ads e LinkedIn Insight Tag): medem se uma visita vinda de anúncio resultou em contato ou agendamento. Só são ativados se você aceitar no aviso de cookies.",
             "Cookies de preferências: armazenam configurações do usuário, como tema e a própria escolha sobre cookies.",
             "Origem da visita: ao enviar um formulário ou agendar uma reunião, registramos junto do seu contato de onde você chegou ao site (por exemplo, campanha ou site de referência), para entender quais canais funcionam.",
         ],
