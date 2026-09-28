@@ -17,7 +17,7 @@ const STEPS = [
         description: "Em uma reunião de 30 minutos, mapeamos seus principais gargalos operacionais, analisamos os dados disponíveis e identificamos onde a IA pode gerar o maior impacto financeiro.",
         deliverable: "Relatório de Oportunidades em IA",
         // Posição do ponto sobre a foto (em %)
-        spot: { left: "30%", top: "18%" },
+        spot: { left: "10%", top: "18%" },
     },
     {
         number: "02",
@@ -25,7 +25,7 @@ const STEPS = [
         title: "Prova de Conceito (PoC)",
         description: "Desenvolvemos um modelo funcional em 2 a 4 semanas usando dados reais da sua empresa. Você valida os resultados antes de qualquer compromisso de longo prazo.",
         deliverable: "MVP Funcional + Métricas de Validação",
-        spot: { left: "52%", top: "30%" },
+        spot: { left: "38%", top: "16%" },
     },
     {
         number: "03",
@@ -33,7 +33,7 @@ const STEPS = [
         title: "Implementação e Integração",
         description: "Com a PoC aprovada, implementamos a solução completa integrada aos seus sistemas existentes — ERP, CRM, APIs — com treinamento para o seu time.",
         deliverable: "Solução em Produção + Documentação",
-        spot: { left: "62%", top: "58%" },
+        spot: { left: "66%", top: "42%" },
     },
     {
         number: "04",
@@ -41,7 +41,7 @@ const STEPS = [
         title: "Evolução Contínua",
         description: "Monitoramos os modelos em produção, retreinamos com novos dados e evoluímos as funcionalidades conforme o negócio cresce. IA não é projeto, é processo.",
         deliverable: "Suporte, Monitoramento e Evolução",
-        spot: { left: "78%", top: "72%" },
+        spot: { left: "24%", top: "80%" },
     },
 ];
 
@@ -60,7 +60,7 @@ const HowItWorks = () => {
 
                 <Container>
                     <div className="relative mt-14 overflow-hidden rounded-[28px] bg-ink">
-                        <div className="relative aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]">
+                        <div className="relative aspect-[4/3] sm:aspect-[16/9]">
                             <Image
                                 src="/img/equipe-reuniao.webp"
                                 alt="Equipe em reunião analisando dados em um quadro de Analytics"
@@ -102,7 +102,7 @@ const HowItWorks = () => {
                         </div>
 
                         {/* Detalhe da etapa ativa */}
-                        <div className="relative md:absolute md:bottom-6 md:left-6 md:max-w-md bg-white p-6 md:rounded-2xl md:shadow-[0_24px_60px_-24px_rgba(10,20,27,0.5)]">
+                        <div className="relative md:absolute md:bottom-6 md:right-6 md:max-w-sm bg-white p-6 md:rounded-2xl md:shadow-[0_24px_60px_-24px_rgba(10,20,27,0.5)]">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                                     <step.icon strokeWidth={1.75} className="h-5 w-5" />
