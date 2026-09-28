@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRightIcon, CalendarIcon } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 import Container from "../global/container";
 import { Button } from "../ui/button";
 import { BackgroundVideo } from "../effects/background-video";
@@ -16,11 +16,6 @@ const CTA = () => {
 
                 <Container>
                     <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 py-20 text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-cream/20 bg-white/5 px-4 py-1.5 text-xs font-medium text-cream/90 backdrop-blur">
-                            <CalendarIcon className="h-3.5 w-3.5 text-brand-400" />
-                            Diagnóstico de 30 minutos, sem custo
-                        </div>
-
                         <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl font-semibold tracking-tight !leading-[1.1] text-white">
                             Sua empresa está <span className="text-brand-400">deixando dinheiro</span> na mesa
                         </h2>

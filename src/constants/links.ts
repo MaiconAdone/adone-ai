@@ -80,7 +80,6 @@ export const FOOTER_LINKS = [
         links: [
             { name: "Fale Conosco", href: "/#contato" },
             { name: "Agendar Reunião", href: "/agendar" },
-            { name: "LinkedIn", href: "https://linkedin.com/company/adone-ai" },
             { name: "WhatsApp", href: "https://wa.me/5511926025637" },
         ],
     },

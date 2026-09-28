@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import Container from "../global/container";
 import Wrapper from "../global/wrapper";
-import { LinkedinIcon, InstagramIcon, YoutubeIcon, MessageCircleIcon } from "lucide-react";
 
 const Footer = () => {
     return (
@@ -31,21 +30,6 @@ const Footer = () => {
                         <p className="text-sm text-cream/70 mt-4 leading-relaxed">
                             Transformando dados em vantagem competitiva com Machine Learning e Inteligência Artificial.
                         </p>
-                        <div className="flex items-center gap-3 mt-6">
-                            <Link href="https://linkedin.com/company/adone-ai" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-cream/15 hover:border-brand-400/60 hover:bg-brand-400/10 transition-all duration-200">
-                                <LinkedinIcon className="w-4 h-4 text-cream/70 hover:text-brand-400 transition-colors" />
-                            </Link>
-                            <Link href="https://instagram.com/adoneai" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-cream/15 hover:border-brand-400/60 hover:bg-brand-400/10 transition-all duration-200">
-                                <InstagramIcon className="w-4 h-4 text-cream/70 hover:text-brand-400 transition-colors" />
-                            </Link>
-                            <Link href="https://youtube.com/@adoneai" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-cream/15 hover:border-brand-400/60 hover:bg-brand-400/10 transition-all duration-200">
-                                <YoutubeIcon className="w-4 h-4 text-cream/70 hover:text-brand-400 transition-colors" />
-                            </Link>
-                            <Link href="https://wa.me/5511926025637" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-cream/15 hover:border-brand-400/60 hover:bg-brand-400/10 transition-all duration-200">
-                                <MessageCircleIcon className="w-4 h-4 text-cream/70 hover:text-brand-400 transition-colors" />
-                            </Link>
-                        </div>
-
                         {/* CTA */}
                         <Link
                             href="/#contato"
