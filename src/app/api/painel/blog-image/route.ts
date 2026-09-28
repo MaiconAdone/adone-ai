@@ -5,7 +5,7 @@ import { getPost, setPostImage } from "@/lib/engine/marketing/blog";
 import { createCoverImage, imagesConfigured, uploadCoverImage } from "@/lib/engine/marketing/images";
 
 // Troca da capa de um artigo do blog (lápis na capa). Tudo exige a sessão do painel.
-//   GET                          → 200 se há sessão (o lápis só aparece para o Maicon)
+//   GET                          → { ok } diz se há sessão (o lápis só aparece para o Maicon)
 //   GET  ?slug=…                 → { imageId } atual (acompanha a geração com IA)
 //   POST multipart slug + file   → envia uma imagem do computador (troca na hora)
 //   POST json { slug, prompt }   → gera outra com IA em segundo plano (demora mais que o limite da hospedagem)
@@ -23,9 +23,10 @@ function refreshBlog(slug: string) {
 const unauthorized = () => NextResponse.json({ error: "Entre no painel para trocar a imagem." }, { status: 401 });
 
 export async function GET(req: NextRequest) {
-    if (!(await hasPainelSession())) return unauthorized();
     const slug = req.nextUrl.searchParams.get("slug");
-    if (!slug) return NextResponse.json({ ok: true });
+    // Checagem feita por todo visitante do blog: responde 200 para não gerar erro no console
+    if (!slug) return NextResponse.json({ ok: await hasPainelSession() }, { headers: { "Cache-Control": "no-store" } });
+    if (!(await hasPainelSession())) return unauthorized();
     if (!SLUG_PATTERN.test(slug)) return NextResponse.json({ error: "Artigo inválido" }, { status: 400 });
 
     const post = await getPost(slug);

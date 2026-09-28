@@ -17,7 +17,10 @@ const POLL_LIMIT_MS = 4 * 60 * 1000;
 // Uma checagem por página, compartilhada entre os lápis da listagem do blog
 let sessionCheck: Promise<boolean> | null = null;
 function checkSession(): Promise<boolean> {
-    sessionCheck ??= fetch(API, { cache: "no-store" }).then(r => r.ok).catch(() => false);
+    sessionCheck ??= fetch(API, { cache: "no-store" })
+        .then(r => r.json())
+        .then(data => data.ok === true)
+        .catch(() => false);
     return sessionCheck;
 }
 

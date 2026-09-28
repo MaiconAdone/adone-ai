@@ -64,6 +64,7 @@ export const FOOTER_LINKS = [
             { name: "Cases de Sucesso", href: "/#cases" },
             { name: "Como Funciona", href: "/#processo" },
             { name: "Segmentos", href: "/#segmentos" },
+            { name: "Blog", href: "/blog" },
         ],
     },
     {
@@ -79,7 +80,7 @@ export const FOOTER_LINKS = [
         title: "Contato",
         links: [
             { name: "Fale Conosco", href: "/#contato" },
-            { name: "Agendar Reunião", href: "/#contato" },
+            { name: "Agendar Reunião", href: "/agendar" },
             { name: "LinkedIn", href: "https://linkedin.com/company/adone-ai" },
             { name: "WhatsApp", href: "https://wa.me/5511926025637" },
         ],
