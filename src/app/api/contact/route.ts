@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 <style>
   body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px}
   .card{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1)}
-  .header{background:linear-gradient(135deg,#7c3aed,#6d28d9);padding:32px;text-align:center}
+  .header{background:#0A141B;padding:32px;text-align:center}
   .header h1{color:#fff;font-size:22px;margin:0}
   .header p{color:rgba(255,255,255,.8);font-size:13px;margin:8px 0 0}
   .body{padding:32px}
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
   .field:last-of-type{border-bottom:none}
   .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;font-weight:600;margin-bottom:4px}
   .value{font-size:15px;color:#111827;font-weight:500}
-  .cta{display:inline-block;margin-top:16px;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
+  .cta{display:inline-block;margin-top:16px;padding:12px 28px;background:#00705D;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
   .footer{background:#f9f9f9;padding:20px 32px;text-align:center;font-size:12px;color:#9ca3af}
 </style>
 </head>
@@ -84,15 +84,15 @@ export async function POST(req: NextRequest) {
 <style>
   body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px}
   .card{max-width:560px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden}
-  .header{background:linear-gradient(135deg,#7c3aed,#6d28d9);padding:36px;text-align:center}
+  .header{background:#0A141B;padding:36px;text-align:center}
   .header h1{color:#fff;font-size:22px;margin:0 0 8px}
   .header p{color:rgba(255,255,255,.85);font-size:14px;margin:0}
   .body{padding:36px}
   .body p{font-size:15px;color:#374151;line-height:1.7;margin-bottom:16px}
-  .highlight{background:#f5f3ff;border-left:3px solid #7c3aed;padding:16px 20px;border-radius:0 8px 8px 0;margin:24px 0}
+  .highlight{background:#EBFAF6;border-left:3px solid #00705D;padding:16px 20px;border-radius:0 8px 8px 0;margin:24px 0}
   .highlight p{margin:6px 0;font-size:14px}
   .cta{display:block;text-align:center;margin:28px 0}
-  .cta a{display:inline-block;padding:14px 32px;background:#7c3aed;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px}
+  .cta a{display:inline-block;padding:14px 32px;background:#00705D;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px}
   .footer{background:#f9f9f9;padding:20px;text-align:center;font-size:12px;color:#9ca3af;border-top:1px solid #eee}
 </style>
 </head>

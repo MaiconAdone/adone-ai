@@ -13,7 +13,7 @@ interface Props {
 
 export default function WavyGrid({
     className,
-    color = "rgba(139, 92, 246, 0.18)",
+    color = "rgba(0, 196, 160, 0.18)",
     spacing = 44,
     amplitude = 7,
     speed = 0.008,

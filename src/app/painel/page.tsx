@@ -54,10 +54,10 @@ export default async function PainelPage() {
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Link href={data.sheetUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-violet-400 hover:underline">
+                    <Link href={data.sheetUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-brand-700 hover:underline">
                         Planilha <ExternalLinkIcon className="ml-1 h-3.5 w-3.5" />
                     </Link>
-                    <Link href="/blog" target="_blank" className="inline-flex items-center text-sm text-violet-400 hover:underline ml-3">
+                    <Link href="/blog" target="_blank" className="inline-flex items-center text-sm text-brand-700 hover:underline ml-3">
                         Blog <ExternalLinkIcon className="ml-1 h-3.5 w-3.5" />
                     </Link>
                     <LogoutButton />

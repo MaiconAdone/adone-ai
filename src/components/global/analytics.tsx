@@ -80,7 +80,7 @@ export function Analytics() {
                         <Link href="/privacidade" className="underline hover:text-foreground">Política de privacidade</Link>
                     </p>
                     <div className="flex gap-2 mt-3">
-                        <Button size="sm" className="bg-violet-600 hover:bg-violet-500 text-white" onClick={() => choose("granted")}>
+                        <Button size="sm" className="bg-brand-700 hover:bg-brand-600 text-white" onClick={() => choose("granted")}>
                             Aceitar
                         </Button>
                         <Button size="sm" variant="outline" onClick={() => choose("denied")}>

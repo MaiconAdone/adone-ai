@@ -63,14 +63,14 @@ async function sendConfirmationEmail(m: MeetingInfo): Promise<void> {
     <h2 style="color:#1f2937;margin-top:0;">Sua reunião está confirmada! 🎉</h2>
     <p style="margin:0 0 8px;">Olá, <strong>${escapeHtml(m.name)}</strong>!</p>
     <p style="color:#6b7280;">Estamos animados para conversar sobre como a Adone AI pode gerar resultados reais para o seu negócio.</p>
-    <div style="background:#f3f4f6;border-radius:10px;padding:20px;margin:24px 0;border-left:4px solid #7c3aed;">
+    <div style="background:#f3f4f6;border-radius:10px;padding:20px;margin:24px 0;border-left:4px solid #00705D;">
       <p style="margin:0;"><strong>📅 Data:</strong> ${m.date}</p>
       <p style="margin:8px 0 0;"><strong>🕐 Horário:</strong> ${m.time} (horário de Brasília)</p>
       <p style="margin:8px 0 0;"><strong>⏱ Duração:</strong> 30 minutos</p>
       <p style="margin:8px 0 0;"><strong>📍 Formato:</strong> Google Meet (online)</p>
     </div>
     ${m.meetUrl ? `<div style="text-align:center;margin:28px 0;">
-      <a href="${m.meetUrl}" style="background:#7c3aed;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;display:inline-block;">
+      <a href="${m.meetUrl}" style="background:#00705D;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;display:inline-block;">
         Entrar na Reunião
       </a>
     </div>` : ""}

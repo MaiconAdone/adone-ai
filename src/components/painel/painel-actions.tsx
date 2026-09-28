@@ -70,7 +70,7 @@ export function WeeklyChart({ data }: { data: Array<{ week: string; leads: numbe
                         cursor={{ fill: "hsl(var(--foreground) / 0.04)" }}
                     />
                     <Legend wrapperStyle={{ fontSize: 12 }} />
-                    <Bar dataKey="leads" name="Leads" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="leads" name="Leads" fill="#00A98A" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="meetings" name="Reuniões" fill="#22c55e" radius={[4, 4, 0, 0]} />
                 </BarChart>
             </ResponsiveContainer>

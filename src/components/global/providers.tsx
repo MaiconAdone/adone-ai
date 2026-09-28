@@ -1,24 +1,14 @@
 "use client";
 
 import React from "react"
-import { ThemeProvider } from "next-themes";
 
 interface Props {
     children: React.ReactNode;
 }
 
+// O site tem um tema só (claro); não há mais alternância de tema
 const Providers = ({ children }: Props) => {
-    return (
-        <ThemeProvider
-            attribute="class"
-            themes={["dark", "light"]}
-            defaultTheme="dark"
-            enableSystem={false}
-            disableTransitionOnChange
-        >
-            {children}
-        </ThemeProvider>
-    );
+    return <>{children}</>;
 };
 
 export default Providers

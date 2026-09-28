@@ -20,7 +20,7 @@ export function emailBase(content: string, preheader = ""): string {
 
           <!-- Header com logo -->
           <tr>
-            <td style="background:linear-gradient(135deg,#0d0d14,#1a1025);padding:28px 32px;border-bottom:2px solid #7c3aed;">
+            <td style="background:#0A141B;padding:28px 32px;border-bottom:3px solid #00C4A0;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="vertical-align:middle;">
@@ -47,7 +47,7 @@ export function emailBase(content: string, preheader = ""): string {
             <td style="background:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;text-align:center;">
               <p style="margin:0;font-size:12px;color:#9ca3af;">
                 © ${new Date().getFullYear()} Adone AI — Inteligência Artificial para Empresas<br/>
-                <a href="${SITE_URL}" style="color:#7c3aed;text-decoration:none;">${SITE_URL.replace("https://", "")}</a>
+                <a href="${SITE_URL}" style="color:#00705D;text-decoration:none;">${SITE_URL.replace("https://", "")}</a>
                 &nbsp;·&nbsp;
                 <a href="${SITE_URL}/privacidade" style="color:#9ca3af;text-decoration:none;">Privacidade</a>
                 &nbsp;·&nbsp;

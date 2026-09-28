@@ -32,7 +32,7 @@ export interface BadgeProps
 function Badge({circle, className, variant, ...props }: BadgeProps) {
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props}>
-      {circle && <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-t from-primary to-violet-400 animate-spin mr-1.5" />}
+      {circle && <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-t from-primary to-brand-700 animate-spin mr-1.5" />}
       {props.children}
     </div>
   )

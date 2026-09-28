@@ -26,7 +26,7 @@ const BlogPage = async () => {
                         <SectionBadge title="Blog" />
                         <h1 className="text-3xl md:text-5xl font-heading font-semibold !leading-snug mt-6">
                             IA sem mistério{" "}
-                            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent">
                                 para o seu negócio
                             </span>
                         </h1>
@@ -45,7 +45,7 @@ const BlogPage = async () => {
                                 <div key={post.slug} className="relative h-full">
                                     <Link
                                         href={`/blog/${post.slug}`}
-                                        className="group block h-full overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/[0.02] hover:border-violet-500/30 transition-colors"
+                                        className="group block h-full overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/[0.02] hover:border-brand-500/30 transition-colors"
                                     >
                                         {post.imageId && (
                                             // eslint-disable-next-line @next/next/no-img-element
@@ -62,11 +62,11 @@ const BlogPage = async () => {
                                             <p className="text-xs text-muted-foreground">
                                                 {post.date}{post.sector ? ` · ${post.sector}` : ""}
                                             </p>
-                                            <h2 className="mt-2 text-lg font-semibold text-foreground group-hover:text-violet-400 transition-colors">
+                                            <h2 className="mt-2 text-lg font-semibold text-foreground group-hover:text-brand-800 transition-colors">
                                                 {post.title}
                                             </h2>
                                             <p className="mt-2 text-sm leading-6 text-muted-foreground">{post.excerpt}</p>
-                                            <span className="mt-4 inline-flex items-center text-sm font-medium text-violet-400">
+                                            <span className="mt-4 inline-flex items-center text-sm font-medium text-brand-700">
                                                 Ler artigo <ArrowRight className="ml-1 h-4 w-4" />
                                             </span>
                                         </div>

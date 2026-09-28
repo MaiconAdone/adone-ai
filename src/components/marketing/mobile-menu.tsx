@@ -17,7 +17,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
     const ref = useClickOutside(() => setIsOpen(false));
 
     const variants = {
-        open: { opacity: 1, y: 20 },
+        open: { opacity: 1, y: 8 },
         closed: { opacity: 0, y: 0 },
     };
 
@@ -25,7 +25,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
         <div
             ref={ref}
             className={cn(
-                "absolute top-12 inset-x-0 size-full p-4 z-20 bg-inherit flex flex-1",
+                "relative w-full flex-1 pb-6 z-20 bg-white flex overflow-y-auto",
                 isOpen ? "flex" : "hidden"
             )}
         >
@@ -39,7 +39,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                 <ul className="flex flex-col items-start flex-1 w-full space-y-3">
                     <li
                         onClick={() => setIsOpen(false)}
-                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
+                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80"
                     >
                         <Link href="/#processo" className="flex items-center w-full text-start">
                             <BookOpenIcon className="w-4 h-4 mr-2" />
@@ -48,7 +48,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                     </li>
                     <li
                         onClick={() => setIsOpen(false)}
-                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
+                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80"
                     >
                         <Link href="/synapse" className="flex items-center w-full text-start">
                                 <BoxIcon className="w-4 h-4 mr-2" />
@@ -73,7 +73,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                                     { icon: MessageSquareTextIcon, label: "NLP & Chatbots" },
                                     { icon: BarChart3Icon, label: "Análise de Dados" },
                                 ].map(({ icon: Icon, label }) => (
-                                    <li key={label} className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                                    <li key={label} className="w-full px-4 py-2 text-lg font-normal transition transform rounded-md cursor-pointer text-foreground/80 hover:text-muted-foreground text-start active:scale-95 hover:bg-muted active:opacity-80">
                                         <Link href="/#servicos" className="flex items-center w-full text-start">
                                             <Icon className="w-4 h-4 mr-2" />
                                             {label}
@@ -84,31 +84,31 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                         </AccordionItem>
                     </Accordion>
 
-                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80">
                         <Link href="/#segmentos" className="flex items-center w-full text-start">
                             <BuildingIcon className="w-4 h-4 mr-2" />
                             Segmentos
                         </Link>
                     </li>
-                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80">
                         <Link href="/#cases" className="flex items-center w-full text-start">
                             <UsersIcon className="w-4 h-4 mr-2" />
                             Cases
                         </Link>
                     </li>
-                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80">
                         <Link href="/#faq" className="flex items-center w-full text-start">
                             <HelpCircleIcon className="w-4 h-4 mr-2" />
                             FAQ
                         </Link>
                     </li>
-                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80">
                         <Link href="/blog" className="flex items-center w-full text-start">
                             <NewspaperIcon className="w-4 h-4 mr-2" />
                             Blog
                         </Link>
                     </li>
-                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80">
+                    <li onClick={() => setIsOpen(false)} className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80">
                         <Link href="/agendar" className="flex items-center w-full text-start">
                             <CalendarIcon className="w-4 h-4 mr-2" />
                             Agendar

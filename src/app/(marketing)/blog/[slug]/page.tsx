@@ -54,12 +54,12 @@ const markdownComponents: Components = {
     a: ({ href, children }) => {
         const external = href?.startsWith("http") && !href.startsWith(SITE_URL);
         return (
-            <a href={href} className="text-violet-400 underline underline-offset-2 hover:text-violet-300" {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+            <a href={href} className="text-brand-700 underline underline-offset-2 hover:text-brand-800" {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
                 {children}
             </a>
         );
     },
-    blockquote: ({ children }) => <blockquote className="mt-6 border-l-4 border-violet-500/40 pl-4 italic text-muted-foreground">{children}</blockquote>,
+    blockquote: ({ children }) => <blockquote className="mt-6 border-l-4 border-brand-500/40 pl-4 italic text-muted-foreground">{children}</blockquote>,
     table: ({ children }) => <div className="mt-6 overflow-x-auto"><table className="w-full text-sm border-collapse">{children}</table></div>,
     th: ({ children }) => <th className="border border-foreground/10 bg-foreground/[0.04] px-3 py-2 text-left font-semibold">{children}</th>,
     td: ({ children }) => <td className="border border-foreground/10 px-3 py-2 text-foreground/80">{children}</td>,
@@ -119,10 +119,10 @@ const BlogPostPage = async ({ params }: Props) => {
                             </ReactMarkdown>
                         </div>
 
-                        <div className="mt-12 rounded-2xl border border-violet-400/20 bg-violet-500/10 p-6 text-center">
+                        <div className="mt-12 rounded-2xl border border-brand-400/20 bg-brand-500/10 p-6 text-center">
                             <p className="text-lg font-semibold text-foreground">Quer saber onde a IA gera resultado na sua empresa?</p>
                             <p className="mt-2 text-sm text-muted-foreground">Diagnóstico de 30 minutos com o Maicon, por Google Meet.</p>
-                            <Button asChild size="lg" className="mt-5 bg-violet-600 hover:bg-violet-500 text-white">
+                            <Button asChild size="lg" className="mt-5 bg-brand-700 hover:bg-brand-600 text-white">
                                 <Link href="/agendar">
                                     Agendar diagnóstico <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>

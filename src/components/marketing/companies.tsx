@@ -8,9 +8,9 @@ const COMPANIES = [
 
 const Companies = () => {
     return (
-        <div className="flex w-full py-16">
+        <div className="flex w-full pt-16 pb-6 md:pt-20">
             <div className="flex flex-col items-center justify-center text-center w-full py-2">
-                <p className="text-sm text-muted-foreground uppercase tracking-widest font-medium mb-10">
+                <p className="text-xs text-muted-foreground uppercase tracking-[0.2em] font-semibold mb-8">
                     Empresas que confiam na Adone AI
                 </p>
                 <div className="w-full relative overflow-hidden">
@@ -19,9 +19,9 @@ const Companies = () => {
                             {COMPANIES.map((company, i) => (
                                 <div
                                     key={i}
-                                    className="w-44 flex items-center justify-center px-4 py-2 rounded-lg border border-foreground/5 bg-foreground/[0.03] hover:bg-foreground/[0.06] transition-all duration-300 cursor-default select-none"
+                                    className="w-48 flex items-center justify-center px-4 py-3 cursor-default select-none"
                                 >
-                                    <span className="text-sm font-semibold text-muted-foreground hover:text-foreground/70 transition-colors text-center">
+                                    <span className="font-heading text-lg font-semibold text-ink/40 hover:text-ink transition-colors text-center whitespace-nowrap">
                                         {company}
                                     </span>
                                 </div>

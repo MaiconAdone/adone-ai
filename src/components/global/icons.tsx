@@ -15,7 +15,7 @@ const Icons: IconType = {
     ),
     menu: (props: LucideProps) => (
         <svg {...props} width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 9H15M1 1H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M1 9H15M1 1H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     ),
     google: (props: LucideProps) => (

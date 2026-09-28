@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Container from "../global/container";
-import { SectionBadge } from "../ui/section-bade";
-import { GlowCard } from "../effects/glow-card";
+import Wrapper from "../global/wrapper";
+import { SectionHeader, Highlight } from "./section-header";
+import { PHOTOS } from "@/constants/media";
 import {
     BrainCircuitIcon,
     TrendingUpIcon,
@@ -21,126 +23,126 @@ const SERVICES = [
         title: "Consultoria em IA",
         description: "Diagnóstico estratégico do seu negócio e definição do roadmap de IA. Identificamos onde a inteligência artificial gera mais valor para a sua empresa — sem achismos.",
         tag: "Estratégia",
-        color: "from-violet-500/20 to-purple-500/10",
+        photo: PHOTOS.consulting,
     },
     {
         icon: TrendingUpIcon,
         title: "Machine Learning Preditivo",
         description: "Modelos preditivos sob medida para prever demanda, churn, inadimplência, preços e qualquer variável crítica do seu negócio com acurácia superior a 90%.",
         tag: "Previsão",
-        color: "from-blue-500/20 to-indigo-500/10",
+        photo: PHOTOS.predictive,
     },
     {
         icon: GitMergeIcon,
         title: "Automação Inteligente",
         description: "Elimine gargalos operacionais com RPA potencializado por IA. Automatize processos de aprovação, classificação de documentos, atendimento e muito mais.",
         tag: "Operações",
-        color: "from-emerald-500/20 to-teal-500/10",
+        photo: PHOTOS.automation,
     },
     {
         icon: EyeIcon,
         title: "Visão Computacional",
         description: "Análise de imagens e vídeos em tempo real para controle de qualidade, detecção de falhas em linha de produção, segurança patrimonial e inspeção automatizada.",
         tag: "Indústria",
-        color: "from-orange-500/20 to-amber-500/10",
+        photo: PHOTOS.vision,
     },
     {
         icon: MessageSquareTextIcon,
         title: "NLP & Chatbots Inteligentes",
         description: "Processamento de linguagem natural para chatbots que entendem contexto, analisam sentimento em feedbacks, classificam tickets e extraem informações de documentos.",
         tag: "Linguagem",
-        color: "from-pink-500/20 to-rose-500/10",
+        photo: PHOTOS.chatbots,
     },
     {
         icon: BarChart3Icon,
         title: "Análise Avançada de Dados",
         description: "Dashboards analíticos em tempo real, discovery de padrões ocultos nos seus dados e relatórios executivos que traduzem complexidade em decisões simples.",
         tag: "Dados",
-        color: "from-cyan-500/20 to-sky-500/10",
+        photo: PHOTOS.analytics,
     },
     {
         icon: PuzzleIcon,
         title: "Integração de IA em Sistemas",
         description: "Integração das nossas soluções de IA com seu ERP, CRM, e-commerce ou sistema legado via API. Sem migração de plataforma, sem interrupção das operações.",
         tag: "Integração",
-        color: "from-violet-500/20 to-fuchsia-500/10",
+        photo: PHOTOS.integration,
     },
 ];
 
 const Services = () => {
     return (
-        <div id="servicos" className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24 w-full scroll-mt-20">
-            <Container>
-                <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
-                    <SectionBadge title="Soluções" />
-                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-semibold !leading-snug mt-6">
-                        IA que resolve <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">problemas reais</span> de negócio
-                    </h2>
-                    <p className="text-base md:text-lg text-center text-accent-foreground/70 mt-6 max-w-xl">
-                        Nossas soluções são desenvolvidas a partir das dores da sua empresa — não de templates genéricos. Cada projeto é único, com entrega orientada a resultado.
-                    </p>
-                </div>
-            </Container>
+        <section id="servicos" className="w-full py-16 md:py-24 scroll-mt-20">
+            <Wrapper>
+                <SectionHeader
+                    badge="Soluções"
+                    title={<>IA que resolve <Highlight>problemas reais</Highlight> de negócio</>}
+                    description="Nossas soluções nascem das dores da sua empresa, não de templates genéricos. Cada projeto é único, com entrega orientada a resultado."
+                />
 
-            <Container>
-                <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
-                    {SERVICES.map((service, i) => (
-                        <GlowCard
-                            key={i}
-                            className={`flex flex-col items-start w-full bg-gradient-to-br ${service.color} bg-primary/[0.04] group cursor-pointer`}
-                        >
-                            <div className="bento-card w-full flex-col gap-4 p-6">
-                                <div className="flex items-start justify-between w-full">
-                                    <div className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/10 group-hover:border-violet-500/30 group-hover:bg-violet-500/10 transition-all duration-300">
-                                        <service.icon strokeWidth={1.5} className="w-5 h-5 text-violet-400" />
-                                    </div>
-                                    <span className="text-xs font-medium text-violet-400/80 bg-violet-500/10 border border-violet-500/20 px-2.5 py-1 rounded-full">
+                <Container>
+                    <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        {SERVICES.map((service) => (
+                            <Link
+                                key={service.title}
+                                href="#contato"
+                                className="group flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(10,20,27,0.45)] hover:ring-brand-500/40"
+                            >
+                                <div className="relative aspect-[4/3] overflow-hidden">
+                                    <Image
+                                        src={service.photo}
+                                        alt=""
+                                        fill
+                                        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
+                                    <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink">
                                         {service.tag}
                                     </span>
+                                    <div className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-400 text-ink">
+                                        <service.icon strokeWidth={1.75} className="h-5 w-5" />
+                                    </div>
                                 </div>
-                                <div className="mt-4">
-                                    <h3 className="text-lg font-semibold font-heading text-foreground group-hover:text-violet-100 transition-colors duration-300">
+                                <div className="flex flex-1 flex-col p-5">
+                                    <h3 className="font-heading text-lg font-semibold text-foreground">
                                         {service.title}
                                     </h3>
-                                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                                         {service.description}
                                     </p>
+                                    <span className="mt-auto pt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
+                                        Quero essa solução
+                                        <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                                    </span>
                                 </div>
-                                <div className="mt-4 flex items-center gap-1 text-sm text-violet-400 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
-                                    <Link href="#contato" className="flex items-center gap-1">
-                                        Saiba mais <ArrowRightIcon className="w-3.5 h-3.5" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </GlowCard>
-                    ))}
+                            </Link>
+                        ))}
 
-                    {/* Card CTA */}
-                    <GlowCard className="flex flex-col items-start w-full bg-gradient-to-br from-violet-600/30 to-purple-600/20 border-violet-500/30 group cursor-pointer md:col-span-1">
-                        <div className="bento-card w-full flex-col gap-4 p-6 items-center justify-center text-center h-full">
-                            <div className="flex flex-col items-center justify-center gap-4 h-full py-4">
-                                <div className="p-4 rounded-2xl bg-violet-500/20 border border-violet-400/30">
-                                    <BrainCircuitIcon strokeWidth={1.5} className="w-8 h-8 text-violet-300" />
+                        {/* Cartão de chamada */}
+                        <div className="flex flex-col justify-between rounded-2xl bg-ink p-6 text-cream">
+                            <div>
+                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-400 text-ink">
+                                    <BrainCircuitIcon strokeWidth={1.75} className="h-5 w-5" />
                                 </div>
-                                <h3 className="text-lg font-semibold font-heading text-foreground">
+                                <h3 className="mt-5 font-heading text-xl font-semibold text-white">
                                     Não encontrou o que precisa?
                                 </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Desenvolvemos soluções customizadas para qualquer desafio de negócio que envolva dados e inteligência artificial.
+                                <p className="mt-3 text-sm leading-relaxed text-cream/70">
+                                    Desenvolvemos soluções sob medida para qualquer desafio de negócio que envolva dados e inteligência artificial.
                                 </p>
-                                <Link
-                                    href="#contato"
-                                    className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-500 px-5 py-2.5 rounded-lg transition-all duration-300 group-hover:shadow-lg group-hover:shadow-violet-500/25"
-                                >
-                                    Fale com um especialista
-                                    <ArrowRightIcon className="w-4 h-4" />
-                                </Link>
                             </div>
+                            <Link
+                                href="#contato"
+                                className="mt-6 inline-flex w-max items-center gap-2 rounded-full bg-brand-400 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-brand-300"
+                            >
+                                Fale com um especialista
+                                <ArrowRightIcon className="h-4 w-4" />
+                            </Link>
                         </div>
-                    </GlowCard>
-                </div>
-            </Container>
-        </div>
+                    </div>
+                </Container>
+            </Wrapper>
+        </section>
     );
 };
 

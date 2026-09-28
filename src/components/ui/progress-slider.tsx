@@ -76,16 +76,16 @@ export default function ProgressSlider({ items }: { items: Item[] }) {
                 {items.map((item, index) => (
                     <button
                         key={index}
-                        className="p-2 rounded focus:outline-none focus-visible:ring focus-visible:ring-indigo-300 group"
+                        className="p-2 rounded focus:outline-none focus-visible:ring focus-visible:ring-brand-400 group"
                         onClick={() => { setActive(index); setProgress(0) }}
                     >
                         <span className={`text-center flex flex-col items-center ${active === index ? '' : 'opacity-50 group-hover:opacity-100 group-focus:opacity-100 transition-opacity'}`}>
-                            <span className="flex items-center justify-center relative w-9 h-9 rounded-full bg-indigo-100 mb-2">
+                            <span className="flex items-center justify-center relative w-9 h-9 rounded-full bg-brand-100 mb-2">
                                 <Image src={item.buttonIcon} alt={item.desc} />
                             </span>
                             <span className="block text-sm font-medium text-slate-900 mb-2">{item.desc}</span>
                             <span className="block relative w-full bg-slate-200 h-1 rounded-full" role="progressbar" aria-valuenow={active === index ? progress : 0}>
-                                <span className="absolute inset-0 bg-indigo-500 rounded-[inherit]" style={{ width: active === index ? `${progress}%` : '0%' }}></span>
+                                <span className="absolute inset-0 bg-brand-500 rounded-[inherit]" style={{ width: active === index ? `${progress}%` : '0%' }}></span>
                             </span>
                         </span>
                     </button>

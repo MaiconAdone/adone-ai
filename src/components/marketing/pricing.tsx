@@ -29,7 +29,7 @@ const Pricing = () => {
             </Container>
             <div className="mt-8 w-full relative flex flex-col items-center justify-center">
                 <div className="absolute hidden lg:block top-1/2 right-2/3 translate-x-1/4 -translate-y-1/2 w-96 h-96 bg-primary/15 blur-[10rem] -z-10"></div>
-                <div className="absolute hidden lg:block top-1/2 left-2/3 -translate-x-1/4 -translate-y-1/2 w-96 h-96 bg-violet-500/15 blur-[10rem] -z-10"></div>
+                <div className="absolute hidden lg:block top-1/2 left-2/3 -translate-x-1/4 -translate-y-1/2 w-96 h-96 bg-brand-500/15 blur-[10rem] -z-10"></div>
                 <Container>
                     <Tabs defaultValue="monthly" className="w-full flex flex-col items-center justify-center">
                         <TabsList>
@@ -115,7 +115,7 @@ const Plan = ({
                 )}
             >
                 {id === "pro" && (
-                    <div className="max-w-fit min-w-min inline-flex items-center whitespace-nowrap px-1 h-7 rounded-full bg-gradient-to-r from-primary to-violet-500 absolute -top-3 left-1/2 -translate-x-1/2 select-none">
+                    <div className="max-w-fit min-w-min inline-flex items-center whitespace-nowrap px-1 h-7 rounded-full bg-gradient-to-r from-primary to-brand-700 absolute -top-3 left-1/2 -translate-x-1/2 select-none">
                         <span className="flex-1 text-sm px-2 font-medium bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent bg-[length:250%_100%] animate-background-shine">
                             Most Popular
                         </span>

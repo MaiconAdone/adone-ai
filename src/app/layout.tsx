@@ -13,7 +13,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="pt-BR" suppressHydrationWarning>
+        <html lang="pt-BR" className="light" style={{ colorScheme: "light" }}>
             <body
                 className={cn(
                     "min-h-screen bg-background text-foreground antialiased font-default overflow-x-hidden !scrollbar-hide",

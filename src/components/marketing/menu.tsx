@@ -19,14 +19,14 @@ const Menu = () => {
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <Link href="/#processo" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Como Funciona
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link href="/synapse" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Synapse
                         </NavigationMenuLink>
                     </Link>
@@ -41,7 +41,7 @@ const Menu = () => {
                                 <NavigationMenuLink asChild>
                                     <Link
                                         href="/#servicos"
-                                        className="flex flex-col justify-end w-full h-full p-4 no-underline rounded-lg outline-none select-none bg-gradient-to-tr from-violet-950/60 to-violet-900/30 border border-violet-800/20 focus:shadow-md"
+                                        className="flex flex-col justify-end w-full h-full p-4 no-underline rounded-lg outline-none select-none bg-ink text-cream border border-ink focus:shadow-md"
                                     >
                                         <Image
                                             src="/img/logo2.png"
@@ -50,10 +50,10 @@ const Menu = () => {
                                             height={28}
                                             className="h-7 w-auto object-contain"
                                         />
-                                        <div className="my-2 text-lg font-semibold">
+                                        <div className="my-2 text-lg font-semibold text-cream">
                                             Adone AI
                                         </div>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-sm text-cream/70">
                                             Soluções de IA e Machine Learning para empresas que querem crescer com inteligência.
                                         </p>
                                     </Link>
@@ -79,35 +79,35 @@ const Menu = () => {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link href="/#segmentos" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Segmentos
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link href="/#cases" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Cases
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link href="/#sobre" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Sobre
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link href="/blog" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Blog
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link href="/agendar" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-muted-foreground hover:text-foreground w-max hover:bg-none">
+                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Agendar
                         </NavigationMenuLink>
                     </Link>

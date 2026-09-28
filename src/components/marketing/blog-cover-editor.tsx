@@ -113,7 +113,7 @@ export function BlogCoverEditor({ slug, title, hasImage, className }: Props) {
                 aria-label={hasImage ? "Trocar imagem da capa" : "Adicionar imagem de capa"}
                 title={hasImage ? "Trocar imagem da capa" : "Adicionar imagem de capa"}
                 className={cn(
-                    "z-10 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-3 py-2 text-xs font-medium text-white backdrop-blur hover:bg-violet-600",
+                    "z-10 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-3 py-2 text-xs font-medium text-white backdrop-blur hover:bg-brand-700",
                     className,
                 )}
             >
@@ -162,7 +162,7 @@ export function BlogCoverEditor({ slug, title, hasImage, className }: Props) {
                                 disabled={!!busy}
                                 onChange={e => setPrompt(e.target.value)}
                             />
-                            <Button className="mt-3 bg-violet-600 text-white hover:bg-violet-500" disabled={!!busy} onClick={generate}>
+                            <Button className="mt-3 bg-brand-700 text-white hover:bg-brand-600" disabled={!!busy} onClick={generate}>
                                 {busy === "ai" ? <Loader2Icon className="mr-2 h-4 w-4 animate-spin" /> : <SparklesIcon className="mr-2 h-4 w-4" />}
                                 Gerar nova imagem
                             </Button>

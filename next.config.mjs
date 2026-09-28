@@ -5,6 +5,11 @@ const nextConfig = {
             {
                 protocol: "https",
                 hostname: "randomuser.me"
+            },
+            {
+                // Fotos do site (licença Unsplash: uso comercial livre, sem atribuição obrigatória)
+                protocol: "https",
+                hostname: "images.unsplash.com"
             }
         ]
     },

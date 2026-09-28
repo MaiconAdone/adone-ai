@@ -14,7 +14,7 @@ interface Confirmation { date: string; time: string; meetUrl: string }
 
 const WHATSAPP_URL = "https://wa.me/5511926025637";
 
-const inputClass = "w-full bg-foreground/[0.03] border border-foreground/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-violet-500/50 focus:bg-violet-500/[0.03] transition-all duration-200";
+const inputClass = "w-full bg-foreground/[0.03] border border-foreground/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-brand-500/50 focus:bg-brand-500/[0.03] transition-all duration-200";
 const labelClass = "text-xs font-medium text-muted-foreground uppercase tracking-wide";
 
 // "terça-feira, 29 de setembro" → { weekday: "terça", day: "29 set" }
@@ -97,8 +97,8 @@ export function BookingForm() {
     if (confirmation) {
         return (
             <div className="max-w-xl mx-auto rounded-2xl border border-foreground/10 bg-foreground/[0.02] p-8 text-center">
-                <div className="w-14 h-14 rounded-full bg-violet-500/15 flex items-center justify-center mx-auto">
-                    <CalendarCheckIcon className="w-7 h-7 text-violet-400" />
+                <div className="w-14 h-14 rounded-full bg-brand-500/15 flex items-center justify-center mx-auto">
+                    <CalendarCheckIcon className="w-7 h-7 text-brand-700" />
                 </div>
                 <h2 className="text-2xl font-heading font-semibold mt-5">Reunião confirmada! 🎉</h2>
                 <p className="text-muted-foreground mt-3 first-letter:uppercase">
@@ -109,7 +109,7 @@ export function BookingForm() {
                     {form.phone ? " e para o seu WhatsApp" : ""}.
                 </p>
                 {confirmation.meetUrl && (
-                    <Button asChild size="lg" className="mt-6 bg-violet-600 hover:bg-violet-500 text-white">
+                    <Button asChild size="lg" className="mt-6 bg-brand-700 hover:bg-brand-600 text-white">
                         <a href={confirmation.meetUrl} target="_blank" rel="noopener noreferrer">
                             <VideoIcon className="w-4 h-4 mr-2" />
                             Link da reunião (Google Meet)
@@ -161,7 +161,7 @@ export function BookingForm() {
             {/* 1. Dia e horário */}
             <div className="rounded-2xl border border-foreground/10 bg-foreground/[0.02] p-5 md:p-6">
                 <p className="flex items-center gap-2 font-medium">
-                    <CalendarIcon className="w-4 h-4 text-violet-400" />
+                    <CalendarIcon className="w-4 h-4 text-brand-700" />
                     Escolha o dia
                 </p>
                 <div className="flex gap-2 overflow-x-auto scrollbar-hide mt-4 pb-1">
@@ -177,8 +177,8 @@ export function BookingForm() {
                                 className={cn(
                                     "flex flex-col items-center min-w-[72px] px-3 py-2 rounded-xl border text-sm transition-all duration-200",
                                     active
-                                        ? "bg-violet-600 border-violet-500 text-white"
-                                        : "bg-foreground/[0.03] border-foreground/10 text-muted-foreground hover:border-violet-500/30 hover:text-foreground"
+                                        ? "bg-brand-700 border-brand-500 text-white"
+                                        : "bg-foreground/[0.03] border-foreground/10 text-muted-foreground hover:border-brand-500/30 hover:text-foreground"
                                 )}
                             >
                                 <span className="text-xs uppercase tracking-wide">{weekday}</span>
@@ -191,7 +191,7 @@ export function BookingForm() {
                 {selectedDay && (
                     <>
                         <p className="flex items-center gap-2 font-medium mt-6">
-                            <ClockIcon className="w-4 h-4 text-violet-400" />
+                            <ClockIcon className="w-4 h-4 text-brand-700" />
                             <span className="first-letter:uppercase">{selectedDay.label}</span>
                         </p>
                         <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-4">
@@ -206,8 +206,8 @@ export function BookingForm() {
                                         className={cn(
                                             "py-2 rounded-lg border text-sm font-medium transition-all duration-200",
                                             active
-                                                ? "bg-violet-600 border-violet-500 text-white"
-                                                : "bg-foreground/[0.03] border-foreground/10 text-foreground/80 hover:border-violet-500/30"
+                                                ? "bg-brand-700 border-brand-500 text-white"
+                                                : "bg-foreground/[0.03] border-foreground/10 text-foreground/80 hover:border-brand-500/30"
                                         )}
                                     >
                                         {slot.time}
@@ -249,7 +249,7 @@ export function BookingForm() {
 
                 {submitError && <p role="alert" className="text-sm text-red-400 light:text-red-600">{submitError}</p>}
 
-                <Button type="submit" size="lg" disabled={!selectedSlot || submitting} className="w-full h-12 text-base font-semibold bg-violet-600 hover:bg-violet-500 text-white disabled:opacity-60">
+                <Button type="submit" size="lg" disabled={!selectedSlot || submitting} className="w-full h-12 text-base font-semibold bg-brand-700 hover:bg-brand-600 text-white disabled:opacity-60">
                     {submitting ? (
                         <span className="flex items-center gap-2"><Loader2Icon className="w-4 h-4 animate-spin" /> Agendando…</span>
                     ) : selectedSlot ? (

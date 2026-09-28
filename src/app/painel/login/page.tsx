@@ -38,8 +38,8 @@ export default function PainelLoginPage() {
     return (
         <main className="min-h-screen flex items-center justify-center px-4">
             <form onSubmit={submit} className="w-full max-w-sm rounded-2xl border border-foreground/10 bg-foreground/[0.02] p-8">
-                <div className="w-12 h-12 rounded-full bg-violet-500/15 flex items-center justify-center">
-                    <LockIcon className="w-5 h-5 text-violet-400" />
+                <div className="w-12 h-12 rounded-full bg-brand-500/15 flex items-center justify-center">
+                    <LockIcon className="w-5 h-5 text-brand-700" />
                 </div>
                 <h1 className="mt-5 text-xl font-semibold text-foreground">Painel de marketing</h1>
                 <p className="mt-1 text-sm text-muted-foreground">Acesso restrito à Adone Intelligence.</p>
@@ -51,10 +51,10 @@ export default function PainelLoginPage() {
                     required
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-foreground/10 bg-foreground/[0.03] px-4 py-3 text-sm text-foreground focus:outline-none focus:border-violet-500/50"
+                    className="mt-2 w-full rounded-xl border border-foreground/10 bg-foreground/[0.03] px-4 py-3 text-sm text-foreground focus:outline-none focus:border-brand-500/50"
                 />
                 {error && <p role="alert" className="mt-3 text-sm text-red-400 light:text-red-600">{error}</p>}
-                <Button type="submit" disabled={loading || !password} className="mt-6 w-full bg-violet-600 hover:bg-violet-500 text-white">
+                <Button type="submit" disabled={loading || !password} className="mt-6 w-full bg-brand-700 hover:bg-brand-600 text-white">
                     {loading ? <Loader2Icon className="w-4 h-4 animate-spin" /> : "Entrar"}
                 </Button>
             </form>

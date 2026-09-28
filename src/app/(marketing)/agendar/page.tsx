@@ -19,7 +19,7 @@ const AgendarPage = () => {
                         <SectionBadge title="Diagnóstico" />
                         <h1 className="text-3xl md:text-5xl font-heading font-semibold !leading-snug mt-6">
                             Agende sua{" "}
-                            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent">
                                 conversa com o Maicon
                             </span>
                         </h1>

@@ -49,7 +49,7 @@ const FAQ = () => {
                     <SectionBadge title="Dúvidas Frequentes" />
                     <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-semibold !leading-snug mt-6">
                         Perguntas que{" "}
-                        <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent">
                             todo gestor faz
                         </span>
                     </h2>
@@ -66,7 +66,7 @@ const FAQ = () => {
                             <AccordionItem
                                 key={i}
                                 value={`item-${i}`}
-                                className="border border-foreground/5 rounded-2xl px-6 bg-foreground/[0.02] hover:bg-foreground/[0.04] data-[state=open]:bg-violet-500/5 data-[state=open]:border-violet-500/20 transition-all duration-300"
+                                className="border border-foreground/5 rounded-2xl px-6 bg-foreground/[0.02] hover:bg-foreground/[0.04] data-[state=open]:bg-brand-500/5 data-[state=open]:border-brand-500/20 transition-all duration-300"
                             >
                                 <AccordionTrigger className="text-left font-medium text-foreground/90 hover:no-underline hover:text-foreground py-5 text-sm md:text-base">
                                     {faq.question}
@@ -84,7 +84,7 @@ const FAQ = () => {
                         </p>
                         <Link
                             href="#contato"
-                            className="inline-flex items-center gap-2 text-sm font-semibold text-violet-400 hover:text-violet-300 whitespace-nowrap transition-colors"
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800 whitespace-nowrap transition-colors"
                         >
                             Falar com especialista <ArrowRightIcon className="w-3.5 h-3.5" />
                         </Link>

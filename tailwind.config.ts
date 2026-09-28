@@ -26,6 +26,28 @@ const config = {
     },
     extend: {
       colors: {
+        // Cores da logo: grafite #0A141B, creme #F0EDE6 e verde-água #00C4A0 (brand-400)
+        ink: {
+          DEFAULT: "#0A141B",
+          soft: "#16232C",
+        },
+        cream: {
+          DEFAULT: "#F0EDE6",
+          light: "#F8F6F1",
+        },
+        brand: {
+          50: "#EBFAF6",
+          100: "#CFF3EA",
+          200: "#A0E7D6",
+          300: "#62D6BE",
+          400: "#00C4A0",
+          500: "#00A98A",
+          600: "#008C73",
+          700: "#00705D",
+          800: "#065A4C",
+          900: "#0A4A40",
+          950: "#032B25",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -128,7 +150,7 @@ const config = {
     require("tailwindcss-animate"),
     require("tailwind-scrollbar-hide"),
     function ({ addVariant }: any) {
-      // Ajustes específicos do tema claro (o escuro é o padrão)
+      // O site é só claro (<html class="light">); o variante continua valendo para classes antigas
       addVariant("light", ".light &");
     },
     function ({ matchUtilities, theme }: any) {

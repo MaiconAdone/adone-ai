@@ -200,17 +200,17 @@ export default function LGPDPage() {
             <div className="mb-12">
                 <Link
                     href="/"
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-violet-400 transition-colors mb-8"
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-800 transition-colors mb-8"
                 >
                     <ArrowLeftIcon className="w-4 h-4" />
                     Voltar ao site
                 </Link>
 
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/20">
-                        <ScaleIcon className="w-5 h-5 text-violet-400" />
+                    <div className="p-2.5 rounded-xl bg-brand-500/10 border border-brand-500/20">
+                        <ScaleIcon className="w-5 h-5 text-brand-700" />
                     </div>
-                    <span className="text-xs font-medium text-violet-400 uppercase tracking-widest">
+                    <span className="text-xs font-medium text-brand-700 uppercase tracking-widest">
                         Legal · LGPD
                     </span>
                 </div>
@@ -221,9 +221,9 @@ export default function LGPDPage() {
 
                 <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl">
                     A{" "}
-                    <span className="text-violet-400 font-medium">Adone AI</span>{" "}
+                    <span className="text-brand-700 font-medium">Adone AI</span>{" "}
                     está em conformidade com a{" "}
-                    <span className="text-violet-400 font-medium">Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</span>.
+                    <span className="text-brand-700 font-medium">Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</span>.
                     {" "}Entenda seus direitos, nossas obrigações e como tratamos dados pessoais com responsabilidade.
                 </p>
 
@@ -235,24 +235,24 @@ export default function LGPDPage() {
             </div>
 
             {/* Rights highlight card */}
-            <div className="mb-12 p-6 rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/30 to-purple-950/10">
-                <h2 className="text-sm font-semibold text-violet-400 uppercase tracking-wider mb-4">
+            <div className="mb-12 p-6 rounded-2xl border border-brand-500/20 bg-gradient-to-br from-brand-50/30 to-brand-100/10">
+                <h2 className="text-sm font-semibold text-brand-700 uppercase tracking-wider mb-4">
                     Seus direitos garantidos pela LGPD
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {RIGHTS.map((right, i) => (
                         <div key={i} className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-violet-500/20 border border-violet-500/30 flex items-center justify-center flex-shrink-0">
-                                <CheckIcon className="w-3 h-3 text-violet-400" />
+                            <div className="w-5 h-5 rounded-full bg-brand-500/20 border border-brand-500/30 flex items-center justify-center flex-shrink-0">
+                                <CheckIcon className="w-3 h-3 text-brand-700" />
                             </div>
                             <span className="text-sm text-muted-foreground">{right}</span>
                         </div>
                     ))}
                 </div>
-                <div className="mt-5 pt-4 border-t border-violet-500/10">
+                <div className="mt-5 pt-4 border-t border-brand-500/10">
                     <p className="text-xs text-muted-foreground">
                         Para exercer qualquer um desses direitos:{" "}
-                        <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                        <a href="mailto:contato@adoneintelligence.com.br" className="text-brand-700 hover:underline">
                             contato@adoneintelligence.com.br
                         </a>
                     </p>
@@ -269,7 +269,7 @@ export default function LGPDPage() {
                         <li key={s.id}>
                             <a
                                 href={`#${s.id}`}
-                                className="text-sm text-muted-foreground hover:text-violet-400 transition-colors"
+                                className="text-sm text-muted-foreground hover:text-brand-800 transition-colors"
                             >
                                 {s.title}
                             </a>
@@ -296,14 +296,14 @@ export default function LGPDPage() {
                             <ul className="space-y-2.5 mt-3">
                                 {section.list.map((item, i) => (
                                     <li key={i} className="flex items-start gap-3">
-                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-violet-500 flex-shrink-0" />
+                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
                                         <span className="text-sm text-muted-foreground leading-relaxed">{item}</span>
                                     </li>
                                 ))}
                             </ul>
                         )}
                         {section.extra && (
-                            <p className="mt-4 text-sm text-muted-foreground leading-relaxed p-4 rounded-xl bg-violet-500/5 border border-violet-500/10">
+                            <p className="mt-4 text-sm text-muted-foreground leading-relaxed p-4 rounded-xl bg-brand-500/5 border border-brand-500/10">
                                 {section.extra}
                             </p>
                         )}
@@ -312,28 +312,28 @@ export default function LGPDPage() {
             </div>
 
             {/* Footer note */}
-            <div className="mt-16 p-6 rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/30 to-purple-950/10 text-center">
-                <ScaleIcon className="w-8 h-8 text-violet-400 mx-auto mb-3" />
+            <div className="mt-16 p-6 rounded-2xl border border-brand-500/20 bg-gradient-to-br from-brand-50/30 to-brand-100/10 text-center">
+                <ScaleIcon className="w-8 h-8 text-brand-700 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
                     Dúvidas sobre a LGPD ou seus direitos? Fale com nosso DPO em{" "}
-                    <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                    <a href="mailto:contato@adoneintelligence.com.br" className="text-brand-700 hover:underline">
                         contato@adoneintelligence.com.br
                     </a>
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
-                    <Link href="/" className="text-muted-foreground hover:text-violet-400 transition-colors">
+                    <Link href="/" className="text-muted-foreground hover:text-brand-800 transition-colors">
                         ← Voltar ao site
                     </Link>
                     <span className="text-foreground/20">·</span>
-                    <Link href="/privacidade" className="text-muted-foreground hover:text-violet-400 transition-colors">
+                    <Link href="/privacidade" className="text-muted-foreground hover:text-brand-800 transition-colors">
                         Política de Privacidade
                     </Link>
                     <span className="text-foreground/20">·</span>
-                    <Link href="/termos" className="text-muted-foreground hover:text-violet-400 transition-colors">
+                    <Link href="/termos" className="text-muted-foreground hover:text-brand-800 transition-colors">
                         Termos de Uso
                     </Link>
                     <span className="text-foreground/20">·</span>
-                    <Link href="/dados" className="text-muted-foreground hover:text-violet-400 transition-colors">
+                    <Link href="/dados" className="text-muted-foreground hover:text-brand-800 transition-colors">
                         Política de Dados
                     </Link>
                 </div>

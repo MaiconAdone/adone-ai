@@ -1,84 +1,63 @@
 "use client";
 
+import Image from "next/image";
 import { PERKS } from "@/constants";
-import { cn } from "@/functions";
-import { LucideIcon } from "lucide-react";
 import Container from "../global/container";
-import { SectionBadge } from "../ui/section-bade";
+import Wrapper from "../global/wrapper";
+import { SectionHeader, Highlight } from "./section-header";
+import { PHOTOS } from "@/constants/media";
 
 const Perks = () => {
     return (
-        <div className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24 w-full">
-            <Container>
-                <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
-                    <SectionBadge title="Por que a Adone AI" />
-                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-semibold !leading-snug mt-6">
-                        Resultados que{" "}
-                        <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-                            aparecem no seu P&L
-                        </span>
-                    </h2>
-                    <p className="text-base md:text-lg text-center text-accent-foreground/70 mt-6">
-                        Não vendemos tecnologia pela tecnologia. Cada solução que desenvolvemos é medida por impacto financeiro real — receita, custo e produtividade.
-                    </p>
-                </div>
-            </Container>
-            <Container>
-                <div className="mt-16 w-full">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full relative">
-                        {PERKS.map((perk, index) => (
-                            <Perk key={index} index={index} {...perk} />
-                        ))}
+        <section className="w-full py-16 md:py-24">
+            <Wrapper>
+                <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
+                    <div className="lg:sticky lg:top-28">
+                        <SectionHeader
+                            align="left"
+                            badge="Por que a Adone AI"
+                            title={<>Resultados que <Highlight>aparecem no seu P&L</Highlight></>}
+                            description="Não vendemos tecnologia pela tecnologia. Cada solução é medida por impacto financeiro real: receita, custo e produtividade."
+                        />
+                        <Container delay={0.1}>
+                            <div className="relative mt-8 aspect-[4/3] overflow-hidden rounded-[24px]">
+                                <Image
+                                    src={PHOTOS.sunnyMeeting}
+                                    alt="Reunião de negócios analisando resultados"
+                                    fill
+                                    sizes="(min-width: 1024px) 480px, 100vw"
+                                    className="object-cover"
+                                />
+                                <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/95 p-4 backdrop-blur">
+                                    <p className="font-heading text-2xl font-semibold text-ink">
+                                        R$ 48M<span className="text-brand-700">+</span>
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">gerados para clientes com projetos de IA</p>
+                                </div>
+                            </div>
+                        </Container>
                     </div>
-                </div>
-            </Container>
-        </div>
-    );
-};
 
-const Perk = ({
-    title,
-    description,
-    icon: Icon,
-    index,
-}: {
-    title: string;
-    description: string;
-    icon: LucideIcon;
-    index: number;
-}) => {
-    return (
-        <div
-            className={cn(
-                "flex flex-col lg:border-r transform-gpu py-10 relative group/feature border-neutral-800 light:border-neutral-200",
-                (index === 0 || index === 3) && "lg:border-l",
-                index < 3 && "lg:border-b"
-            )}
-        >
-            {index < 3 && (
-                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-violet-950/25 light:from-violet-100/70 to-transparent pointer-events-none" />
-            )}
-            {index >= 3 && (
-                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-violet-950/25 light:from-violet-100/70 to-transparent pointer-events-none" />
-            )}
-            <div className="group-hover/feature:-translate-y-1 transform-gpu transition-all duration-300 flex flex-col w-full">
-                <div className="mb-4 relative z-10 px-10">
-                    <Icon
-                        strokeWidth={1.3}
-                        className="w-10 h-10 origin-left transform-gpu text-neutral-500 light:text-neutral-400 transition-all duration-300 ease-in-out group-hover/feature:scale-75 group-hover/feature:text-violet-400"
-                    />
+                    <Container delay={0.15}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px overflow-hidden rounded-[24px] bg-ink/10 ring-1 ring-ink/10">
+                            {PERKS.map((perk) => (
+                                <div key={perk.title} className="group bg-white p-7 transition-colors duration-300 hover:bg-brand-50/60">
+                                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-ink text-brand-400 transition-transform duration-300 group-hover:-translate-y-0.5">
+                                        <perk.icon strokeWidth={1.6} className="h-5 w-5" />
+                                    </div>
+                                    <h3 className="mt-5 font-heading text-lg font-semibold text-foreground">
+                                        {perk.title}
+                                    </h3>
+                                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                                        {perk.description}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </Container>
                 </div>
-                <div className="text-lg font-semibold font-heading mb-2 relative z-10 px-10">
-                    <div className="absolute left-0 -inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-700 light:bg-neutral-300 group-hover/feature:bg-violet-600 transition-all duration-500 origin-center" />
-                    <span className="transition duration-500 inline-block heading">
-                        {title}
-                    </span>
-                </div>
-                <p className="text-sm text-neutral-400 light:text-neutral-600 max-w-xs relative z-10 px-10 leading-relaxed">
-                    {description}
-                </p>
-            </div>
-        </div>
+            </Wrapper>
+        </section>
     );
 };
 

@@ -180,17 +180,17 @@ export default function TermosPage() {
             <div className="mb-12">
                 <Link
                     href="/"
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-violet-400 transition-colors mb-8"
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-brand-800 transition-colors mb-8"
                 >
                     <ArrowLeftIcon className="w-4 h-4" />
                     Voltar ao site
                 </Link>
 
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/20">
-                        <ScrollTextIcon className="w-5 h-5 text-violet-400" />
+                    <div className="p-2.5 rounded-xl bg-brand-500/10 border border-brand-500/20">
+                        <ScrollTextIcon className="w-5 h-5 text-brand-700" />
                     </div>
-                    <span className="text-xs font-medium text-violet-400 uppercase tracking-widest">
+                    <span className="text-xs font-medium text-brand-700 uppercase tracking-widest">
                         Legal · Termos
                     </span>
                 </div>
@@ -201,7 +201,7 @@ export default function TermosPage() {
 
                 <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl">
                     Estes Termos de Uso regulam o acesso ao site e a contratação dos serviços da{" "}
-                    <span className="text-violet-400 font-medium">Adone AI</span>. Leia com atenção antes de utilizar nossa plataforma ou contratar nossos serviços.
+                    <span className="text-brand-700 font-medium">Adone AI</span>. Leia com atenção antes de utilizar nossa plataforma ou contratar nossos serviços.
                 </p>
 
                 <div className="mt-6 flex flex-wrap gap-4 text-xs text-muted-foreground">
@@ -221,7 +221,7 @@ export default function TermosPage() {
                         <li key={s.id}>
                             <a
                                 href={`#${s.id}`}
-                                className="text-sm text-muted-foreground hover:text-violet-400 transition-colors"
+                                className="text-sm text-muted-foreground hover:text-brand-800 transition-colors"
                             >
                                 {s.title}
                             </a>
@@ -248,14 +248,14 @@ export default function TermosPage() {
                             <ul className="space-y-2.5 mt-3">
                                 {section.list.map((item, i) => (
                                     <li key={i} className="flex items-start gap-3">
-                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-violet-500 flex-shrink-0" />
+                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
                                         <span className="text-sm text-muted-foreground leading-relaxed">{item}</span>
                                     </li>
                                 ))}
                             </ul>
                         )}
                         {section.extra && (
-                            <p className="mt-4 text-sm text-muted-foreground leading-relaxed p-4 rounded-xl bg-violet-500/5 border border-violet-500/10">
+                            <p className="mt-4 text-sm text-muted-foreground leading-relaxed p-4 rounded-xl bg-brand-500/5 border border-brand-500/10">
                                 {section.extra}
                             </p>
                         )}
@@ -264,24 +264,24 @@ export default function TermosPage() {
             </div>
 
             {/* Footer note */}
-            <div className="mt-16 p-6 rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/30 to-purple-950/10 text-center">
-                <ScrollTextIcon className="w-8 h-8 text-violet-400 mx-auto mb-3" />
+            <div className="mt-16 p-6 rounded-2xl border border-brand-500/20 bg-gradient-to-br from-brand-50/30 to-brand-100/10 text-center">
+                <ScrollTextIcon className="w-8 h-8 text-brand-700 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
                     Dúvidas sobre estes termos? Fale com nossa equipe jurídica em{" "}
-                    <a href="mailto:contato@adoneintelligence.com.br" className="text-violet-400 hover:underline">
+                    <a href="mailto:contato@adoneintelligence.com.br" className="text-brand-700 hover:underline">
                         contato@adoneintelligence.com.br
                     </a>
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
-                    <Link href="/" className="text-muted-foreground hover:text-violet-400 transition-colors">
+                    <Link href="/" className="text-muted-foreground hover:text-brand-800 transition-colors">
                         ← Voltar ao site
                     </Link>
                     <span className="text-foreground/20">·</span>
-                    <Link href="/privacidade" className="text-muted-foreground hover:text-violet-400 transition-colors">
+                    <Link href="/privacidade" className="text-muted-foreground hover:text-brand-800 transition-colors">
                         Política de Privacidade
                     </Link>
                     <span className="text-foreground/20">·</span>
-                    <Link href="/lgpd" className="text-muted-foreground hover:text-violet-400 transition-colors">
+                    <Link href="/lgpd" className="text-muted-foreground hover:text-brand-800 transition-colors">
                         LGPD
                     </Link>
                 </div>
