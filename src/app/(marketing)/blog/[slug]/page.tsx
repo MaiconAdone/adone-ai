@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Background, Container, Wrapper } from "@/components";
 import { Button } from "@/components/ui/button";
+import { BlogCoverEditor } from "@/components/marketing/blog-cover-editor";
 import { getPost } from "@/lib/engine/marketing/blog";
 
 export const revalidate = 600;
@@ -97,15 +98,20 @@ const BlogPostPage = async ({ params }: Props) => {
                         <h1 className="mt-2 text-3xl md:text-4xl font-heading font-semibold !leading-tight text-foreground">
                             {post.title}
                         </h1>
-                        {post.imageId && (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                                src={`/blog/imagem/${post.imageId}`}
-                                alt={post.title}
-                                width={1536}
-                                height={1024}
-                                className="mt-8 aspect-[3/2] w-full rounded-2xl border border-foreground/10 object-cover"
-                            />
+                        {post.imageId ? (
+                            <div className="relative mt-8">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={`/blog/imagem/${post.imageId}`}
+                                    alt={post.title}
+                                    width={1536}
+                                    height={1024}
+                                    className="aspect-[3/2] w-full rounded-2xl border border-foreground/10 object-cover"
+                                />
+                                <BlogCoverEditor slug={post.slug} title={post.title} hasImage className="absolute right-3 top-3" />
+                            </div>
+                        ) : (
+                            <BlogCoverEditor slug={post.slug} title={post.title} hasImage={false} className="mt-8" />
                         )}
                         <div className="mt-6">
                             <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>

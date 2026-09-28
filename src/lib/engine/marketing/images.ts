@@ -3,6 +3,7 @@
 
 import { Readable } from "stream";
 import OpenAI from "openai";
+import sharp from "sharp";
 import { drive, type drive_v3 } from "@googleapis/drive";
 import { auth } from "@googleapis/calendar";
 
@@ -36,30 +37,52 @@ export function imagesConfigured(): boolean {
     return Boolean(process.env.GOOGLE_DRIVE_FOLDER_ID && process.env.GOOGLE_REFRESH_TOKEN);
 }
 
-// Gera a capa (1536x1024, webp) e salva no Drive; devolve o ID do arquivo
-export async function createCoverImage(subject: string, slug: string): Promise<string> {
-    const result = await openaiClient().images.generate({
-        model: IMAGE_MODEL,
-        prompt: `${STYLE}\n\nTema da ilustração: ${subject}`,
-        size: "1536x1024",
-        quality: "medium",
-        output_format: "webp",
-        output_compression: 82,
-    });
-    const b64 = result.data?.[0]?.b64_json;
-    if (!b64) throw new Error("A geração de imagem não devolveu arquivo");
+const COVER_WIDTH = 1536;
+const COVER_HEIGHT = 1024;
 
+async function saveToDrive(webp: Buffer, slug: string): Promise<string> {
     const { data } = await driveApi().files.create({
         requestBody: {
             name: `${slug}.webp`,
             mimeType: "image/webp",
             parents: [process.env.GOOGLE_DRIVE_FOLDER_ID!],
         },
-        media: { mimeType: "image/webp", body: Readable.from(Buffer.from(b64, "base64")) },
+        media: { mimeType: "image/webp", body: Readable.from(webp) },
         fields: "id",
     });
     if (!data.id) throw new Error("O Drive não devolveu o ID da imagem");
     return data.id;
+}
+
+// Gera a capa (1536x1024, webp) e salva no Drive; devolve o ID do arquivo.
+// "details" permite ao Maicon descrever a imagem que quer ao trocar a capa.
+export async function createCoverImage(subject: string, slug: string, details = ""): Promise<string> {
+    const result = await openaiClient().images.generate({
+        model: IMAGE_MODEL,
+        prompt: `${STYLE}
+
+Tema da ilustração: ${subject}${details ? `
+
+Pedido específico para esta imagem: ${details}` : ""}`,
+        size: `${COVER_WIDTH}x${COVER_HEIGHT}`,
+        quality: "medium",
+        output_format: "webp",
+        output_compression: 82,
+    });
+    const b64 = result.data?.[0]?.b64_json;
+    if (!b64) throw new Error("A geração de imagem não devolveu arquivo");
+    return saveToDrive(Buffer.from(b64, "base64"), slug);
+}
+
+// Imagem enviada pelo Maicon: recortada no formato da capa (3:2) e convertida para webp.
+// Decodificar com sharp também garante que o arquivo é mesmo uma imagem.
+export async function uploadCoverImage(file: Buffer, slug: string): Promise<string> {
+    const webp = await sharp(file, { limitInputPixels: 50_000_000 })
+        .rotate()
+        .resize(COVER_WIDTH, COVER_HEIGHT, { fit: "cover", position: "attention" })
+        .webp({ quality: 82 })
+        .toBuffer();
+    return saveToDrive(webp, slug);
 }
 
 export async function downloadImage(fileId: string): Promise<Buffer> {

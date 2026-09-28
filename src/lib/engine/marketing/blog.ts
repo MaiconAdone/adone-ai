@@ -74,3 +74,10 @@ export async function markDuePostsPublished(): Promise<number> {
     if (due.length) console.log(`[Blog] ${due.length} artigo(s) publicado(s) pelo prazo`);
     return due.length;
 }
+
+// Troca a capa de um artigo visível no blog (lápis na capa, só com sessão do painel)
+export async function setPostImage(slug: string, imageId: string): Promise<void> {
+    const row = (await readSheet(CONTENT_SHEET)).find(r => r.Slug === slug && isVisible(r));
+    if (!row) throw new Error("Artigo não encontrado no blog");
+    await updateCell(CONTENT_SHEET, CONTENT_HEADERS, row, "Imagem (ID no Drive)", imageId);
+}
