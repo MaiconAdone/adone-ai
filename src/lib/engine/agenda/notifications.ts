@@ -1,7 +1,7 @@
 // Confirmações e lembretes de reunião (e-mail + WhatsApp)
 
 import nodemailer from "nodemailer";
-import axios from "axios";
+import { sendWhatsAppText } from "../chatbot/whatsapp";
 import { emailBase } from "../utils/email-template";
 
 export interface MeetingInfo {
@@ -38,17 +38,8 @@ export function toWhatsAppNumber(phone?: string): string | null {
 }
 
 export async function sendWhatsApp(phone: string, message: string): Promise<void> {
-    const { ZAPI_INSTANCE, ZAPI_TOKEN, ZAPI_CLIENT_TOKEN } = process.env;
-    if (!ZAPI_INSTANCE || !ZAPI_TOKEN) {
-        console.log("[WhatsApp] Z-API não configurada");
-        return;
-    }
     try {
-        await axios.post(
-            `https://api.z-api.io/instances/${ZAPI_INSTANCE}/token/${ZAPI_TOKEN}/send-text`,
-            { phone, message },
-            { headers: { "client-token": ZAPI_CLIENT_TOKEN || "" } }
-        );
+        await sendWhatsAppText(phone, message);
     } catch (err) {
         console.error("[WhatsApp] Erro ao enviar:", err);
     }

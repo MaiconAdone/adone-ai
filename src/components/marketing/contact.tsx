@@ -68,6 +68,7 @@ const Contact = () => {
     });
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [vickOnWhatsApp, setVickOnWhatsApp] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -93,8 +94,9 @@ const Contact = () => {
             const data = await res.json();
             if (data.ok) {
                 setSubmitted(true);
+                setVickOnWhatsApp(Boolean(data.whatsapp));
                 trackConversion("lead", { form: "contato" });
-                toast.success("Mensagem enviada! Retornaremos em até 24 horas.");
+                toast.success(data.whatsapp ? "Recebido! A Vick vai te chamar no WhatsApp." : "Mensagem enviada! Retornaremos em até 24 horas.");
             } else {
                 toast.error(data.message || "Erro ao enviar. Tente novamente.");
             }
@@ -133,7 +135,9 @@ const Contact = () => {
                                 </div>
                                 <h3 className="text-xl font-semibold text-foreground">Mensagem enviada!</h3>
                                 <p className="text-muted-foreground max-w-sm">
-                                    Nossa equipe comercial retornará em até 24 horas úteis para agendar o diagnóstico.
+                                    {vickOnWhatsApp
+                                        ? "A Vick, nossa assistente virtual, vai te chamar no WhatsApp em instantes para entender seu desafio e agendar o diagnóstico."
+                                        : "Nossa equipe comercial retornará em até 24 horas úteis para agendar o diagnóstico."}
                                 </p>
                                 <button
                                     onClick={() => setSubmitted(false)}
@@ -278,7 +282,7 @@ const Contact = () => {
                                 </Button>
 
                                 <p className="text-xs text-center text-muted-foreground">
-                                    Sem compromisso. Seus dados são tratados conforme a LGPD.
+                                    Sem compromisso. Se você informar o WhatsApp, a Vick, nossa assistente virtual, entra em contato por lá. Seus dados são tratados conforme a LGPD.
                                 </p>
                             </form>
                         )}

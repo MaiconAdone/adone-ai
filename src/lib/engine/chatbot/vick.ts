@@ -29,6 +29,9 @@ interface Session {
     score: number;
     channel: "site" | "whatsapp";
     booking?: BookingResult;
+    // Conversa aberta pela Vick depois do formulário do site: dados que o lead já informou
+    formContext?: string;
+    ttlMs?: number;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -43,6 +46,17 @@ const MAX_USER_TURNS = 30;
 const MAX_OUTPUT_TOKENS = 1500;
 const SESSION_TTL_MS = 60 * 60 * 1000;
 const CLEANUP_INTERVAL_MS = 10 * 60 * 1000;
+// O lead do formulário pode demorar a responder: a conversa fica guardada por mais tempo
+const FORM_SESSION_TTL_MS = 3 * 24 * 60 * 60 * 1000;
+
+export interface FormLead {
+    name: string;
+    company: string;
+    email: string;
+    companySize?: string;
+    interest?: string;
+    message?: string;
+}
 
 const INITIAL_MESSAGE = "Olá! Sou a Vick, assistente da Adone AI 👋\n\nAntes de qualquer coisa — o que trouxe você aqui hoje? Qual é o maior desafio operacional da sua empresa no momento?";
 
@@ -116,9 +130,9 @@ export class Vick {
         const bookingUrl = this.personalBookingUrl(session);
         switch (session.stage) {
             case "qualifier":
-                return QUALIFIER_SYSTEM_PROMPT;
+                return QUALIFIER_SYSTEM_PROMPT + this.formContextBlock(session);
             case "presenter":
-                return PRESENTER_SYSTEM_PROMPT + "\n\n" + buildPresenterContext(session.leadData);
+                return PRESENTER_SYSTEM_PROMPT + "\n\n" + buildPresenterContext(session.leadData) + this.formContextBlock(session);
             case "scheduler":
                 return (SCHEDULER_SYSTEM_PROMPT + "\n\n" + getSchedulerContext(session.leadData, bookingUrl, days))
                     .replace(/\[BOOKING_URL\]/g, bookingUrl);
@@ -200,6 +214,51 @@ export class Vick {
             console.error("[Vick] Falha ao agendar:", err);
             return `Tive um problema para reservar agora 😕 Você pode escolher o horário direto aqui: ${this.personalBookingUrl(session)} — ou me chamar de novo em instantes.`;
         }
+    }
+
+    private formContextBlock(session: Session): string {
+        if (!session.formContext) return "";
+        return `\n\nCONTEXTO: este lead preencheu o formulário do site e foi você quem iniciou a conversa no WhatsApp logo em seguida. Não pergunte de novo o que ele já informou; confirme e aprofunde.\n${session.formContext}`;
+    }
+
+    // Abre a conversa no WhatsApp com quem deixou o contato no formulário do site.
+    // A primeira mensagem é fixa (sem custo de IA); as respostas do lead seguem pelo webhook normalmente.
+    startFromForm(phone: string, lead: FormLead): string {
+        const sessionId = `whatsapp_${phone}`;
+        const firstName = lead.name.trim().split(/\s+/)[0] || "";
+        const interest = lead.interest && !/não sei/i.test(lead.interest) ? lead.interest : "";
+        const context = [
+            `Nome: ${lead.name}`,
+            `Empresa: ${lead.company}`,
+            `E-mail: ${lead.email}`,
+            lead.companySize ? `Porte: ${lead.companySize}` : "",
+            lead.interest ? `Interesse: ${lead.interest}` : "",
+            lead.message ? `Desafio descrito: ${lead.message}` : "",
+        ].filter(Boolean).join("\n");
+
+        const opening = [
+            `Oi${firstName ? `, ${firstName}` : ""}! Aqui é a Vick, assistente virtual da Adone Intelligence 👋`,
+            "",
+            `Recebi agora o seu contato pelo site${lead.company ? ` (${lead.company})` : ""}${interest ? `, com interesse em *${interest}*` : ""}. Obrigada!`,
+            "",
+            lead.message
+                ? "Li o desafio que você descreveu. Posso te fazer duas ou três perguntas rápidas por aqui para o Maicon já chegar na conversa com o contexto certo?"
+                : "Para o Maicon já chegar na conversa com o contexto certo: qual é hoje o maior desafio que vocês querem resolver com dados ou IA?",
+        ].join("\n");
+
+        sessions.set(sessionId, {
+            id: sessionId,
+            stage: "qualifier",
+            messages: [{ role: "assistant", content: opening }],
+            leadData: {},
+            score: 0,
+            channel: "whatsapp",
+            formContext: context,
+            ttlMs: FORM_SESSION_TTL_MS,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        });
+        return opening;
     }
 
     async getOrCreateSession(sessionId: string, channel: "site" | "whatsapp" = "site"): Promise<Session> {
@@ -367,9 +426,9 @@ export class Vick {
     }
 
     cleanupSessions(): void {
-        const cutoff = new Date(Date.now() - SESSION_TTL_MS);
+        const now = Date.now();
         for (const [id, session] of Array.from(sessions.entries())) {
-            if (session.updatedAt < cutoff) {
+            if (now - session.updatedAt.getTime() > (session.ttlMs ?? SESSION_TTL_MS)) {
                 sessions.delete(id);
             }
         }

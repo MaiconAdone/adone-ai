@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ada, classifyChatError, MAX_USER_MESSAGE_CHARS } from "@/lib/engine/chatbot/vick";
 import { rateLimit, safeEqual } from "@/lib/rate-limit";
-import axios from "axios";
+import { getLastContactDate, markContactToday, sendWhatsAppText as sendWhatsAppReply, todayStr } from "@/lib/engine/chatbot/whatsapp";
 
 const INTRO = "Olá, eu sou a Vick! A assistente Virtual da Adone Intelligence. 👋";
 const FALLBACK_MESSAGE = "Desculpe, tive uma instabilidade agora 😕 Pode me mandar a mensagem de novo em instantes?";
-
-// Rastreia a data do último contato por número (reinicia apresentação no dia seguinte)
-const lastContactDate = new Map<string, string>();
-
-function todayStr(): string {
-    return new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
-}
 
 // Recebe mensagens do WhatsApp via Z-API e responde com a Vick
 // URL cadastrada na Z-API: /api/webhooks/whatsapp?secret=<ZAPI_WEBHOOK_SECRET>
@@ -49,19 +42,20 @@ export async function POST(req: NextRequest) {
         }
 
         const sessionId = `whatsapp_${phone}`;
-        const today = todayStr();
-        const lastDate = lastContactDate.get(phone);
-        const isNewDay = !lastDate || lastDate !== today;
+        const lastDate = getLastContactDate(phone);
+        const isNewDay = !lastDate || lastDate !== todayStr();
+        // Conversa aberta pela Vick após o formulário do site: já houve apresentação e há contexto a manter
+        const startedFromForm = Boolean(ada.getSession(sessionId)?.formContext);
 
         // Novo dia → reinicia a sessão para nova conversa
-        if (isNewDay) {
+        if (isNewDay && !startedFromForm) {
             // Força nova sessão deletando a antiga
             ada.deleteSession(sessionId);
-            lastContactDate.set(phone, today);
 
             // Envia apresentação primeiro
             await sendWhatsAppReply(phone, INTRO);
         }
+        markContactToday(phone);
 
         // Criar/retomar sessão e gerar resposta
         await ada.getOrCreateSession(sessionId, "whatsapp");
@@ -77,19 +71,4 @@ export async function POST(req: NextRequest) {
         // 200 para a Z-API não reenviar o evento e gerar respostas duplicadas
         return NextResponse.json({ ok: false });
     }
-}
-
-async function sendWhatsAppReply(phone: string, message: string): Promise<void> {
-    const { ZAPI_INSTANCE, ZAPI_TOKEN, ZAPI_CLIENT_TOKEN } = process.env;
-
-    if (!ZAPI_INSTANCE || !ZAPI_TOKEN) {
-        console.log("[WhatsApp] Z-API não configurada");
-        return;
-    }
-
-    await axios.post(
-        `https://api.z-api.io/instances/${ZAPI_INSTANCE}/token/${ZAPI_TOKEN}/send-text`,
-        { phone, message },
-        { headers: { "client-token": ZAPI_CLIENT_TOKEN || "" } }
-    );
 }
