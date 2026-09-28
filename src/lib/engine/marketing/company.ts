@@ -37,6 +37,8 @@ PRINCÍPIO DO MARKETING (decisão do Maicon): "Prefiro um lead que paga do que 1
   com dados em ERP/CRM) e sobre o investimento de entrada, para quem não tem perfil se desqualificar sozinho.
 - Métricas que importam: taxa de qualificação, custo por lead qualificado, reuniões com empresas do perfil,
   custo por reunião qualificada e, depois, propostas e contratos.
+- Quando houver resultados de reunião preenchidos, o critério final é custo por contrato e retorno sobre o
+  investido (receita ÷ mídia): um canal com poucas reuniões que viram contrato vale mais que um com muitas que não viram.
 
 VERBA DE MÍDIA (decisão do Maicon, 28/09/2026):
 - Google Ads: R$ 1.200 por mês (R$ 40/dia), campanha só na Rede de Pesquisa, lance "Cliques" com teto de

@@ -1,6 +1,7 @@
 // Dados do painel /painel: agentes, aprovações pendentes e desempenho por canal.
 
 import { isVisible } from "./blog";
+import { type Channel, CHANNELS, channelOf, type RevenueStats, revenueStats } from "./channels";
 import { getGa4Channels, type Ga4Result } from "./ga4";
 import { sheetUrl } from "./notify";
 import { AGENT_LABELS, AGENT_SCHEDULE, AGENTS, isRunning, type AgentName } from "./scheduler";
@@ -9,26 +10,7 @@ import {
     RUNS_SHEET, SheetRow, STATUS, STRATEGY_SHEET,
 } from "./workspace";
 
-export const CHANNELS = ["Google Ads", "LinkedIn Ads", "LinkedIn orgânico", "Busca orgânica", "WhatsApp (Vick)", "Direto / outros"] as const;
-export type Channel = (typeof CHANNELS)[number];
-
 const DAY = 24 * 60 * 60 * 1000;
-
-// Canal de um lead ou reunião a partir da origem gravada na planilha
-export function channelOf(row: SheetRow): Channel {
-    const source = (row["UTM source"] || "").toLowerCase();
-    const medium = (row["UTM medium"] || "").toLowerCase();
-    const referrer = (row["Referência"] || "").toLowerCase();
-    const origin = `${row.Canal || ""} ${row.Origem || ""}`.toLowerCase();
-
-    if (source === "google" && ["cpc", "ppc", "paid"].includes(medium)) return "Google Ads";
-    if (row.gclid) return "Google Ads";
-    if (source === "linkedin") return medium.includes("paid") ? "LinkedIn Ads" : "LinkedIn orgânico";
-    if (origin.includes("whatsapp")) return "WhatsApp (Vick)";
-    if (!source && /google\.|bing\.|duckduckgo\.|yahoo\./.test(referrer)) return "Busca orgânica";
-    if (!source && referrer.includes("linkedin.")) return "LinkedIn orgânico";
-    return "Direto / outros";
-}
 
 export interface ChannelStats {
     channel: Channel;
@@ -61,6 +43,7 @@ export interface DashboardData {
     weekly: Array<{ week: string; leads: number; meetings: number }>;
     ga4: Ga4Result;
     hasInvestment: boolean;
+    revenue: { total: RevenueStats; byChannel: RevenueStats[]; filled: number };
 }
 
 function between(rows: SheetRow[], column: string, from: Date, to: Date): SheetRow[] {
@@ -120,6 +103,13 @@ export async function getDashboardData(now = new Date()): Promise<DashboardData>
         };
     });
 
+    const spendAll = (channel: Channel) =>
+        investment.filter(r => investmentChannel(r.Plataforma || "") === channel).reduce((s, r) => s + parseMoney(r["Valor gasto (R$)"]), 0);
+    const revenueByChannel = CHANNELS
+        .map(channel => revenueStats(channel, bookings.filter(r => channelOf(r) === channel), spendAll(channel)))
+        .filter(r => r.meetings > 0 || r.spend > 0);
+    const revenueTotal = revenueStats("Total", bookings, investment.reduce((s, r) => s + parseMoney(r["Valor gasto (R$)"]), 0));
+
     const weekly = Array.from({ length: 8 }, (_, i) => {
         const end = new Date(now.getTime() - (7 - i) * 7 * DAY);
         const start = new Date(end.getTime() - 7 * DAY);
@@ -162,5 +152,10 @@ export async function getDashboardData(now = new Date()): Promise<DashboardData>
         weekly,
         ga4,
         hasInvestment: investment.length > 0,
+        revenue: {
+            total: revenueTotal,
+            byChannel: revenueByChannel,
+            filled: bookings.filter(r => r["Resultado da reunião"]).length,
+        },
     };
 }

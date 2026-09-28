@@ -142,11 +142,63 @@ export default async function PainelPage() {
                         <p className="text-sm text-muted-foreground">Defina <code>GA4_PROPERTY_ID</code> para ver visitas por canal.</p>
                     ) : (
                         <p className="text-sm text-muted-foreground">
-                            Sem acesso ao GA4 ainda. Adicione <strong>adonetecnologia@gmail.com</strong> como <strong>Leitor</strong> na propriedade do Google Analytics.
+                            Sem acesso ao GA4 ainda. Adicione <strong>adoneintelligence@gmail.com</strong> como <strong>Leitor</strong> na propriedade do Google Analytics.
                         </p>
                     )}
                 </Card>
             </div>
+
+            {/* Monetização: reunião → proposta → contrato, desde o início (contratos fecham semanas depois) */}
+            <Card title="Resultado comercial (desde o início)" className="mt-6">
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+                    {[
+                        { label: "Propostas", value: data.revenue.total.proposals },
+                        { label: "Contratos", value: data.revenue.total.won },
+                        { label: "Receita", value: brl(data.revenue.total.revenue) },
+                        { label: "Custo por contrato", value: data.revenue.total.costPerWon ? brl(data.revenue.total.costPerWon) : "—" },
+                        { label: "Retorno sobre mídia", value: data.revenue.total.returnOnSpend ? `${data.revenue.total.returnOnSpend.toFixed(1)}x` : "—" },
+                    ].map(kpi => (
+                        <div key={kpi.label}>
+                            <p className="text-xs text-muted-foreground">{kpi.label}</p>
+                            <p className="mt-1 text-xl font-semibold text-foreground">{kpi.value}</p>
+                        </div>
+                    ))}
+                </div>
+                {data.revenue.byChannel.length > 0 && (
+                    <div className="mt-4 overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="text-left text-xs text-muted-foreground">
+                                    <th className="pb-2 font-medium">Canal</th>
+                                    <th className="pb-2 font-medium text-right">Reuniões</th>
+                                    <th className="pb-2 font-medium text-right">Propostas</th>
+                                    <th className="pb-2 font-medium text-right">Contratos</th>
+                                    <th className="pb-2 font-medium text-right">Receita</th>
+                                    <th className="pb-2 font-medium text-right">Gasto</th>
+                                    <th className="pb-2 font-medium text-right">Retorno</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.revenue.byChannel.map(row => (
+                                    <tr key={row.channel} className="border-t border-foreground/5">
+                                        <td className="py-2 text-foreground">{row.channel}</td>
+                                        <td className="py-2 text-right">{row.meetings}</td>
+                                        <td className="py-2 text-right">{row.proposals}</td>
+                                        <td className="py-2 text-right">{row.won}</td>
+                                        <td className="py-2 text-right">{row.revenue > 0 ? brl(row.revenue) : "—"}</td>
+                                        <td className="py-2 text-right">{row.spend > 0 ? brl(row.spend) : "—"}</td>
+                                        <td className="py-2 text-right">{row.returnOnSpend ? `${row.returnOnSpend.toFixed(1)}x` : "—"}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+                <p className="mt-3 text-xs text-muted-foreground">
+                    Depois de cada reunião, preencha &quot;Resultado da reunião&quot; e, se fechou, &quot;Valor do contrato (R$)&quot; na aba
+                    &quot;Agendamentos&quot; da planilha ({data.revenue.filled} de {data.revenue.total.meetings} reuniões com resultado).
+                </p>
+            </Card>
 
             <Card title="Leads e reuniões por semana" className="mt-6">
                 <WeeklyChart data={data.weekly} />

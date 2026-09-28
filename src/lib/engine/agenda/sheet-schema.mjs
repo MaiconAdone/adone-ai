@@ -48,4 +48,17 @@ export const BOOKINGS_HEADERS = [
     "Link do Meet",
     "ID do evento",
     ...ATTRIBUTION_HEADERS,
+    // Preenchidas pelo Maicon depois da reunião (resultado comercial)
+    "Resultado da reunião",
+    "Valor do contrato (R$)",
+];
+
+// Lista suspensa da coluna "Resultado da reunião"
+export const MEETING_RESULTS = [
+    "Não compareceu",
+    "Sem perfil",
+    "Em negociação",
+    "Proposta enviada",
+    "Fechou",
+    "Perdeu a proposta",
 ];

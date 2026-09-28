@@ -4,6 +4,7 @@
 
 import { z } from "zod";
 import { AGENDA_TIMEZONE } from "../agenda/config";
+import { CHANNELS, channelOf, revenueStats } from "./channels";
 import { COMPANY_CONTEXT } from "./company";
 import { generateStructured, STRATEGY_MODEL } from "./llm";
 import { notifyOwner } from "./notify";
@@ -108,8 +109,31 @@ export async function buildMetricsSummary(now = new Date()): Promise<string> {
         `Reuniões agendadas (últimos 30 dias): ${bookCur.length} | 30 dias anteriores: ${bookPrev.length}`,
         `Reuniões por origem: ${countBy(bookCur, "Origem")}`,
         `Reuniões por campanha: ${countBy(bookCur, "UTM campaign")}`,
+        "",
+        "RESULTADO COMERCIAL (desde o início; preenchido pelo Maicon após cada reunião):",
+        ...commercialLines(bookings, investment),
+        "",
         "Observação: custos vêm da aba Investimento (lançamento manual); ainda não há dados do Google Analytics nesta leitura.",
     ].join("\n");
+}
+
+function commercialLines(bookings: SheetRow[], investment: SheetRow[]): string[] {
+    const filled = bookings.filter(r => r["Resultado da reunião"]);
+    if (filled.length === 0) return ["Ainda sem resultados de reunião preenchidos — não tire conclusões sobre contratos."];
+    const brl = (n: number) => `R$ ${n.toFixed(2)}`;
+    const total = revenueStats("Total", bookings, investment.reduce((s, r) => s + parseMoney(r["Valor gasto (R$)"]), 0));
+    const lines = [
+        `Reuniões: ${total.meetings} (${filled.length} com resultado) | propostas: ${total.proposals} | contratos: ${total.won} | receita: ${brl(total.revenue)}`,
+        `Resultados: ${countBy(filled, "Resultado da reunião")}`,
+        `Investimento total: ${brl(total.spend)} | custo por contrato: ${total.costPerWon ? brl(total.costPerWon) : "sem base"} | retorno: ${total.returnOnSpend ? total.returnOnSpend.toFixed(1) + "x o investido" : "sem base"}`,
+    ];
+    for (const channel of CHANNELS) {
+        const rows = bookings.filter(r => channelOf(r) === channel);
+        if (rows.length === 0) continue;
+        const s = revenueStats(channel, rows, 0);
+        lines.push(`${channel}: ${s.meetings} reuniões, ${s.proposals} propostas, ${s.won} contratos, ${brl(s.revenue)}`);
+    }
+    return lines;
 }
 
 function strategyText(row: SheetRow | undefined): string {

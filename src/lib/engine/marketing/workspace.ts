@@ -3,7 +3,7 @@
 
 import { isGoogleConfigured, sheetId, sheetsApi } from "../agenda/google";
 import { appendRow, nowLabel } from "../agenda/sheets";
-import { BOOKINGS_SHEET, LEADS_SHEET } from "../agenda/sheet-schema.mjs";
+import { BOOKINGS_HEADERS, BOOKINGS_SHEET, LEADS_SHEET, MEETING_RESULTS } from "../agenda/sheet-schema.mjs";
 
 export const STATUS = {
     pending: "Aguardando aprovação",
@@ -191,7 +191,68 @@ export async function readLeads(): Promise<SheetRow[]> {
 }
 
 export async function readBookings(): Promise<SheetRow[]> {
+    await ensureBookingResultColumns();
     return readSheet(BOOKINGS_SHEET);
+}
+
+// Colunas de resultado comercial ("Resultado da reunião", "Valor do contrato") no fim da aba Agendamentos,
+// acrescentadas em planilhas criadas antes delas existirem. Só mexe se o cabeçalho atual for o esperado.
+let bookingColumnsChecked = false;
+
+async function ensureBookingResultColumns(): Promise<void> {
+    if (bookingColumnsChecked || !isGoogleConfigured()) return;
+    const api = sheetsApi();
+    const { data } = await api.spreadsheets.values.get({ spreadsheetId: sheetId(), range: `${BOOKINGS_SHEET}!1:1` });
+    const current = (data.values?.[0] || []).map(String);
+    const resultColumn = BOOKINGS_HEADERS.indexOf("Resultado da reunião");
+    const isOldHeader = current.length === resultColumn && current.every((h, i) => h === BOOKINGS_HEADERS[i]);
+    if (isOldHeader) {
+        await api.spreadsheets.values.update({
+            spreadsheetId: sheetId(),
+            range: `${BOOKINGS_SHEET}!A1`,
+            valueInputOption: "RAW",
+            requestBody: { values: [Array.from(BOOKINGS_HEADERS)] },
+        });
+        const { data: meta } = await api.spreadsheets.get({ spreadsheetId: sheetId(), fields: "sheets.properties" });
+        const tabId = meta.sheets?.find(s => s.properties?.title === BOOKINGS_SHEET)?.properties?.sheetId ?? 0;
+        await api.spreadsheets.batchUpdate({
+            spreadsheetId: sheetId(),
+            requestBody: {
+                requests: [
+                    {
+                        repeatCell: {
+                            range: { sheetId: tabId, startRowIndex: 0, endRowIndex: 1, startColumnIndex: resultColumn, endColumnIndex: resultColumn + 2 },
+                            cell: { userEnteredFormat: { textFormat: { bold: true } } },
+                            fields: "userEnteredFormat.textFormat.bold",
+                        },
+                    },
+                    {
+                        setDataValidation: {
+                            range: { sheetId: tabId, startRowIndex: 1, startColumnIndex: resultColumn, endColumnIndex: resultColumn + 1 },
+                            rule: {
+                                condition: { type: "ONE_OF_LIST", values: MEETING_RESULTS.map(v => ({ userEnteredValue: v })) },
+                                showCustomUi: true,
+                                strict: true,
+                            },
+                        },
+                    },
+                ],
+            },
+        });
+        console.log("[Marketing] Colunas de resultado comercial adicionadas à aba Agendamentos");
+    }
+    bookingColumnsChecked = true;
+}
+
+// Resultado comercial das reuniões (preenchido pelo Maicon na aba Agendamentos)
+export const PROPOSAL_RESULTS = ["Proposta enviada", "Fechou", "Perdeu a proposta"];
+
+export function isProposal(row: SheetRow): boolean {
+    return PROPOSAL_RESULTS.includes(row["Resultado da reunião"] || "");
+}
+
+export function isWon(row: SheetRow): boolean {
+    return row["Resultado da reunião"] === "Fechou";
 }
 
 export async function appendCampaign(row: Partial<Record<(typeof CAMPAIGNS_HEADERS)[number], string>>): Promise<void> {
