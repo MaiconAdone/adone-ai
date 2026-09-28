@@ -16,6 +16,22 @@ export type Ga4Result =
     | { status: "not_configured" }
     | { status: "error"; message: string };
 
+// Nomes dos grupos de canais padrão do GA4, que a API devolve em inglês
+const CHANNEL_NAMES: Record<string, string> = {
+    Direct: "Direto",
+    "Organic Search": "Busca orgânica",
+    "Paid Search": "Busca paga",
+    "Organic Social": "Social orgânico",
+    "Paid Social": "Social pago",
+    Referral: "Referência",
+    Email: "E-mail",
+    Display: "Display",
+    "Cross-network": "Várias redes",
+    "Organic Video": "Vídeo orgânico",
+    "Paid Video": "Vídeo pago",
+    Unassigned: "Não atribuído",
+};
+
 let client: analyticsdata_v1beta.Analyticsdata | null = null;
 
 function api(): analyticsdata_v1beta.Analyticsdata {
@@ -42,7 +58,7 @@ export async function getGa4Channels(days = 30): Promise<Ga4Result> {
             },
         });
         const channels = (data.rows || []).map(r => ({
-            channel: r.dimensionValues?.[0]?.value || "(sem canal)",
+            channel: CHANNEL_NAMES[r.dimensionValues?.[0]?.value || ""] || r.dimensionValues?.[0]?.value || "(sem canal)",
             sessions: Number(r.metricValues?.[0]?.value || 0),
             users: Number(r.metricValues?.[1]?.value || 0),
             keyEvents: Number(r.metricValues?.[2]?.value || 0),
