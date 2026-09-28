@@ -9,8 +9,9 @@ import { auth } from "@googleapis/calendar";
 
 export const IMAGE_MODEL = process.env.MARKETING_IMAGE_MODEL || "gpt-image-2.5-flare";
 
-// Estilo fixo para o blog ter identidade visual consistente
-const STYLE = "Ilustração editorial moderna e abstrata para blog de tecnologia B2B, paleta em tons de roxo, violeta e índigo sobre fundo escuro, formas geométricas e linhas de dados, iluminação suave. Sem texto, sem letras, sem números, sem logotipos, sem pessoas reconhecíveis.";
+// Estilo fixo para o blog ter identidade visual consistente. Neutro: funciona nos temas claro e escuro do site
+// (nada de fundo preto nem branco puro; roxo só como acento).
+const STYLE = "Fotografia editorial realista e sóbria de ambiente corporativo ou operacional ligado ao tema (escritório, indústria, centro de distribuição, loja, equipe analisando dados), luz natural suave, tons neutros (cinza, bege, madeira, branco quebrado), contraste médio, pequenos acentos em violeta, profundidade de campo rasa. Sem fundo preto, sem fundo branco puro, sem aparência de ilustração 3D ou neon. Sem texto, sem letras, sem números legíveis, sem logotipos, sem rostos em primeiro plano identificáveis.";
 
 let openai: OpenAI | null = null;
 let driveClient: drive_v3.Drive | null = null;
