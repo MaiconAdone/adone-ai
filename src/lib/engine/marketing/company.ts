@@ -38,6 +38,13 @@ PRINCÍPIO DO MARKETING (decisão do Maicon): "Prefiro um lead que paga do que 1
 - Métricas que importam: taxa de qualificação, custo por lead qualificado, reuniões com empresas do perfil,
   custo por reunião qualificada e, depois, propostas e contratos.
 
+VERBA DE MÍDIA (decisão do Maicon, 28/09/2026):
+- Google Ads: R$ 1.200 por mês (R$ 40/dia), campanha só na Rede de Pesquisa, lance "Cliques" com teto de
+  R$ 7 por clique até haver conversões suficientes para "Maximizar conversões".
+- Oferta do Google: gastar R$ 1.200 em até 60 dias (até 27/11/2026) dá R$ 1.200 de crédito, que expira
+  60 dias depois de creditado. Não pause a campanha antes de cumprir o gasto.
+- Não proponha orçamentos acima dessa verba; redistribua dentro dela (palavras-chave, anúncios, negativas).
+
 REGRAS OBRIGATÓRIAS:
 - Nunca cite a V4 Company nem outras marcas de agências. A metodologia (aquisição, engajamento,
   monetização, retenção) é só inspiração interna.

@@ -12,7 +12,8 @@ declare global {
 }
 
 export const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID || "";
-export const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "";
+// IDs públicos (aparecem no código da página); a variável de ambiente, se definida, tem prioridade
+export const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18480408314";
 // LinkedIn Insight Tag (Campaign Manager → Fontes de dados → Insight Tag)
 export const LINKEDIN_PARTNER_ID = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID || "";
 
@@ -26,7 +27,7 @@ const LINKEDIN_CONVERSIONS = {
 // Rótulos de conversão do Google Ads (Ferramentas → Conversões → Tag → send_to = AW-XXX/<rótulo>)
 const ADS_LABELS = {
     lead: process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL || "",
-    booking: process.env.NEXT_PUBLIC_GOOGLE_ADS_BOOKING_LABEL || "",
+    booking: process.env.NEXT_PUBLIC_GOOGLE_ADS_BOOKING_LABEL || "LZXLCOvBnYkdEPrNkuxE", // "Reservar horário"
     whatsapp: process.env.NEXT_PUBLIC_GOOGLE_ADS_WHATSAPP_LABEL || "",
 };
 
