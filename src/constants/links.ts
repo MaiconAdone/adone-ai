@@ -49,7 +49,6 @@ export const FOOTER_LINKS = [
     {
         title: "Soluções",
         links: [
-            { name: "Synapse", href: "/synapse" },
             { name: "Consultoria em IA", href: "/#servicos" },
             { name: "Machine Learning", href: "/#servicos" },
             { name: "Automação Inteligente", href: "/#servicos" },

@@ -1,7 +1,7 @@
 "use client";
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { BoxIcon, BrainCircuitIcon, GitMergeIcon, MessageSquareTextIcon, TrendingUpIcon } from 'lucide-react';
+import { BrainCircuitIcon, GitMergeIcon, MessageSquareTextIcon, TrendingUpIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -21,13 +21,6 @@ const Menu = () => {
                     <Link href="/#processo" legacyBehavior passHref>
                         <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
                             Como Funciona
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link href="/synapse" legacyBehavior passHref>
-                        <NavigationMenuLink className="h-10 px-3 py-2 text-sm font-normal rounded-md text-foreground/75 hover:text-foreground w-max hover:bg-none font-medium">
-                            Synapse
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
@@ -70,9 +63,6 @@ const Menu = () => {
                             </Item>
                             <Item title="NLP & Chatbots" href="/#servicos" icon={<MessageSquareTextIcon className="w-5 h-5" />}>
                                 Atendimento inteligente 24/7.
-                            </Item>
-                            <Item title="Synapse" href="/synapse" icon={<BoxIcon className="w-5 h-5" />}>
-                                Plataforma visual para workflows de IA, ML e Chatbolt.
                             </Item>
                         </ul>
                     </NavigationMenuContent>

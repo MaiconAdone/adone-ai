@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { cn } from "@/functions";
 import { useClickOutside } from "@/hooks";
 import { motion } from "framer-motion";
-import { BrainCircuitIcon, TrendingUpIcon, GitMergeIcon, MessageSquareTextIcon, EyeIcon, BarChart3Icon, HelpCircleIcon, BuildingIcon, UsersIcon, BookOpenIcon, BoxIcon, CalendarIcon, NewspaperIcon } from "lucide-react";
+import { BrainCircuitIcon, TrendingUpIcon, GitMergeIcon, MessageSquareTextIcon, EyeIcon, BarChart3Icon, HelpCircleIcon, BuildingIcon, UsersIcon, BookOpenIcon, CalendarIcon, NewspaperIcon } from "lucide-react";
 import Link from "next/link";
 import React from 'react';
 
@@ -45,15 +45,6 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                             <BookOpenIcon className="w-4 h-4 mr-2" />
                             Como Funciona
                         </Link>
-                    </li>
-                    <li
-                        onClick={() => setIsOpen(false)}
-                        className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted active:opacity-80"
-                    >
-                        <Link href="/synapse" className="flex items-center w-full text-start">
-                                <BoxIcon className="w-4 h-4 mr-2" />
-                                Synapse
-                            </Link>
                     </li>
 
                     <Accordion type="single" collapsible className="w-full">
