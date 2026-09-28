@@ -11,7 +11,7 @@ const STEPS = [
         number: "01",
         icon: SearchIcon,
         title: "Diagnóstico",
-        description: "Em uma reunião de 60 minutos, nossos especialistas mapeiam seus principais gargalos operacionais, analisam seus dados disponíveis e identificam onde a IA pode gerar o maior impacto financeiro.",
+        description: "Em uma reunião de 30 minutos, mapeamos seus principais gargalos operacionais, analisamos os dados disponíveis e identificamos onde a IA pode gerar o maior impacto financeiro.",
         deliverable: "Relatório de Oportunidades em IA",
     },
     {

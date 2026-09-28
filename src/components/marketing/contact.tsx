@@ -117,7 +117,7 @@ const Contact = () => {
                         </span>
                     </h2>
                     <p className="text-base md:text-lg text-center text-accent-foreground/70 mt-6">
-                        Em 60 minutos, nossos especialistas analisam seu negócio e mostram onde a IA pode gerar mais resultado para você — sem compromisso.
+                        Em 30 minutos, analisamos seu negócio e mostramos onde a IA pode gerar mais resultado para você — sem compromisso.
                     </p>
                 </div>
             </Container>
@@ -313,7 +313,7 @@ const Contact = () => {
                             <h3 className="text-base font-semibold text-foreground">O que esperar do diagnóstico</h3>
                             <ul className="flex flex-col gap-3">
                                 {[
-                                    "Reunião de 60 min com especialista em IA",
+                                    "Reunião de 30 min com especialista em IA",
                                     "Mapeamento dos seus dados e processos",
                                     "Identificação das maiores oportunidades",
                                     "Estimativa de ROI potencial",

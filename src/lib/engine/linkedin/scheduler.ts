@@ -29,7 +29,7 @@ const TOPICS: Record<string, string[]> = {
     ],
     cta: [
         "diagnóstico de IA para sua empresa",
-        "60 minutos para descobrir onde a IA gera resultado no seu negócio",
+        "30 minutos para descobrir onde a IA gera resultado no seu negócio",
         "como começar com IA sem investimento alto",
     ],
 };

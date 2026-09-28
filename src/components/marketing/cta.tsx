@@ -36,7 +36,7 @@ const CTA = () => {
                         </h2>
 
                         <p className="text-base md:text-lg text-accent-foreground/70 max-w-xl mx-auto">
-                            Cada mês sem IA é um mês perdendo para concorrentes que já automatizam, preveem e escalam. Comece agora com um diagnóstico de 60 minutos.
+                            Cada mês sem IA é um mês perdendo para concorrentes que já automatizam, preveem e escalam. Comece agora com um diagnóstico de 30 minutos.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2 w-full">

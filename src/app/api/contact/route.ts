@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
     <p>Recebemos sua mensagem e nossa equipe comercial já foi notificada. Entraremos em contato em até <strong>4 horas úteis</strong> para agendar o diagnóstico.</p>
     <div class="highlight">
       <p><strong>O que você pode esperar do diagnóstico:</strong></p>
-      <p>✓ Reunião de 60 min com especialista em IA</p>
+      <p>✓ Reunião de 30 min com especialista em IA</p>
       <p>✓ Mapeamento dos seus dados e processos</p>
       <p>✓ Identificação das maiores oportunidades</p>
       <p>✓ Estimativa de ROI potencial</p>
