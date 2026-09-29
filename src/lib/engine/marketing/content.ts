@@ -1,5 +1,5 @@
-// Agente de Conteúdo: transforma os temas da estratégia aprovada em artigos de blog (SEO)
-// Cada artigo fica "Aguardando aprovação"; só "Aprovado"/"Publicado" aparece em /blog.
+// Agente de Conteúdo: transforma os temas da estratégia em artigos de blog (SEO)
+// Cada artigo já entra como "Publicado" e aparece em /blog; "Rejeitado" tira do ar.
 
 import { z } from "zod";
 import { COMPANY_CONTEXT } from "./company";
@@ -9,8 +9,7 @@ import { appendContent, CONTENT_SHEET, formatSheetDate, readSheet, STATUS, STRAT
 import { createCoverImage, imagesConfigured } from "./images";
 
 const ARTICLES_PER_RUN = Number(process.env.MARKETING_ARTICLES_PER_RUN || 2);
-// Publicação automática: vai ao ar após este prazo, a menos que o Maicon marque "Rejeitado"
-export const PUBLISH_DELAY_HOURS = Number(process.env.MARKETING_PUBLISH_DELAY_HOURS || 24);
+const SITE_URL = process.env.SITE_URL || "https://adoneintelligence.com.br";
 
 const PlanSchema = z.object({
     escolhidos: z.array(z.object({
@@ -69,11 +68,14 @@ export async function runContent(focus?: string): Promise<Article[]> {
         readSheet(STRATEGY_SHEET).catch(() => []),
         readSheet(CONTENT_SHEET).catch(() => []),
     ]);
-    const strategy = [...strategies].reverse().find(r => r.Status === STATUS.approved);
-    if (!strategy) {
-        await notifyOwner("✍️ O agente de Conteúdo não rodou: não há estratégia *Aprovada* na aba \"Estratégia\". Aprove uma estratégia para eu escrever os artigos.");
+    // Sem aprovação obrigatória: usa a estratégia aprovada mais recente ou, se não houver, a última não rejeitada
+    const recent = [...strategies].reverse();
+    const strategy = recent.find(r => r.Status === STATUS.approved) ?? recent.find(r => r.Status !== STATUS.rejected);
+    if (!strategy && !topics.length) {
+        await notifyOwner("✍️ O agente de Conteúdo não rodou: ainda não há estratégia na aba \"Estratégia\". Rode o Estrategista ou peça um tema no painel.");
         return [];
     }
+    const positioning = strategy?.Posicionamento || "";
 
     const existing = contents.map(c => `- ${c.Título} (${c["Palavra-chave"]})`).join("\n") || "(nenhum artigo ainda)";
     const existingSlugs = new Set(contents.map(c => c.Slug));
@@ -87,16 +89,16 @@ export async function runContent(focus?: string): Promise<Article[]> {
         prompt: topics.length ? [
             `O Maicon pediu ${topics.length} artigo(s), um para cada assunto abaixo:`,
             topics.map(t => `- ${t}`).join("\n"),
-            `\nPosicionamento da semana: ${strategy.Posicionamento}`,
+            `\nPosicionamento da semana: ${positioning}`,
             "\nArtigos já escritos:",
             existing,
             `\nPara cada assunto, na mesma ordem, crie um tema de artigo com uma palavra-chave que um diretor de empresa média ` +
             `buscaria no Google ao considerar contratar IA para isso (não repita palavra-chave já usada). ` +
             `No campo setor, use um nome curto (ex.: "Saúde").`,
         ].join("\n") : [
-            `Temas da estratégia aprovada (${strategy.Semana}):`,
-            strategy["Temas de conteúdo"],
-            strategy["Seus comentários"] ? `\nComentários do Maicon: ${strategy["Seus comentários"]}` : "",
+            `Temas da estratégia (${strategy?.Semana}):`,
+            strategy?.["Temas de conteúdo"] || "",
+            strategy?.["Seus comentários"] ? `\nComentários do Maicon: ${strategy["Seus comentários"]}` : "",
             "\nArtigos já escritos:",
             existing,
             `\nEscolha até ${ARTICLES_PER_RUN} temas da estratégia que ainda NÃO foram escritos (não repita palavra-chave).`,
@@ -121,7 +123,7 @@ export async function runContent(focus?: string): Promise<Article[]> {
                 `Palavra-chave principal: ${theme.palavra_chave}`,
                 `Setor em foco: ${theme.setor}`,
                 `Dor do leitor: ${theme.dor}`,
-                `Posicionamento da semana: ${strategy.Posicionamento}`,
+                `Posicionamento da semana: ${positioning}`,
             ].join("\n"),
             schema: ArticleSchema,
             name: "artigo_blog",
@@ -150,19 +152,20 @@ export async function runContent(focus?: string): Promise<Article[]> {
             "Meta description": article.meta_description,
             Resumo: article.resumo,
             "Texto (Markdown)": article.markdown,
-            "Semana da estratégia": strategy.Semana,
+            "Semana da estratégia": strategy?.Semana || "",
             "Imagem (ID no Drive)": imageId,
-            "Publicar em": formatSheetDate(new Date(Date.now() + PUBLISH_DELAY_HOURS * 60 * 60 * 1000)),
+            // Publicação automática: entra no blog assim que fica pronto (marcar "Rejeitado" tira do ar)
+            Status: STATUS.published,
+            "Publicar em": formatSheetDate(new Date()),
         });
         articles.push({ ...article, slug });
     }
 
     if (articles.length) {
         await notifyOwner(
-            `✍️ *${articles.length} artigo(s) novo(s) para revisão*\n\n` +
-            articles.map(a => `• ${a.titulo}`).join("\n") +
-            `\n\nEles vão ao ar no blog *automaticamente em ${PUBLISH_DELAY_HOURS}h*. Para vetar, marque o Status como *Rejeitado* ` +
-            `na aba "Conteúdo" (pode editar o texto direto na célula; para publicar antes, marque *Aprovado*).`
+            `✍️ *${articles.length} artigo(s) publicado(s) no blog*\n\n` +
+            articles.map(a => `• ${a.titulo}\n  ${SITE_URL}/blog/${a.slug}`).join("\n") +
+            `\n\nAparecem no site em até 10 minutos. Para tirar um do ar, marque o Status como *Rejeitado* na aba "Conteúdo".`
         );
     }
     return articles;
