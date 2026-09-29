@@ -2,7 +2,7 @@
 
 import { cn } from "@/functions";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
     src: string;
@@ -30,11 +30,38 @@ export function BackgroundVideo({ src, mobileSrc, poster, className, mediaClassN
     const showVideo = !reduceMotion && isSmallScreen !== null;
     const videoSrc = isSmallScreen && mobileSrc ? mobileSrc : src;
 
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    // O React não escreve o atributo "muted" no HTML, e sem ele o Safari do iPhone bloqueia o autoplay.
+    // Se o play automático ainda for recusado (ex.: modo pouca energia), tenta de novo no primeiro toque.
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+        video.muted = true;
+        video.setAttribute("muted", "");
+        const tryPlay = () => { video.play().catch(() => {}); };
+        tryPlay();
+        const events = ["touchstart", "click", "scroll"] as const;
+        const onInteract = () => {
+            tryPlay();
+            events.forEach(e => window.removeEventListener(e, onInteract));
+        };
+        events.forEach(e => window.addEventListener(e, onInteract, { passive: true }));
+        // Ao voltar para a aba o celular costuma deixar o vídeo pausado
+        const onVisible = () => { if (document.visibilityState === "visible") tryPlay(); };
+        document.addEventListener("visibilitychange", onVisible);
+        return () => {
+            events.forEach(e => window.removeEventListener(e, onInteract));
+            document.removeEventListener("visibilitychange", onVisible);
+        };
+    }, [showVideo, videoSrc]);
+
     return (
         <div aria-hidden="true" className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
             {showVideo ? (
                 <video
                     key={videoSrc}
+                    ref={videoRef}
                     className={cn("h-full w-full object-cover", mediaClassName)}
                     src={videoSrc}
                     poster={poster}
