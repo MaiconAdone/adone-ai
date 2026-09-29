@@ -61,7 +61,10 @@ function slugify(text: string): string {
         .slice(0, 80);
 }
 
-export async function runContent(): Promise<Article[]> {
+// focus: assuntos pedidos pelo Maicon no painel (ex.: "saúde; fraude") — um artigo por assunto,
+// no lugar dos temas da estratégia
+export async function runContent(focus?: string): Promise<Article[]> {
+    const topics = (focus || "").split(/[;\n]/).map(t => t.trim()).filter(Boolean).slice(0, 5);
     const [strategies, contents] = await Promise.all([
         readSheet(STRATEGY_SHEET).catch(() => []),
         readSheet(CONTENT_SHEET).catch(() => []),
@@ -75,12 +78,22 @@ export async function runContent(): Promise<Article[]> {
     const existing = contents.map(c => `- ${c.Título} (${c["Palavra-chave"]})`).join("\n") || "(nenhum artigo ainda)";
     const existingSlugs = new Set(contents.map(c => c.Slug));
 
+    const limit = topics.length || ARTICLES_PER_RUN;
     // Escolhe os temas ainda não escritos (respeita edições feitas pelo Maicon no texto da estratégia)
     const plan = await generateStructured({
         model: CONTENT_MODEL,
         effort: "low",
         system: "Você organiza a pauta de um blog. Responda só com o formato pedido.",
-        prompt: [
+        prompt: topics.length ? [
+            `O Maicon pediu ${topics.length} artigo(s), um para cada assunto abaixo:`,
+            topics.map(t => `- ${t}`).join("\n"),
+            `\nPosicionamento da semana: ${strategy.Posicionamento}`,
+            "\nArtigos já escritos:",
+            existing,
+            `\nPara cada assunto, na mesma ordem, crie um tema de artigo com uma palavra-chave que um diretor de empresa média ` +
+            `buscaria no Google ao considerar contratar IA para isso (não repita palavra-chave já usada). ` +
+            `No campo setor, use um nome curto (ex.: "Saúde").`,
+        ].join("\n") : [
             `Temas da estratégia aprovada (${strategy.Semana}):`,
             strategy["Temas de conteúdo"],
             strategy["Seus comentários"] ? `\nComentários do Maicon: ${strategy["Seus comentários"]}` : "",
@@ -93,7 +106,7 @@ export async function runContent(): Promise<Article[]> {
     });
 
     const articles: Article[] = [];
-    for (const theme of plan.escolhidos.slice(0, ARTICLES_PER_RUN)) {
+    for (const theme of plan.escolhidos.slice(0, limit)) {
         const article = await generateStructured({
             model: CONTENT_MODEL,
             effort: "medium",

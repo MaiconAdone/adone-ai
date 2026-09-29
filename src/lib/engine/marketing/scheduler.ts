@@ -34,13 +34,13 @@ export function isRunning(agent: AgentName): boolean {
     return running.has(agent);
 }
 
-async function execute(agent: AgentName): Promise<string> {
+async function execute(agent: AgentName, focus?: string): Promise<string> {
     if (agent === "estrategista") {
         const s = await runStrategist();
         return `Estratégia proposta com ${s.temas.length} temas`;
     }
     if (agent === "conteudo") {
-        const articles = await runContent();
+        const articles = await runContent(focus);
         return `${articles.length} artigo(s) escrito(s)`;
     }
     const plan = await runMedia();
@@ -48,13 +48,13 @@ async function execute(agent: AgentName): Promise<string> {
 }
 
 // Executa um agente com trava, registra na aba "Execuções" e avisa o Maicon em caso de falha
-export async function runAgent(agent: AgentName): Promise<{ ok: boolean; summary: string }> {
+export async function runAgent(agent: AgentName, focus?: string): Promise<{ ok: boolean; summary: string }> {
     if (running.has(agent)) return { ok: false, summary: `${AGENT_LABELS[agent]} já está em execução` };
     running.add(agent);
     const started = new Date();
     let result: { ok: boolean; summary: string };
     try {
-        result = { ok: true, summary: await execute(agent) };
+        result = { ok: true, summary: await execute(agent, focus) };
     } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         console.error(`[Marketing] Falha no agente ${agent}:`, err);

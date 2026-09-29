@@ -10,6 +10,7 @@ export function RunAgentButton({ agent, running }: { agent: string; running: boo
     const router = useRouter();
     const [busy, setBusy] = useState(running);
     const [message, setMessage] = useState<string | null>(null);
+    const [focus, setFocus] = useState("");
 
     const run = async () => {
         setBusy(true);
@@ -18,7 +19,7 @@ export function RunAgentButton({ agent, running }: { agent: string; running: boo
             const res = await fetch("/api/painel/run", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ agent }),
+                body: JSON.stringify({ agent, focus: focus.trim() || undefined }),
             });
             const data = await res.json().catch(() => ({}));
             setMessage(res.ok ? `✓ ${data.summary}` : `✗ ${data.summary || data.error || "Falhou"}`);
@@ -32,6 +33,16 @@ export function RunAgentButton({ agent, running }: { agent: string; running: boo
 
     return (
         <div>
+            {agent === "conteudo" && (
+                <input
+                    value={focus}
+                    onChange={e => setFocus(e.target.value)}
+                    disabled={busy}
+                    maxLength={300}
+                    placeholder="Tema opcional (ex.: saúde; fraude)"
+                    className="mb-2 w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+                />
+            )}
             <Button size="sm" variant="outline" onClick={run} disabled={busy}>
                 {busy ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <PlayIcon className="w-4 h-4 mr-2" />}
                 {busy ? "Rodando" : "Rodar agora"}
