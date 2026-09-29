@@ -20,6 +20,30 @@ export async function sendWhatsAppText(phone: string, message: string): Promise<
     );
 }
 
+// A Z-API aceita envios mesmo desconectada (ficam em fila sem entregar): por isso consultamos o status.
+// true = conectado, false = desconectado, null = não deu para saber (Z-API fora do ar, rede etc.)
+const STATUS_CACHE_MS = 60 * 1000;
+let statusCache: { value: boolean | null; at: number } | null = null;
+
+export async function getWhatsAppConnected(): Promise<boolean | null> {
+    const { ZAPI_INSTANCE, ZAPI_TOKEN, ZAPI_CLIENT_TOKEN } = process.env;
+    if (!ZAPI_INSTANCE || !ZAPI_TOKEN) return null;
+    if (statusCache && Date.now() - statusCache.at < STATUS_CACHE_MS) return statusCache.value;
+
+    let value: boolean | null = null;
+    try {
+        const { data } = await axios.get(
+            `https://api.z-api.io/instances/${ZAPI_INSTANCE}/token/${ZAPI_TOKEN}/status`,
+            { headers: { "client-token": ZAPI_CLIENT_TOKEN || "" }, timeout: 10000 }
+        );
+        value = typeof data?.connected === "boolean" ? data.connected && data.smartphoneConnected !== false : null;
+    } catch (err) {
+        console.error("[WhatsApp] Não foi possível consultar o status da Z-API:", err instanceof Error ? err.message : err);
+    }
+    statusCache = { value, at: Date.now() };
+    return value;
+}
+
 // Converte o que o visitante digitou em número brasileiro no formato da Z-API (55 + DDD + número).
 // Retorna null quando não parece um celular/fixo brasileiro válido.
 export function normalizeBrPhone(raw: string): string | null {

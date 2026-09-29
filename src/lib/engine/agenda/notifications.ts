@@ -45,6 +45,20 @@ export async function sendWhatsApp(phone: string, message: string): Promise<void
     }
 }
 
+// Aviso interno por e-mail para o Maicon (RECIPIENT_EMAIL)
+export async function sendOwnerEmail(subject: string, text: string): Promise<void> {
+    if (!process.env.RECIPIENT_EMAIL || !process.env.EMAIL_USER) {
+        console.log(`[E-mail] Aviso não enviado (e-mail não configurado): ${subject}`);
+        return;
+    }
+    await transporter.sendMail({
+        from: `"Vick — Adone AI" <${process.env.EMAIL_USER}>`,
+        to: process.env.RECIPIENT_EMAIL,
+        subject,
+        text,
+    });
+}
+
 async function sendConfirmationEmail(m: MeetingInfo): Promise<void> {
     await transporter.sendMail({
         from: `"Adone AI" <${process.env.EMAIL_USER}>`,
