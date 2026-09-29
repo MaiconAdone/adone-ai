@@ -20,6 +20,24 @@ export async function sendWhatsAppText(phone: string, message: string): Promise<
     );
 }
 
+// Número como está registrado no WhatsApp (pode diferir do digitado, ex.: sem o 9 extra).
+// false = o número não tem WhatsApp; se a consulta falhar, segue com o número digitado.
+export async function resolveWhatsAppPhone(phone: string): Promise<string | false> {
+    const { ZAPI_INSTANCE, ZAPI_TOKEN, ZAPI_CLIENT_TOKEN } = process.env;
+    try {
+        const { data } = await axios.get(
+            `https://api.z-api.io/instances/${ZAPI_INSTANCE}/token/${ZAPI_TOKEN}/phone-exists/${phone}`,
+            { headers: { "client-token": ZAPI_CLIENT_TOKEN || "" }, timeout: 10000 }
+        );
+        if (data?.exists === false) return false;
+        const registered = String(data?.phone || "").replace(/\D/g, "");
+        return registered.startsWith("55") ? registered : phone;
+    } catch (err) {
+        console.error("[WhatsApp] Não foi possível verificar o número na Z-API:", err instanceof Error ? err.message : err);
+        return phone;
+    }
+}
+
 // A Z-API aceita envios mesmo desconectada (ficam em fila sem entregar): por isso consultamos o status.
 // true = conectado, false = desconectado, null = não deu para saber (Z-API fora do ar, rede etc.)
 const STATUS_CACHE_MS = 60 * 1000;

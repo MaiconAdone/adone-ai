@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2Icon, LogOutIcon, PlayIcon } from "lucide-react";
+import { Loader2Icon, LogOutIcon, MessageCircleIcon, PlayIcon } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Button } from "@/components/ui/button";
 
@@ -38,6 +38,37 @@ export function RunAgentButton({ agent, running }: { agent: string; running: boo
             </Button>
             {message && <p className="mt-2 text-xs text-muted-foreground">{message}</p>}
         </div>
+    );
+}
+
+export function ContactLeadButton({ row }: { row: string }) {
+    const [busy, setBusy] = useState(false);
+    const [message, setMessage] = useState<string | null>(null);
+
+    const contact = async () => {
+        if (!confirm("A Vick vai mandar a primeira mensagem para esse lead no WhatsApp. Continuar?")) return;
+        setBusy(true);
+        try {
+            const res = await fetch("/api/painel/contact-lead", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ row }),
+            });
+            const data = await res.json().catch(() => ({}));
+            setMessage(res.ok ? "✓ Vick chamou no WhatsApp" : `✗ ${data.error || "Falhou"}`);
+        } catch {
+            setMessage("✗ Erro de conexão");
+        } finally {
+            setBusy(false);
+        }
+    };
+
+    if (message) return <span className="text-xs text-muted-foreground">{message}</span>;
+    return (
+        <Button size="sm" variant="outline" onClick={contact} disabled={busy}>
+            {busy ? <Loader2Icon className="w-4 h-4 mr-2 animate-spin" /> : <MessageCircleIcon className="w-4 h-4 mr-2" />}
+            Vick chamar no WhatsApp
+        </Button>
     );
 }
 

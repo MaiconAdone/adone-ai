@@ -4,7 +4,8 @@ import { ExternalLinkIcon } from "lucide-react";
 
 import { hasPainelSession } from "@/lib/painel-auth";
 import { getDashboardData } from "@/lib/engine/marketing/dashboard";
-import { LogoutButton, RunAgentButton, WeeklyChart } from "@/components/painel/painel-actions";
+import { ROW_KEY } from "@/lib/engine/marketing/workspace";
+import { ContactLeadButton, LogoutButton, RunAgentButton, WeeklyChart } from "@/components/painel/painel-actions";
 import { cn } from "@/functions";
 
 export const dynamic = "force-dynamic";
@@ -197,6 +198,27 @@ export default async function PainelPage() {
                 <p className="mt-3 text-xs text-muted-foreground">
                     Depois de cada reunião, preencha &quot;Resultado da reunião&quot; e, se fechou, &quot;Valor do contrato (R$)&quot; na aba
                     &quot;Agendamentos&quot; da planilha ({data.revenue.filled} de {data.revenue.total.meetings} reuniões com resultado).
+                </p>
+            </Card>
+
+            <Card title="Leads do formulário (14 dias)" className="mt-6">
+                {data.formLeads.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">Nenhum lead do formulário com telefone nos últimos 14 dias.</p>
+                ) : (
+                    <ul className="space-y-2 text-sm">
+                        {data.formLeads.map(l => (
+                            <li key={l[ROW_KEY]} className="flex flex-wrap items-center justify-between gap-3 border-t border-foreground/5 pt-2 first:border-0 first:pt-0">
+                                <div>
+                                    <p className="text-foreground">{l.Nome} · {l.Empresa}</p>
+                                    <p className="text-muted-foreground">{l.Data} · {l.Telefone}{l.Interesse ? ` · ${l.Interesse}` : ""}{l.Porte ? ` · ${l.Porte}` : ""}</p>
+                                </div>
+                                <ContactLeadButton row={l[ROW_KEY]} />
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <p className="mt-3 text-xs text-muted-foreground">
+                    A Vick já chama automaticamente quem preenche o formulário. Use o botão quando o WhatsApp estava fora do ar ou o lead ficou sem contato.
                 </p>
             </Card>
 

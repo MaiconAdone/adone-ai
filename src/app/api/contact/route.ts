@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { appendLead } from "@/lib/engine/agenda/sheets";
 import { AttributionSchema, attributionColumns } from "@/lib/attribution";
-import { ada, type FormLead } from "@/lib/engine/chatbot/vick";
-import { getWhatsAppConnected, isWhatsAppConfigured, markContactToday, normalizeBrPhone, sendWhatsAppText } from "@/lib/engine/chatbot/whatsapp";
-import { checkWhatsAppHealth } from "@/lib/engine/chatbot/whatsapp-monitor";
+import type { FormLead } from "@/lib/engine/chatbot/vick";
+import { startVickWithLead } from "@/lib/engine/chatbot/outreach";
+import { normalizeBrPhone } from "@/lib/engine/chatbot/whatsapp";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -12,37 +12,16 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 // Abre a conversa da Vick no WhatsApp com quem acabou de deixar o contato.
 // Falhas aqui nunca impedem o envio do formulário.
 async function startVickFromForm(req: NextRequest, lead: FormLead & { phone: string }): Promise<boolean> {
-    if (!isWhatsAppConfigured()) return false;
-
     const phone = normalizeBrPhone(lead.phone);
     if (!phone) return false;
-
-    // Já existe uma conversa em andamento com esse número: não interrompe
-    const existing = ada.getSession(`whatsapp_${phone}`);
-    if (existing?.messages.some(m => m.role === "user")) return false;
-
-    // Desconectada, a Z-API aceita e não entrega: não promete o WhatsApp ao lead e avisa o Maicon.
-    // Vem antes dos limites para não gastar a cota do número com uma mensagem que não sairia.
-    if ((await getWhatsAppConnected()) === false) {
-        void checkWhatsAppHealth();
-        return false;
-    }
 
     // O formulário é público: limita para ninguém usá-lo para disparar mensagens a números de terceiros
     if (!rateLimit(`form-whatsapp-ip:${getClientIp(req)}`, 3, 60 * 60 * 1000)) return false;
     if (!rateLimit(`form-whatsapp-phone:${phone}`, 1, DAY_MS)) return false;
 
-    try {
-        const opening = ada.startFromForm(phone, lead);
-        await sendWhatsAppText(phone, opening);
-        markContactToday(phone);
-        console.log(`[Contact] Vick iniciou conversa no WhatsApp com o lead do formulário (${phone.slice(0, 4)}…).`);
-        return true;
-    } catch (err) {
-        ada.deleteSession(`whatsapp_${phone}`);
-        console.error("[Contact] Falha ao iniciar a conversa da Vick no WhatsApp:", err instanceof Error ? err.message : err);
-        return false;
-    }
+    const result = await startVickWithLead(phone, lead);
+    if (!result.ok) console.log(`[Contact] Vick não iniciou a conversa no WhatsApp: ${result.reason}`);
+    return result.ok;
 }
 
 const transporter = nodemailer.createTransport({

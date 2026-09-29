@@ -44,6 +44,7 @@ export interface DashboardData {
     ga4: Ga4Result;
     hasInvestment: boolean;
     revenue: { total: RevenueStats; byChannel: RevenueStats[]; filled: number };
+    formLeads: SheetRow[];
 }
 
 function between(rows: SheetRow[], column: string, from: Date, to: Date): SheetRow[] {
@@ -157,5 +158,9 @@ export async function getDashboardData(now = new Date()): Promise<DashboardData>
             byChannel: revenueByChannel,
             filled: bookings.filter(r => r["Resultado da reunião"]).length,
         },
+        // Leads do formulário com telefone (14 dias): a Vick pode chamá-los pelo painel
+        formLeads: between(leads, "Data", new Date(now.getTime() - 14 * DAY), now)
+            .filter(r => r.Canal === "Formulário do site" && r.Telefone)
+            .reverse(),
     };
 }

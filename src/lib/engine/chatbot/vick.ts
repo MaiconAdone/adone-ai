@@ -223,7 +223,7 @@ export class Vick {
 
     // Abre a conversa no WhatsApp com quem deixou o contato no formulário do site.
     // A primeira mensagem é fixa (sem custo de IA); as respostas do lead seguem pelo webhook normalmente.
-    startFromForm(phone: string, lead: FormLead): string {
+    startFromForm(phone: string, lead: FormLead, { late = false }: { late?: boolean } = {}): string {
         const sessionId = `whatsapp_${phone}`;
         const firstName = lead.name.trim().split(/\s+/)[0] || "";
         const interest = lead.interest && !/não sei/i.test(lead.interest) ? lead.interest : "";
@@ -239,7 +239,7 @@ export class Vick {
         const opening = [
             `Oi${firstName ? `, ${firstName}` : ""}! Aqui é a Vick, assistente virtual da Adone Intelligence 👋`,
             "",
-            `Recebi agora o seu contato pelo site${lead.company ? ` (${lead.company})` : ""}${interest ? `, com interesse em *${interest}*` : ""}. Obrigada!`,
+            `${late ? "Vi que você deixou seu contato pelo nosso site" : "Recebi agora o seu contato pelo site"}${lead.company ? ` (${lead.company})` : ""}${interest ? `, com interesse em *${interest}*` : ""}. Obrigada!`,
             "",
             lead.message
                 ? "Li o desafio que você descreveu. Posso te fazer duas ou três perguntas rápidas por aqui para o Maicon já chegar na conversa com o contexto certo?"
