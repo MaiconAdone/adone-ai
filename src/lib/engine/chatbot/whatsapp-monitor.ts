@@ -66,11 +66,22 @@ export async function checkWhatsAppHealth(): Promise<void> {
 
 let started = false;
 
+// Mesmo horário da campanha do Google Ads: segunda a sexta, 08:00 às 20:00 (Brasília)
+function isWithinCampaignHours(now = new Date()): boolean {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: AGENDA_TIMEZONE, weekday: "short", hour: "numeric", minute: "numeric", hour12: false }).formatToParts(now);
+    const get = (type: string) => parts.find(p => p.type === type)?.value ?? "";
+    const minutes = Number(get("hour")) * 60 + Number(get("minute"));
+    return !["Sat", "Sun"].includes(get("weekday")) && minutes >= 8 * 60 && minutes <= 20 * 60;
+}
+
 export function startWhatsAppMonitor(): void {
     if (started || process.env.NODE_ENV !== "production" || !isWhatsAppConfigured()) return;
     started = true;
-    cron.schedule("*/30 * * * *", () => void checkWhatsAppHealth(), { timezone: AGENDA_TIMEZONE, noOverlap: true, name: "whatsapp-monitor" });
-    // Primeira checagem logo após subir o servidor
-    void checkWhatsAppHealth();
-    console.log("[WhatsApp] Monitor de conexão ativo (a cada 30 minutos).");
+    const options = { timezone: AGENDA_TIMEZONE, noOverlap: true };
+    // A cada 30 min das 08:00 às 19:30, mais a checagem das 20:00, de segunda a sexta
+    cron.schedule("*/30 8-19 * * 1-5", () => void checkWhatsAppHealth(), { ...options, name: "whatsapp-monitor" });
+    cron.schedule("0 20 * * 1-5", () => void checkWhatsAppHealth(), { ...options, name: "whatsapp-monitor-20h" });
+    // Primeira checagem logo após subir o servidor, se estiver dentro do horário
+    if (isWithinCampaignHours()) void checkWhatsAppHealth();
+    console.log("[WhatsApp] Monitor de conexão ativo (a cada 30 minutos, seg–sex das 08:00 às 20:00).");
 }
