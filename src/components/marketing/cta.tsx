@@ -12,7 +12,7 @@ const CTA = () => {
         <section className="w-full px-3 md:px-6 py-12 md:py-16">
             <div className="relative mx-auto max-w-[1320px] min-h-[520px] overflow-hidden rounded-[28px] bg-ink">
                 <BackgroundVideo {...VIDEOS.cta} />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_65%_at_50%_50%,rgba(10,20,27,0.86)_0%,rgba(10,20,27,0.7)_60%,rgba(10,20,27,0.55)_100%)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_65%_at_50%_50%,rgba(10,20,27,0.86)_0%,rgba(10,20,27,0.7)_60%,rgba(10,20,27,0.55)_100%)] max-md:bg-none max-md:bg-ink/50" />
 
                 <Container>
                     <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 py-20 text-center">

@@ -27,7 +27,7 @@ const Hero = () => {
                 {/* No desktop o vídeo é mais largo que o bloco e ancorado à esquerda: a pessoa (centro do vídeo) fica à direita do texto */}
                 <BackgroundVideo {...VIDEOS.hero} mediaClassName="md:w-[135%] md:max-w-none md:object-top" />
                 {/* Degradê grafite (cor da logo) para o texto ficar legível sobre o vídeo */}
-                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,20,27,0.92)_0%,rgba(10,20,27,0.8)_38%,rgba(10,20,27,0.15)_62%,rgba(10,20,27,0.05)_100%)] max-md:bg-[linear-gradient(180deg,rgba(10,20,27,0.88)_0%,rgba(10,20,27,0.8)_60%,rgba(10,20,27,0.92)_100%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,20,27,0.92)_0%,rgba(10,20,27,0.8)_38%,rgba(10,20,27,0.15)_62%,rgba(10,20,27,0.05)_100%)] max-md:bg-[linear-gradient(180deg,rgba(10,20,27,0.6)_0%,rgba(10,20,27,0.45)_55%,rgba(10,20,27,0.8)_100%)]" />
 
                 <div className="relative z-10 flex flex-col justify-between h-full min-h-[640px] md:min-h-[680px] px-6 py-12 md:px-14 md:py-16">
                     <div className="max-w-2xl">
