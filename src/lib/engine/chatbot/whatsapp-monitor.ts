@@ -69,8 +69,8 @@ let started = false;
 export function startWhatsAppMonitor(): void {
     if (started || process.env.NODE_ENV !== "production" || !isWhatsAppConfigured()) return;
     started = true;
-    cron.schedule("*/10 * * * *", () => void checkWhatsAppHealth(), { timezone: AGENDA_TIMEZONE, noOverlap: true, name: "whatsapp-monitor" });
+    cron.schedule("*/30 * * * *", () => void checkWhatsAppHealth(), { timezone: AGENDA_TIMEZONE, noOverlap: true, name: "whatsapp-monitor" });
     // Primeira checagem logo após subir o servidor
     void checkWhatsAppHealth();
-    console.log("[WhatsApp] Monitor de conexão ativo (a cada 10 minutos).");
+    console.log("[WhatsApp] Monitor de conexão ativo (a cada 30 minutos).");
 }
