@@ -105,8 +105,13 @@ export async function runContent(focus?: string): Promise<Article[]> {
         name: "pauta_blog",
     });
 
+    // Com tema pedido, sempre sai um artigo por assunto, mesmo se a pauta vier vazia
+    const themes = topics.length && !plan.escolhidos.length
+        ? topics.map(t => ({ titulo: `Inteligência artificial para ${t} em empresas médias`, palavra_chave: `inteligência artificial ${t}`, setor: t, dor: "" }))
+        : plan.escolhidos;
+
     const articles: Article[] = [];
-    for (const theme of plan.escolhidos.slice(0, limit)) {
+    for (const theme of themes.slice(0, limit)) {
         const article = await generateStructured({
             model: CONTENT_MODEL,
             effort: "medium",

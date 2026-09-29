@@ -14,7 +14,7 @@ export function RunAgentButton({ agent, running }: { agent: string; running: boo
 
     const run = async () => {
         setBusy(true);
-        setMessage("Rodando… pode levar alguns minutos.");
+        setMessage("Iniciando…");
         try {
             const res = await fetch("/api/painel/run", {
                 method: "POST",
@@ -22,7 +22,7 @@ export function RunAgentButton({ agent, running }: { agent: string; running: boo
                 body: JSON.stringify({ agent, focus: focus.trim() || undefined }),
             });
             const data = await res.json().catch(() => ({}));
-            setMessage(res.ok ? `✓ ${data.summary}` : `✗ ${data.summary || data.error || "Falhou"}`);
+            setMessage(res.ok ? `✓ ${data.summary}` : `✗ ${data.summary || data.error || `Falhou (erro ${res.status})`}`);
             router.refresh();
         } catch {
             setMessage("✗ Erro de conexão");
