@@ -8,11 +8,11 @@ import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import { appendRow, nowLabel } from "../agenda/sheets";
 import { COMPANY_CONTEXT } from "../marketing/company";
+import { createLinkedInImage } from "../marketing/images";
 import { CONTENT_MODEL } from "../marketing/llm";
 import { notifyOwner } from "../marketing/notify";
 import { ensureSheet, readSheet } from "../marketing/workspace";
 import { daysUntilExpiry, getConnection } from "./connection";
-import { generateLinkedInImage } from "./image-generator";
 import { postToLinkedIn } from "./poster";
 
 export const SECTORS = ["varejo", "logística", "serviços financeiros", "saúde", "indústria", "educação"] as const;
@@ -28,7 +28,7 @@ const PostSchema = z.object({
         ano: z.string(),
         url: z.string().describe("Endereço da página onde o número aparece"),
     }).nullable().describe("null quando não houver estudo confiável com o número na página"),
-    titulo_imagem: z.string().describe("Chamada curta para a imagem do post, até 70 caracteres, sem hashtag"),
+    titulo_imagem: z.string().describe("Descrição curta da cena para a imagem do post (ambiente do setor, sem texto na imagem), até 120 caracteres"),
     texto: z.string().describe("Texto do post, sem a linha de fonte (ela é adicionada depois)"),
 });
 type Post = z.infer<typeof PostSchema>;
@@ -159,7 +159,7 @@ export async function runLinkedInPost(focus?: string): Promise<string> {
     const sector = focus?.trim() || await nextSector();
 
     const { post, dado, text } = await draftLinkedInPost(sector);
-    const image = await generateLinkedInImage(`${post.titulo_imagem}\n\n${dado ? dado.afirmacao : ""}`).catch(err => {
+    const image = await createLinkedInImage(`${post.titulo_imagem} (setor: ${sector})`).catch(err => {
         console.error("[LinkedIn] Falha ao gerar imagem; publicando só texto:", err);
         return null;
     });

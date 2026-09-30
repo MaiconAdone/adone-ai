@@ -66,7 +66,7 @@ async function uploadImage(token: string, author: string, imageBuffer: Buffer): 
         await axios.put(uploadUrl, imageBuffer, {
             headers: {
                 Authorization: `Bearer ${token}`,
-                "Content-Type": "image/png",
+                "Content-Type": "image/jpeg",
             },
         });
 

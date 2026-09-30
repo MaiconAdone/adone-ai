@@ -75,6 +75,24 @@ Pedido específico para esta imagem: ${details}` : ""}`,
     return saveToDrive(Buffer.from(b64, "base64"), slug);
 }
 
+// Imagem dos posts da página no LinkedIn: mesmo estilo das capas, recortada para o feed (1200x627, JPEG)
+export async function createLinkedInImage(subject: string): Promise<Buffer> {
+    const result = await openaiClient().images.generate({
+        model: IMAGE_MODEL,
+        prompt: `${STYLE}
+
+Tema da ilustração: ${subject}
+
+Enquadramento horizontal, assunto principal centralizado (a imagem será recortada nas bordas de cima e de baixo).`,
+        size: `${COVER_WIDTH}x${COVER_HEIGHT}`,
+        quality: "medium",
+        output_format: "png",
+    });
+    const b64 = result.data?.[0]?.b64_json;
+    if (!b64) throw new Error("A geração de imagem não devolveu arquivo");
+    return sharp(Buffer.from(b64, "base64")).resize(1200, 627, { fit: "cover", position: "centre" }).jpeg({ quality: 88 }).toBuffer();
+}
+
 // Imagem enviada pelo Maicon: recortada no formato da capa (3:2) e convertida para webp.
 // Decodificar com sharp também garante que o arquivo é mesmo uma imagem.
 export async function uploadCoverImage(file: Buffer, slug: string): Promise<string> {
