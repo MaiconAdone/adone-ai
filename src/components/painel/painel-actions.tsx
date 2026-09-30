@@ -33,13 +33,13 @@ export function RunAgentButton({ agent, running }: { agent: string; running: boo
 
     return (
         <div>
-            {agent === "conteudo" && (
+            {(agent === "conteudo" || agent === "linkedin") && (
                 <input
                     value={focus}
                     onChange={e => setFocus(e.target.value)}
                     disabled={busy}
                     maxLength={300}
-                    placeholder="Tema opcional (ex.: saúde; fraude)"
+                    placeholder={agent === "linkedin" ? "Setor opcional (ex.: saúde)" : "Tema opcional (ex.: saúde; fraude)"}
                     className="mb-2 w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm"
                 />
             )}

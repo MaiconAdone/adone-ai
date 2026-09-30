@@ -1,8 +1,8 @@
 // LinkedIn Auto-Poster — Adone Intelligence
-// Suporta texto + imagem, com fallback org→perfil pessoal
+// Texto + imagem, publicado como a página da empresa
 
 import axios from "axios";
-import { generateLinkedInImage } from "./image-generator";
+import { daysUntilExpiry, getConnection } from "./connection";
 
 const API = "https://api.linkedin.com/v2";
 
@@ -115,44 +115,21 @@ async function ugcPost(token: string, author: string, text: string, assetUrn?: s
     return res.headers["x-restli-id"] || res.data?.id || "published";
 }
 
-export async function postToLinkedIn(text: string, withImage = true): Promise<string | null> {
-    const token    = process.env.LINKEDIN_ACCESS_TOKEN;
-    const memberId = process.env.LINKEDIN_MEMBER_ID;
-    const orgId    = process.env.LINKEDIN_ORG_ID;
+// Publica na página da Adone (nunca no perfil pessoal). Lança erro para a rodada registrar a falha.
+export async function postToLinkedIn(text: string, imageBuffer?: Buffer | null): Promise<string> {
+    const connection = await getConnection();
+    if (!connection) throw new Error("LinkedIn não conectado: use \"Conectar LinkedIn\" no painel");
+    const expiresIn = daysUntilExpiry(connection);
+    if (expiresIn !== null && expiresIn < 0) throw new Error("A conexão com o LinkedIn expirou: reconecte no painel");
 
-    if (!token) { console.log("[LinkedIn] Token não configurado"); return null; }
-    if (!orgId && !memberId) { console.log("[LinkedIn] IDs não configurados"); return null; }
-
-    // Gera imagem branded
-    let imageBuffer: Buffer | null = null;
-    if (withImage) {
-        try {
-            imageBuffer = await generateLinkedInImage(text);
-            console.log("[LinkedIn] Imagem gerada com sucesso");
-        } catch (err) {
-            console.error("[LinkedIn] Falha ao gerar imagem, postando só texto:", err);
-        }
+    const author = `urn:li:organization:${connection.orgId}`;
+    try {
+        const assetUrn = imageBuffer ? await uploadImage(connection.token, author, imageBuffer) : null;
+        const postId = await ugcPost(connection.token, author, text, assetUrn);
+        console.log(`[LinkedIn] Publicado na página: ${postId}`);
+        return postId;
+    } catch (err: any) {
+        const detail = err?.response?.data ? JSON.stringify(err.response.data) : err.message;
+        throw new Error(`LinkedIn recusou a publicação: ${String(detail).slice(0, 300)}`);
     }
-
-    // Tenta org primeiro, depois perfil pessoal (fallback)
-    const authors: string[] = [];
-    if (orgId)    authors.push(`urn:li:organization:${orgId}`);
-    if (memberId) authors.push(`urn:li:person:${memberId}`);
-
-    for (const author of authors) {
-        console.log(`[LinkedIn] Tentando postar como: ${author}`);
-        try {
-            let assetUrn: string | null = null;
-            if (imageBuffer) {
-                assetUrn = await uploadImage(token, author, imageBuffer);
-            }
-            const postId = await ugcPost(token, author, text, assetUrn);
-            console.log(`[LinkedIn] Publicado como ${author}: ${postId}`);
-            return postId;
-        } catch (err: any) {
-            console.error(`[LinkedIn] Falhou com ${author}:`, err?.response?.data || err.message);
-        }
-    }
-
-    return null;
 }

@@ -6,6 +6,7 @@ import { tmpdir } from "os";
 import { join } from "path";
 import cron from "node-cron";
 import { AGENDA_TIMEZONE } from "../agenda/config";
+import { runLinkedInPost } from "../linkedin/agent";
 import { markDuePostsPublished } from "./blog";
 import { runContent } from "./content";
 import { runMedia } from "./media";
@@ -13,19 +14,21 @@ import { notifyOwner } from "./notify";
 import { runStrategist } from "./strategist";
 import { appendRun, formatSheetDate } from "./workspace";
 
-export const AGENTS = ["estrategista", "conteudo", "midia"] as const;
+export const AGENTS = ["estrategista", "conteudo", "midia", "linkedin"] as const;
 export type AgentName = (typeof AGENTS)[number];
 
 export const AGENT_LABELS: Record<AgentName, string> = {
     estrategista: "Estrategista",
     conteudo: "Conteúdo",
     midia: "Mídia (Google Ads e LinkedIn Ads)",
+    linkedin: "Posts da página no LinkedIn",
 };
 
 export const AGENT_SCHEDULE: Record<AgentName, string> = {
     estrategista: "Segundas, 7h",
     conteudo: "Terças, 7h",
     midia: "Quartas, 7h",
+    linkedin: "Segundas, quartas e sextas, 9h",
 };
 
 const running = new Set<AgentName>();
@@ -43,6 +46,7 @@ async function execute(agent: AgentName, focus?: string): Promise<string> {
         const articles = await runContent(focus);
         return `${articles.length} artigo(s) escrito(s)`;
     }
+    if (agent === "linkedin") return runLinkedInPost(focus);
     const plan = await runMedia();
     return plan ? "Planos de Google Ads e LinkedIn Ads propostos" : "Sem estratégia aprovada";
 }
@@ -107,8 +111,9 @@ export function startMarketingScheduler(): void {
     cron.schedule("0 7 * * 1", scheduled("estrategista", () => runAgent("estrategista")), { ...options, name: "marketing-estrategista" });
     cron.schedule("0 7 * * 2", scheduled("conteudo", () => runAgent("conteudo")), { ...options, name: "marketing-conteudo" });
     cron.schedule("0 7 * * 3", scheduled("midia", () => runAgent("midia")), { ...options, name: "marketing-midia" });
+    cron.schedule("0 9 * * 1,3,5", scheduled("linkedin", () => runAgent("linkedin")), { ...options, name: "marketing-linkedin" });
     // Publicação automática do blog: marca como "Publicado" o que passou das 24h sem veto
     cron.schedule("5 * * * *", scheduled("blog-publicacao", markDuePostsPublished), { ...options, name: "blog-publicacao" });
 
-    console.log("[Marketing] Rotinas agendadas: Estrategista (seg 7h), Conteúdo (ter 7h), Mídia (qua 7h), publicação do blog (a cada hora)");
+    console.log("[Marketing] Rotinas agendadas: Estrategista (seg 7h), Conteúdo (ter 7h), Mídia (qua 7h), LinkedIn (seg/qua/sex 9h), publicação do blog (a cada hora)");
 }

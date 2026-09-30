@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     if (isRunning(name)) {
         return NextResponse.json({ error: `${AGENT_LABELS[name]} já está em execução` }, { status: 409 });
     }
-    // Tema opcional pedido no painel (só o agente de Conteúdo usa)
+    // Tema opcional pedido no painel (Conteúdo: tema dos artigos; LinkedIn: setor do post)
     const topic = typeof focus === "string" ? focus.slice(0, 300) : undefined;
     void runAgent(name, topic);
     return NextResponse.json(

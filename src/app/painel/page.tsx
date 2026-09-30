@@ -4,6 +4,7 @@ import { ExternalLinkIcon } from "lucide-react";
 
 import { hasPainelSession } from "@/lib/painel-auth";
 import { getDashboardData } from "@/lib/engine/marketing/dashboard";
+import { daysUntilExpiry, getConnection } from "@/lib/engine/linkedin/connection";
 import { ROW_KEY } from "@/lib/engine/marketing/workspace";
 import { ContactLeadButton, LogoutButton, RunAgentButton, WeeklyChart } from "@/components/painel/painel-actions";
 import { cn } from "@/functions";
@@ -36,9 +37,19 @@ function StatusBadge({ status }: { status: string }) {
     return <span className={cn("inline-block rounded-full px-2 py-0.5 text-xs font-medium", tone)}>{status || "—"}</span>;
 }
 
-export default async function PainelPage() {
+const LINKEDIN_MESSAGES: Record<string, string> = {
+    ok: "Página do LinkedIn conectada.",
+    "sem-permissao": "O app da Adone no LinkedIn ainda não tem permissão para publicar como página (produto \"Community Management API\" no portal de desenvolvedores).",
+    negado: "A autorização no LinkedIn foi cancelada.",
+    "erro-sessao": "A autorização expirou. Clique em \"Conectar LinkedIn\" de novo.",
+    erro: "O LinkedIn não devolveu o acesso. Tente de novo em instantes.",
+};
+
+export default async function PainelPage({ searchParams }: { searchParams: Promise<{ linkedin?: string }> }) {
     if (!(await hasPainelSession())) redirect("/painel/login");
-    const data = await getDashboardData();
+    const [data, linkedin, params] = await Promise.all([getDashboardData(), getConnection().catch(() => null), searchParams]);
+    const linkedinDays = daysUntilExpiry(linkedin);
+    const linkedinMessage = params.linkedin ? LINKEDIN_MESSAGES[params.linkedin] : undefined;
     const { totals } = data;
     const costPerMeeting = totals.spend > 0 && totals.meetings > 0 ? totals.spend / totals.meetings : null;
     const costPerQualified = totals.spend > 0 && totals.qualified > 0 ? totals.spend / totals.qualified : null;
@@ -226,7 +237,23 @@ export default async function PainelPage() {
                 <WeeklyChart data={data.weekly} />
             </Card>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            <Card title="Página no LinkedIn" className="mt-6">
+                <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
+                    <p className="text-foreground">
+                        {!linkedin
+                            ? "Não conectada: os posts automáticos não saem até conectar."
+                            : linkedinDays !== null && linkedinDays < 0
+                                ? "Conexão expirada: reconecte para voltar a publicar."
+                                : `Conectada${linkedinDays !== null ? ` · expira em ${linkedinDays} dia(s)` : ""}`}
+                    </p>
+                    <a href="/api/linkedin" className="rounded-md border border-border px-3 py-1.5 text-sm font-medium text-foreground hover:bg-foreground/5">
+                        {linkedin ? "Renovar conexão" : "Conectar LinkedIn"}
+                    </a>
+                </div>
+                {linkedinMessage && <p className="mt-2 text-xs text-muted-foreground">{linkedinMessage}</p>}
+            </Card>
+
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
                 {data.agents.map(a => (
                     <Card key={a.agent} title={a.label}>
                         <p className="text-xs text-muted-foreground">Rotina: {a.schedule}</p>
