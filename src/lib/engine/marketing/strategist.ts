@@ -8,8 +8,9 @@ import { CHANNELS, channelOf, revenueStats } from "./channels";
 import { COMPANY_CONTEXT } from "./company";
 import { generateStructured, STRATEGY_MODEL } from "./llm";
 import { notifyOwner } from "./notify";
+import { adsSpend, buildAdsSummary } from "../ads/sync";
 import {
-    appendStrategy, parseSheetDate, readBookings, parseMoney, readInvestment, readLeads, readSheet, SheetRow, STATUS, STRATEGY_SHEET,
+    appendStrategy, learningsText, parseSheetDate, readBookings, parseMoney, readInvestment, readLeads, readSheet, SheetRow, STATUS, STRATEGY_SHEET,
 } from "./workspace";
 
 const StrategySchema = z.object({
@@ -76,7 +77,10 @@ function inRange(rows: SheetRow[], dateColumn: string, from: Date, to: Date): Sh
 // Resumo textual dos números (últimos 30 dias vs. 30 anteriores) para o modelo
 export async function buildMetricsSummary(now = new Date()): Promise<string> {
     const day = 24 * 60 * 60 * 1000;
-    const [leads, bookings, investment] = await Promise.all([readLeads(), readBookings(), readInvestment().catch(() => [])]);
+    const [leads, bookings, investment, platformSpend, adsSummary, learnings] = await Promise.all([
+        readLeads(), readBookings(), readInvestment().catch(() => []),
+        adsSpend(30, now).catch(() => null), buildAdsSummary(now).catch(() => ""), learningsText(),
+    ]);
     const cur = { from: new Date(now.getTime() - 30 * day), to: now };
     const prev = { from: new Date(now.getTime() - 60 * day), to: cur.from };
 
@@ -85,18 +89,28 @@ export async function buildMetricsSummary(now = new Date()): Promise<string> {
     const bookCur = inRange(bookings, "Criado em", cur.from, cur.to);
     const bookPrev = inRange(bookings, "Criado em", prev.from, prev.to);
     const qualified = leadsCur.filter(r => r.Qualificado === "Sim" || Number(r.Score) >= 60);
-    const spend = investment
+    // Gasto real das plataformas (APIs) quando sincronizado; senão, o lançamento manual da aba Investimento
+    const manualSpend = investment
         .filter(r => {
             const d = parseSheetDate(r["Semana (início)"] || "");
             return d !== null && d >= cur.from && d <= cur.to;
         })
         .reduce((sum, r) => sum + parseMoney(r["Valor gasto (R$)"]), 0);
+    const spend = platformSpend ? platformSpend.total : manualSpend;
+    const qualifiedBySource = (source: string) => qualified.filter(r => (r["UTM source"] || "").toLowerCase().includes(source)).length;
+    const perPlatform = platformSpend
+        ? Object.entries(platformSpend.byPlatform).map(([platform, value]) => {
+            const q = qualifiedBySource(platform.startsWith("Google") ? "google" : "linkedin");
+            return `${platform}: gasto R$ ${value.toFixed(2)} | ${q} leads qualificados | custo por qualificado ${q ? "R$ " + (value / q).toFixed(2) : "sem base"}`;
+        })
+        : [];
 
     return [
         `Leads (últimos 30 dias): ${leadsCur.length} | 30 dias anteriores: ${leadsPrev.length}`,
         `Leads qualificados (últimos 30 dias): ${qualified.length}`,
         `Taxa de qualificação: ${leadsCur.length ? Math.round((qualified.length / leadsCur.length) * 100) + "%" : "sem leads"}`,
-        `Investimento em mídia lançado (últimos 30 dias): R$ ${spend.toFixed(2)}`,
+        `Investimento em mídia (últimos 30 dias, ${platformSpend ? "dados reais das plataformas" : "lançamento manual"}): R$ ${spend.toFixed(2)}`,
+        ...perPlatform,
         `Custo por lead qualificado: ${spend > 0 && qualified.length > 0 ? "R$ " + (spend / qualified.length).toFixed(2) : "sem base (sem gasto ou sem qualificados)"}`,
         `Custo por reunião: ${spend > 0 && bookCur.length > 0 ? "R$ " + (spend / bookCur.length).toFixed(2) : "sem base"}`,
         `Qualificados por canal: ${countBy(qualified, "Canal")}`,
@@ -113,7 +127,11 @@ export async function buildMetricsSummary(now = new Date()): Promise<string> {
         "RESULTADO COMERCIAL (desde o início; preenchido pelo Maicon após cada reunião):",
         ...commercialLines(bookings, investment),
         "",
-        "Observação: custos vêm da aba Investimento (lançamento manual); ainda não há dados do Google Analytics nesta leitura.",
+        "DESEMPENHO DAS CAMPANHAS (Google Ads e LinkedIn Ads, sincronizado de hora em hora):",
+        adsSummary || "(sem dados)",
+        "",
+        "APRENDIZADOS ANTERIORES DOS AGENTES (use, confirme ou corrija com os números novos):",
+        learnings,
     ].join("\n");
 }
 

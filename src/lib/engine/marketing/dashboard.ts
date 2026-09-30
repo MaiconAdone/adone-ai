@@ -1,12 +1,13 @@
 // Dados do painel /painel: agentes, aprovações pendentes e desempenho por canal.
 
+import { ADS_SHEET } from "../ads/sync";
 import { isVisible } from "./blog";
 import { type Channel, CHANNELS, channelOf, type RevenueStats, revenueStats } from "./channels";
 import { getGa4Channels, type Ga4Result } from "./ga4";
 import { sheetUrl } from "./notify";
 import { AGENT_LABELS, AGENT_SCHEDULE, AGENTS, isRunning, type AgentName } from "./scheduler";
 import {
-    CAMPAIGNS_SHEET, CONTENT_SHEET, parseMoney, parseSheetDate, readBookings, readInvestment, readLeads, readSheet,
+    CAMPAIGNS_SHEET, CONTENT_SHEET, formatSheetDate, parseMoney, parseSheetDate, readBookings, readInvestment, readLeads, readSheet,
     RUNS_SHEET, SheetRow, STATUS, STRATEGY_SHEET,
 } from "./workspace";
 
@@ -66,16 +67,29 @@ const safe = <T>(promise: Promise<T>, fallback: T) => promise.catch(err => {
 });
 
 export async function getDashboardData(now = new Date()): Promise<DashboardData> {
-    const [leads, bookings, investment, runs, strategies, contents, campaigns, ga4] = await Promise.all([
+    const [leads, bookings, manualInvestment, adsRows, runs, strategies, contents, campaigns, ga4] = await Promise.all([
         safe(readLeads(), []),
         safe(readBookings(), []),
         safe(readInvestment(), []),
+        safe(readSheet(ADS_SHEET), []),
         safe(readSheet(RUNS_SHEET), []),
         safe(readSheet(STRATEGY_SHEET), []),
         safe(readSheet(CONTENT_SHEET), []),
         safe(readSheet(CAMPAIGNS_SHEET), []),
         getGa4Channels(30),
     ]);
+
+    // Gasto real das APIs (aba "Desempenho Ads") substitui o lançamento manual da mesma plataforma
+    const syncedPlatforms = new Set(adsRows.map(r => investmentChannel(r.Plataforma || "")));
+    const investment: SheetRow[] = [
+        ...manualInvestment.filter(r => !syncedPlatforms.has(investmentChannel(r.Plataforma || ""))),
+        ...adsRows.map(r => ({
+            "Semana (início)": formatSheetDate(new Date(`${r.Data}T12:00:00-03:00`)),
+            Plataforma: r.Plataforma,
+            Campanha: r.Campanha,
+            "Valor gasto (R$)": r["Gasto (R$)"],
+        })),
+    ];
 
     const from = new Date(now.getTime() - 30 * DAY);
     const prevFrom = new Date(now.getTime() - 60 * DAY);

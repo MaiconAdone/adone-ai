@@ -26,6 +26,8 @@ const SCOPES = [
     "https://www.googleapis.com/auth/drive.file",
     // Números do Google Analytics no painel (a conta precisa ter acesso de Leitor na propriedade GA4)
     "https://www.googleapis.com/auth/analytics.readonly",
+    // Leitura do desempenho das campanhas do Google Ads pelos agentes (a conta precisa ter acesso à conta de anúncios)
+    "https://www.googleapis.com/auth/adwords",
 ];
 
 function readEnv() {

@@ -7,7 +7,7 @@ import { generateStructured, STRATEGY_MODEL } from "./llm";
 import { notifyOwner } from "./notify";
 import { buildMetricsSummary } from "./strategist";
 import {
-    appendCampaign, CAMPAIGNS_SHEET, readInvestment, readSheet, SheetRow, STATUS, STRATEGY_SHEET,
+    appendCampaign, appendLearning, CAMPAIGNS_SHEET, readInvestment, readSheet, SheetRow, STATUS, STRATEGY_SHEET,
 } from "./workspace";
 
 const SITE_URL = "https://adoneintelligence.com.br";
@@ -50,6 +50,12 @@ const MediaSchema = z.object({
     }),
     justificativa: z.string(),
     metricas_sucesso: z.string(),
+    aprendizados: z.array(z.object({
+        plataforma: z.enum(["Google Ads", "LinkedIn Ads", "Geral"]),
+        aprendizado: z.string().describe("O que os números mostram, em uma frase"),
+        evidencia: z.string().describe("Os números exatos do desempenho que sustentam o aprendizado"),
+        acao_recomendada: z.string().describe("Ajuste concreto para o Maicon aplicar (pausar anúncio, negativar termo, mudar lance, trocar criativo...)"),
+    })).describe("0 a 6 aprendizados tirados do DESEMPENHO DAS CAMPANHAS; vazio se ainda não houver dados suficientes"),
 });
 
 type MediaPlan = z.infer<typeof MediaSchema>;
@@ -77,7 +83,14 @@ FOCO EM QUEM PAGA ("prefiro um lead que paga do que 100 que só olham"):
 - LinkedIn Ads: só decisores (Diretor, VP, C-level, Proprietário, Sócio, Gerente sênior) de empresas com 51+
   funcionários; objetivo "Conversões no site" levando a /agendar, em vez de formulários fáceis que geram
   leads frios.
-- Métrica de sucesso sempre em reuniões qualificadas e custo por lead qualificado — nunca em cliques ou CTR.`;
+- Métrica de sucesso sempre em reuniões qualificadas e custo por lead qualificado — nunca em cliques ou CTR.
+
+APRENDIZADO CONTÍNUO (você só lê as contas; nunca altera nada nelas):
+- Use o DESEMPENHO DAS CAMPANHAS (dados reais do Google Ads e LinkedIn Ads) e os APRENDIZADOS ANTERIORES.
+- Registre em "aprendizados" apenas conclusões sustentadas por números (cite-os). Com pouco volume
+  (ex.: menos de ~100 cliques ou nenhuma conversão), diga que ainda é cedo e não tire conclusão.
+- Confirme ou corrija aprendizados anteriores quando os números novos permitirem.
+- Termos de busca que gastaram sem converter e não têm intenção de contratar viram negativas no plano.`;
 
 function slug(text: string): string {
     return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
@@ -151,6 +164,11 @@ export async function runMedia(): Promise<MediaPlan | null> {
         ].join("\n"),
     });
 
+    for (const a of plan.aprendizados) {
+        await appendLearning({ Agente: "Mídia", Plataforma: a.plataforma, Aprendizado: a.aprendizado, "Evidência": a.evidencia, "Ação recomendada": a.acao_recomendada })
+            .catch(err => console.error("[Marketing] Falha ao registrar aprendizado:", err));
+    }
+
     const alerts = enforceLimits(plan);
     const g = plan.google_ads;
     const l = plan.linkedin_ads;
@@ -198,6 +216,7 @@ export async function runMedia(): Promise<MediaPlan | null> {
         `📣 *Planos de campanha prontos para revisão*\n\n` +
         `• Google Ads: ${g.campanha} (R$ ${g.orcamento_diario_brl.toFixed(0)}/dia sugerido)\n` +
         `• LinkedIn Ads: ${l.campanha} (R$ ${l.orcamento_diario_brl.toFixed(0)}/dia sugerido)\n\n` +
+        (plan.aprendizados.length ? `🧠 ${plan.aprendizados.length} aprendizado(s) com as campanhas, com ações recomendadas, na aba "Aprendizados".\n\n` : "") +
         `Revise na aba "Campanhas". Nada é ativado sozinho: após aprovar, suba nas plataformas com as URLs com UTM da planilha.`
     );
     return plan;

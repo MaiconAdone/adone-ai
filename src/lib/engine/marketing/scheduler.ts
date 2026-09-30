@@ -6,6 +6,7 @@ import { tmpdir } from "os";
 import { join } from "path";
 import cron from "node-cron";
 import { AGENDA_TIMEZONE } from "../agenda/config";
+import { syncAds } from "../ads/sync";
 import { runLinkedInPost } from "../linkedin/agent";
 import { markDuePostsPublished } from "./blog";
 import { runContent } from "./content";
@@ -112,8 +113,10 @@ export function startMarketingScheduler(): void {
     cron.schedule("0 7 * * 2", scheduled("conteudo", () => runAgent("conteudo")), { ...options, name: "marketing-conteudo" });
     cron.schedule("0 7 * * 3", scheduled("midia", () => runAgent("midia")), { ...options, name: "marketing-midia" });
     cron.schedule("0 9 * * 1,3,5", scheduled("linkedin", () => runAgent("linkedin")), { ...options, name: "marketing-linkedin" });
+    // Desempenho do Google Ads e LinkedIn Ads para a planilha (os agentes leem e aprendem; nada é alterado nas contas)
+    cron.schedule("20 * * * *", scheduled("ads-sync", async () => console.log(`[Ads] ${await syncAds()}`)), { ...options, name: "ads-sync" });
     // Publicação automática do blog: marca como "Publicado" o que passou das 24h sem veto
     cron.schedule("5 * * * *", scheduled("blog-publicacao", markDuePostsPublished), { ...options, name: "blog-publicacao" });
 
-    console.log("[Marketing] Rotinas agendadas: Estrategista (seg 7h), Conteúdo (ter 7h), Mídia (qua 7h), LinkedIn (seg/qua/sex 9h), publicação do blog (a cada hora)");
+    console.log("[Marketing] Rotinas agendadas: Estrategista (seg 7h), Conteúdo (ter 7h), Mídia (qua 7h), LinkedIn (seg/qua/sex 9h), sincronização de anúncios (a cada hora), publicação do blog (a cada hora)");
 }

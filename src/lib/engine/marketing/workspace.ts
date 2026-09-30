@@ -81,6 +81,10 @@ export const INVESTMENT_HEADERS = [
     "Observações",
 ] as const;
 
+// Aprendizados dos agentes com as campanhas: relidos nas rodadas seguintes (memória entre execuções)
+export const LEARNINGS_SHEET = "Aprendizados";
+export const LEARNINGS_HEADERS = ["Data", "Agente", "Plataforma", "Aprendizado", "Evidência", "Ação recomendada"] as const;
+
 export type SheetRow = Record<string, string>;
 
 const ensured = new Set<string>();
@@ -274,4 +278,16 @@ export async function readInvestment(): Promise<SheetRow[]> {
 export function parseMoney(value: string): number {
     const n = Number(String(value).replace(/[^\d,.-]/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", "."));
     return Number.isFinite(n) ? n : 0;
+}
+
+export async function appendLearning(row: Partial<Record<(typeof LEARNINGS_HEADERS)[number], string>>): Promise<void> {
+    await ensureSheet(LEARNINGS_SHEET, LEARNINGS_HEADERS);
+    await appendRow(LEARNINGS_SHEET, LEARNINGS_HEADERS, { Data: nowLabel(), ...row });
+}
+
+// Últimos aprendizados em texto, para entrar no prompt dos agentes
+export async function learningsText(limit = 20): Promise<string> {
+    const rows = await readSheet(LEARNINGS_SHEET).catch(() => []);
+    if (!rows.length) return "(nenhum aprendizado registrado ainda)";
+    return rows.slice(-limit).map(r => `${r.Data} | ${r.Plataforma} | ${r.Aprendizado} | evidência: ${r["Evidência"]} | ação: ${r["Ação recomendada"]}`).join("\n");
 }

@@ -4,7 +4,9 @@ import { ExternalLinkIcon } from "lucide-react";
 
 import { hasPainelSession } from "@/lib/painel-auth";
 import { getDashboardData } from "@/lib/engine/marketing/dashboard";
-import { daysUntilExpiry, getConnection } from "@/lib/engine/linkedin/connection";
+import { daysUntilExpiry, getConnection, readIntegrationValue, type LinkedInConnection } from "@/lib/engine/linkedin/connection";
+import { googleAdsConfigured } from "@/lib/engine/ads/google-ads";
+import { LAST_SYNC_KEY } from "@/lib/engine/ads/sync";
 import { ROW_KEY } from "@/lib/engine/marketing/workspace";
 import { ContactLeadButton, LogoutButton, RunAgentButton, WeeklyChart } from "@/components/painel/painel-actions";
 import { cn } from "@/functions";
@@ -38,18 +40,32 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 const LINKEDIN_MESSAGES: Record<string, string> = {
-    ok: "Página do LinkedIn conectada.",
-    "sem-permissao": "O app da Adone no LinkedIn ainda não tem permissão para publicar como página (produto \"Community Management API\" no portal de desenvolvedores).",
+    ok: "conectado.",
+    "sem-permissao": "o app no portal de desenvolvedores do LinkedIn ainda não tem o produto necessário (página: Community Management API; anúncios: Advertising API).",
     negado: "A autorização no LinkedIn foi cancelada.",
     "erro-sessao": "A autorização expirou. Clique em \"Conectar LinkedIn\" de novo.",
     erro: "O LinkedIn não devolveu o acesso. Tente de novo em instantes.",
 };
 
-export default async function PainelPage({ searchParams }: { searchParams: Promise<{ linkedin?: string }> }) {
+function connectionText(connection: LinkedInConnection | null): string {
+    const days = daysUntilExpiry(connection);
+    if (!connection) return "não conectado";
+    if (days !== null && days < 0) return "conexão expirada — reconecte";
+    return `conectado${days !== null ? ` · expira em ${days} dia(s)` : ""}`;
+}
+
+export default async function PainelPage({ searchParams }: { searchParams: Promise<{ linkedin?: string; app?: string }> }) {
     if (!(await hasPainelSession())) redirect("/painel/login");
-    const [data, linkedin, params] = await Promise.all([getDashboardData(), getConnection().catch(() => null), searchParams]);
-    const linkedinDays = daysUntilExpiry(linkedin);
-    const linkedinMessage = params.linkedin ? LINKEDIN_MESSAGES[params.linkedin] : undefined;
+    const [data, linkedinPage, linkedinAds, lastSync, params] = await Promise.all([
+        getDashboardData(),
+        getConnection("page").catch(() => null),
+        getConnection("ads").catch(() => null),
+        readIntegrationValue(LAST_SYNC_KEY).catch(() => undefined),
+        searchParams,
+    ]);
+    const linkedinMessage = params.linkedin
+        ? `${params.app === "ads" ? "LinkedIn Ads" : "Página do LinkedIn"}: ${LINKEDIN_MESSAGES[params.linkedin] ?? params.linkedin}`
+        : undefined;
     const { totals } = data;
     const costPerMeeting = totals.spend > 0 && totals.meetings > 0 ? totals.spend / totals.meetings : null;
     const costPerQualified = totals.spend > 0 && totals.qualified > 0 ? totals.spend / totals.qualified : null;
@@ -237,18 +253,26 @@ export default async function PainelPage({ searchParams }: { searchParams: Promi
                 <WeeklyChart data={data.weekly} />
             </Card>
 
-            <Card title="Página no LinkedIn" className="mt-6">
-                <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
+            <Card title="Integrações" className="mt-6">
+                <div className="space-y-3 text-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <p className="text-foreground"><strong>Página no LinkedIn</strong> (posts automáticos): {connectionText(linkedinPage)}</p>
+                        <a href="/api/linkedin?app=page" className="rounded-md border border-border px-3 py-1.5 font-medium text-foreground hover:bg-foreground/5">
+                            {linkedinPage ? "Renovar" : "Conectar"} página
+                        </a>
+                    </div>
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <p className="text-foreground"><strong>LinkedIn Ads</strong> (desempenho das campanhas): {connectionText(linkedinAds)}</p>
+                        <a href="/api/linkedin?app=ads" className="rounded-md border border-border px-3 py-1.5 font-medium text-foreground hover:bg-foreground/5">
+                            {linkedinAds ? "Renovar" : "Conectar"} LinkedIn Ads
+                        </a>
+                    </div>
                     <p className="text-foreground">
-                        {!linkedin
-                            ? "Não conectada: os posts automáticos não saem até conectar."
-                            : linkedinDays !== null && linkedinDays < 0
-                                ? "Conexão expirada: reconecte para voltar a publicar."
-                                : `Conectada${linkedinDays !== null ? ` · expira em ${linkedinDays} dia(s)` : ""}`}
+                        <strong>Google Ads</strong> (desempenho e termos de busca): {googleAdsConfigured() ? "configurado" : "aguardando token de desenvolvedor e ID da conta"}
                     </p>
-                    <a href="/api/linkedin" className="rounded-md border border-border px-3 py-1.5 text-sm font-medium text-foreground hover:bg-foreground/5">
-                        {linkedin ? "Renovar conexão" : "Conectar LinkedIn"}
-                    </a>
+                    <p className="text-xs text-muted-foreground">
+                        Última sincronização dos anúncios: {lastSync || "ainda não sincronizou"} · os agentes só leem os dados e recomendam; nada é alterado nas contas.
+                    </p>
                 </div>
                 {linkedinMessage && <p className="mt-2 text-xs text-muted-foreground">{linkedinMessage}</p>}
             </Card>
