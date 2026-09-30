@@ -150,6 +150,8 @@ export async function draftLinkedInPost(sector: string): Promise<{ post: Post; d
 
 export async function runLinkedInPost(focus?: string): Promise<string> {
     const connection = await getConnection();
+    // Aguardando a liberação da página (Community Management API): não gera nada nem dispara alerta de falha
+    if (!connection) return "LinkedIn ainda não conectado: nada gerado nem publicado";
     const days = daysUntilExpiry(connection);
     if (days !== null && days <= 7 && days >= 0) {
         await notifyOwner(`🔑 A conexão com a página do LinkedIn expira em ${days} dia(s). Renove em ${process.env.SITE_URL || ""}/painel → "Conectar LinkedIn".`).catch(() => undefined);
