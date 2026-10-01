@@ -1,6 +1,6 @@
 // Dados do painel /painel: agentes, aprovações pendentes e desempenho por canal.
 
-import { ADS_SHEET } from "../ads/sync";
+import { ADS_SHEET, TERMS_SHEET } from "../ads/sync";
 import { isVisible } from "./blog";
 import { type Channel, CHANNELS, channelOf, type RevenueStats, revenueStats } from "./channels";
 import { getGa4Channels, type Ga4Result } from "./ga4";
@@ -46,6 +46,7 @@ export interface DashboardData {
     hasInvestment: boolean;
     revenue: { total: RevenueStats; byChannel: RevenueStats[]; filled: number };
     formLeads: SheetRow[];
+    ads: { rows: SheetRow[]; terms: SheetRow[] }; // abas "Desempenho Ads" e "Termos de busca"
 }
 
 function between(rows: SheetRow[], column: string, from: Date, to: Date): SheetRow[] {
@@ -67,11 +68,12 @@ const safe = <T>(promise: Promise<T>, fallback: T) => promise.catch(err => {
 });
 
 export async function getDashboardData(now = new Date()): Promise<DashboardData> {
-    const [leads, bookings, manualInvestment, adsRows, runs, strategies, contents, campaigns, ga4] = await Promise.all([
+    const [leads, bookings, manualInvestment, adsRows, searchTerms, runs, strategies, contents, campaigns, ga4] = await Promise.all([
         safe(readLeads(), []),
         safe(readBookings(), []),
         safe(readInvestment(), []),
         safe(readSheet(ADS_SHEET), []),
+        safe(readSheet(TERMS_SHEET), []),
         safe(readSheet(RUNS_SHEET), []),
         safe(readSheet(STRATEGY_SHEET), []),
         safe(readSheet(CONTENT_SHEET), []),
@@ -176,5 +178,6 @@ export async function getDashboardData(now = new Date()): Promise<DashboardData>
         formLeads: between(leads, "Data", new Date(now.getTime() - 14 * DAY), now)
             .filter(r => r.Canal === "Formulário do site" && r.Telefone)
             .reverse(),
+        ads: { rows: adsRows, terms: searchTerms },
     };
 }

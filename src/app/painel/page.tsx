@@ -8,6 +8,7 @@ import { daysUntilExpiry, getConnection, readIntegrationValue, type LinkedInConn
 import { googleAdsConfigured } from "@/lib/engine/ads/google-ads";
 import { LAST_SYNC_KEY } from "@/lib/engine/ads/sync";
 import { ROW_KEY } from "@/lib/engine/marketing/workspace";
+import { AdsPerformance } from "@/components/painel/ads-performance";
 import { ContactLeadButton, LogoutButton, RunAgentButton, WeeklyChart } from "@/components/painel/painel-actions";
 import { cn } from "@/functions";
 
@@ -145,8 +146,8 @@ export default async function PainelPage({ searchParams }: { searchParams: Promi
                     </div>
                     {!data.hasInvestment && (
                         <p className="mt-3 text-xs text-muted-foreground">
-                            Custos aparecem quando você lançar os gastos semanais do Google Ads e do LinkedIn Ads na aba &quot;Investimento&quot; da planilha
-                            (até as APIs de anúncios serem liberadas).
+                            Custos aparecem quando o script do Google Ads / a sincronização do LinkedIn Ads preencherem a aba &quot;Desempenho Ads&quot;
+                            (ou quando você lançar os gastos na aba &quot;Investimento&quot; da planilha).
                         </p>
                     )}
                 </Card>
@@ -175,6 +176,8 @@ export default async function PainelPage({ searchParams }: { searchParams: Promi
                     )}
                 </Card>
             </div>
+
+            <AdsPerformance rows={data.ads.rows} terms={data.ads.terms} lastSync={lastSync} />
 
             {/* Monetização: reunião → proposta → contrato, desde o início (contratos fecham semanas depois) */}
             <Card title="Resultado comercial (desde o início)" className="mt-6">
@@ -268,7 +271,7 @@ export default async function PainelPage({ searchParams }: { searchParams: Promi
                         </a>
                     </div>
                     <p className="text-foreground">
-                        <strong>Google Ads</strong> (desempenho e termos de busca): {googleAdsConfigured() ? "configurado" : "aguardando token de desenvolvedor e ID da conta"}
+                        <strong>Google Ads</strong> (desempenho e termos de busca): {googleAdsConfigured() ? "API configurada" : data.ads.rows.some(r => r.Plataforma === "Google Ads") ? "via script do Google Ads (API aguardando token de desenvolvedor)" : "aguardando o script do Google Ads ou o token de desenvolvedor da API"}
                     </p>
                     <p className="text-xs text-muted-foreground">
                         Última sincronização dos anúncios: {lastSync || "ainda não sincronizou"} · os agentes só leem os dados e recomendam; nada é alterado nas contas.

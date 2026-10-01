@@ -62,9 +62,11 @@ export async function syncAds(): Promise<string> {
         }
     }
 
-    // Só reescreve o que veio: uma plataforma fora do ar não apaga os dados da outra
+    // Só reescreve o que veio: uma plataforma fora do ar (ou alimentada pelo script do Google Ads, enquanto a API
+    // não é liberada) não tem os dados apagados
     const failed = new Set(parts.filter(p => p.includes("falhou")).map(p => p.split(":")[0]));
-    const kept = failed.size ? (await readSheet(ADS_SHEET).catch(() => [])).filter(r => failed.has(r.Plataforma)) : [];
+    const synced = new Set(parts.filter(p => !p.includes("falhou")).map(p => p.split(":")[0]));
+    const kept = (await readSheet(ADS_SHEET).catch(() => [])).filter(r => !synced.has(r.Plataforma));
     const sorted = rows.sort((a, b) => a.date.localeCompare(b.date) || a.platform.localeCompare(b.platform));
     await replaceSheet(ADS_SHEET, ADS_HEADERS, [
         ...kept.map(r => ADS_HEADERS.map(h => r[h] ?? "")),
