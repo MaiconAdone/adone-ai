@@ -22,8 +22,14 @@ async function accessToken(): Promise<string> {
     return token;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GoogleAdsResult = Record<string, any>;
+// Campos usados das linhas do GAQL (a API devolve camelCase; métricas numéricas vêm como string)
+interface GoogleAdsResult {
+    segments?: { date?: string };
+    campaign?: { name?: string };
+    adGroup?: { name?: string };
+    searchTermView?: { searchTerm?: string };
+    metrics?: { impressions?: string | number; clicks?: string | number; costMicros?: string | number; conversions?: string | number };
+}
 
 async function search(query: string): Promise<GoogleAdsResult[]> {
     const customerId = digits(process.env.GOOGLE_ADS_CUSTOMER_ID);
