@@ -26,7 +26,7 @@ const LINKEDIN_CONVERSIONS = {
 
 // Rótulos de conversão do Google Ads (Ferramentas → Conversões → Tag → send_to = AW-XXX/<rótulo>)
 const ADS_LABELS = {
-    lead: process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL || "",
+    lead: process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL || "mqmiCPXegJIdEPrNkuxE", // "Lead do formulário do site" (secundária)
     booking: process.env.NEXT_PUBLIC_GOOGLE_ADS_BOOKING_LABEL || "LZXLCOvBnYkdEPrNkuxE", // "Reservar horário"
     whatsapp: process.env.NEXT_PUBLIC_GOOGLE_ADS_WHATSAPP_LABEL || "",
 };
