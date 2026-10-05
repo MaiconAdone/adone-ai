@@ -45,7 +45,7 @@ VERBA DE MÍDIA (decisão do Maicon, 28/09/2026):
   R$ 7 por clique até haver conversões suficientes para "Maximizar conversões".
 - Oferta do Google: gastar R$ 1.200 em até 60 dias (até 27/11/2026) dá R$ 1.200 de crédito, que expira
   60 dias depois de creditado. Não pause a campanha antes de cumprir o gasto.
-- LinkedIn Ads (29/09/2026): R$ 70/dia (~R$ 2.100/mês), Brasil inteiro, objetivo "Conversões no site"
+- LinkedIn Ads (reduzido em 05/10/2026, antes R$ 70/dia): R$ 40/dia (~R$ 1.200/mês), Brasil inteiro, objetivo "Conversões no site"
   otimizando para a conversão "Contato WhatsApp (Vick)". Sem formulários (decisão do Maicon: muita
   burocracia) — o caminho é anúncio → site → WhatsApp com a Vick. Oferta do LinkedIn: gastar R$ 1.000
   dá R$ 1.000 em crédito.
