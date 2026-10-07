@@ -29,13 +29,14 @@ const StatsBand = () => {
                     <Container delay={0.1}>
                         <dl className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
                             {NUMBERS.map((item) => (
-                                <div key={item.unit} className="border-l-2 border-brand-400/60 pl-5">
+                                <div key={item.unit} className="min-w-0 border-l-2 border-brand-400/60 pl-4 sm:pl-5">
                                     <dt className="sr-only">{item.unit} {item.label}</dt>
                                     <dd>
-                                        <span className="font-heading text-5xl md:text-6xl font-semibold text-white">
+                                        <span className="font-heading text-4xl sm:text-5xl md:text-6xl font-semibold text-white">
                                             <AnimatedCounter value={item.value} prefix={item.prefix} suffix={item.suffix} />
                                         </span>
-                                        <span className="ml-2 font-heading text-lg font-semibold text-brand-400">{item.unit}</span>
+                                        {/* No celular a unidade vai para a linha de baixo para não passar da coluna */}
+                                        <span className="mt-1 block font-heading text-lg font-semibold text-brand-400 sm:ml-2 sm:mt-0 sm:inline">{item.unit}</span>
                                         <p className="mt-2 text-sm text-cream/70">{item.label}</p>
                                     </dd>
                                 </div>
