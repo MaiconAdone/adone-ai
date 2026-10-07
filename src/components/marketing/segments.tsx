@@ -122,7 +122,8 @@ const Segments = () => {
                                 <h3 className="mt-3 font-heading text-lg font-semibold text-white">
                                     {segment.title}
                                 </h3>
-                                <p className="mt-1.5 text-sm leading-relaxed text-cream/75">
+                                {/* Altura fixa de 3 linhas no celular/tablet: título e selo na mesma posição em todos os cards */}
+                                <p className="mt-1.5 min-h-[4.875em] text-sm leading-relaxed text-cream/75 lg:min-h-0">
                                     {segment.description}
                                 </p>
                                 <span className="mt-3 self-start rounded-lg bg-brand-400 px-2.5 py-1 text-xs font-semibold leading-snug text-ink">
