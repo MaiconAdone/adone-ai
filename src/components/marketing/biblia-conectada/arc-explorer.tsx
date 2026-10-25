@@ -13,6 +13,7 @@ import { cn } from "@/functions";
 const BASE = "/biblia-conectada/";
 const BG_W = 2400;
 const PAD = 8;
+const MIN_VOTES = 0; // ignora ligações com votos negativos (contestadas na base do OpenBible)
 const GRADIENT = [[255, 199, 77], [255, 115, 64], [230, 51, 140], [128, 64, 242]];
 const THEME_TREE = ["Gn 2:9", "Gn 3:24", "Ez 47:12", "Ap 22:1", "Ap 22:2", "Ap 22:14"];
 
@@ -100,7 +101,6 @@ export function ArcExplorer() {
     const [view, setView] = useState<View>({ kind: "none" });
     const [hover, setHover] = useState<{ i: number; x: number; y: number } | null>(null);
     const [hoverLink, setHoverLink] = useState(-1);
-    const [minVotes, setMinVotes] = useState(0);
     const [query, setQuery] = useState("");
     const [, setTextVersion] = useState(0);
 
@@ -153,14 +153,14 @@ export function ArcExplorer() {
         const best = new Map<number, number>();
         for (let k = data.deg[i]; k < data.deg[i + 1]; k++) {
             const l = data.adj[k];
-            if (data.votes[l] < minVotes) continue;
+            if (data.votes[l] < MIN_VOTES) continue;
             const o = data.from[l] === i ? data.to[l] : data.from[l];
             if (o === i) continue;
             const prev = best.get(o);
             if (prev === undefined || data.votes[l] > data.votes[prev]) best.set(o, l);
         }
         return [...best.entries()].map(([o, l]) => ({ o, l, votes: data.votes[l] })).sort((a, b) => b.votes - a.votes);
-    }, [data, minVotes]);
+    }, [data]);
 
     const selected = view.kind === "verse" ? view.i : -1;
     const list = useMemo(() => (selected >= 0 ? neighbors(selected) : []), [selected, neighbors]);
@@ -298,15 +298,6 @@ export function ArcExplorer() {
                         <SearchIcon className="mr-2 h-4 w-4" /> Ir
                     </Button>
                 </form>
-                <label className="flex items-center gap-3 text-sm text-muted-foreground">
-                    Votos mín.
-                    <input
-                        type="range" min={-10} max={50} value={minVotes}
-                        onChange={(e) => setMinVotes(+e.target.value)}
-                        className="w-36 accent-brand-500"
-                    />
-                    <span className="w-6 tabular-nums text-foreground">{minVotes}</span>
-                </label>
             </div>
             <div className="flex flex-wrap gap-2">
                 {presetButtons.map(([key, label]) => (
@@ -358,7 +349,7 @@ export function ArcExplorer() {
                             <h3 className="text-lg font-bold text-brand-700">{ref(view.i)}</h3>
                             <p className="mt-1 text-sm leading-6 text-foreground">{text(view.i) ?? "carregando…"}</p>
                             <p className="mt-3 text-xs text-muted-foreground">
-                                {list.length} ligações{minVotes > -10 ? ` (votos ≥ ${minVotes})` : ""}
+                                {list.length} ligações
                             </p>
                             <ol className="mt-2">
                                 {list.slice(0, 400).map((nb) => {
