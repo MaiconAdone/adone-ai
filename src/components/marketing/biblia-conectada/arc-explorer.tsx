@@ -20,6 +20,9 @@ const THEMES: Record<string, { title: string; refs: string[]; rgb: string }> = {
     arvore: { title: "A árvore da vida", refs: ["Gn 2:9", "Gn 3:24", "Ez 47:12", "Ap 22:1", "Ap 22:2", "Ap 22:14"], rgb: "120,255,170" },
     cordeiro: { title: "O Cordeiro de Deus", refs: ["Gn 22:8", "Êx 12:3", "Is 53:7", "Jo 1:29", "1Pe 1:19", "Ap 5:12"], rgb: "255,120,120" },
     agua: { title: "Água viva", refs: ["Jr 2:13", "Ez 47:1", "Zc 14:8", "Jo 4:14", "Ap 22:17"], rgb: "110,200,255" },
+    habitando: { title: "Deus habitando com o seu povo", refs: ["Êx 25:8", "1Rs 8:27", "Ez 37:27", "Jo 1:14", "2Co 6:16", "Ap 21:3"], rgb: "200,160,255" },
+    pao: { title: "O pão do céu", refs: ["Êx 16:4", "Êx 16:15", "Dt 8:3", "Mt 4:4", "Jo 6:31", "Jo 6:48", "Ap 2:17"], rgb: "255,215,140" },
+    nacoes: { title: "Bênção para todas as nações", refs: ["Gn 12:3", "Gn 22:18", "Is 49:6", "Gl 3:8", "At 3:25", "Ap 7:9"], rgb: "255,150,220" },
 };
 // Profecia (AT) → cumprimento (NT), um arco por par
 const PROPHECIES: [string, string][] = [
@@ -300,6 +303,9 @@ export function ArcExplorer() {
         ["arvore", "A árvore da vida"],
         ["cordeiro", "O Cordeiro de Deus"],
         ["agua", "Água viva"],
+        ["habitando", "Deus habitando com o seu povo"],
+        ["pao", "O pão do céu"],
+        ["nacoes", "Bênção para todas as nações"],
         ["profecias", "Profecias messiânicas"],
     ];
 
