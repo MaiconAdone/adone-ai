@@ -100,9 +100,9 @@ const BibliaConectadaPage = () => {
                     </section>
                 </Container>
 
-                {/* Números e reel */}
+                {/* Números */}
                 <Container className="mt-20">
-                    <section className="grid items-center gap-10 lg:grid-cols-[1fr_360px]">
+                    <section>
                         <div>
                             <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">Os números</p>
                             <h2 className="mt-3 text-3xl font-bold text-foreground">Isaías 9:6 é o versículo mais conectado.</h2>
@@ -123,14 +123,6 @@ const BibliaConectadaPage = () => {
                                 </a>
                             </Button>
                         </div>
-                        <video
-                            src="/biblia-conectada/reel.mp4"
-                            className="mx-auto aspect-[9/16] w-full max-w-[360px] rounded-2xl border border-ink/10 bg-black"
-                            controls
-                            muted
-                            playsInline
-                            preload="metadata"
-                        />
                     </section>
                 </Container>
 

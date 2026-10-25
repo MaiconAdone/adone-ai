@@ -316,7 +316,7 @@ export function ArcExplorer() {
             </div>
 
             <div className="space-y-4">
-                <div className="min-w-0 rounded-2xl border border-ink/10 bg-black p-3 sm:p-5">
+                <div className="min-w-0 border border-ink/10 bg-black p-3 sm:p-5">
                     <div
                         ref={stageRef}
                         className="relative w-full cursor-crosshair"
