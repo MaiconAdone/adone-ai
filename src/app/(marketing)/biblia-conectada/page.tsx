@@ -23,7 +23,7 @@ const howTo = [
     { icon: Spline, title: "Cada arco é uma ligação", text: "Um semicírculo liga dois versículos que citam ou ecoam um ao outro. Arcos curtos (dourados) ficam no mesmo livro; os longos (roxos) atravessam a Bíblia." },
     { icon: BookOpen, title: "A base são os capítulos", text: "Cada barra é um dos 1.189 capítulos, de Gênesis a Apocalipse; a altura é o número de versículos. A barra mais alta é o Salmo 119." },
     { icon: MousePointerClick, title: "Passe o mouse e clique", text: "O versículo sob o cursor mostra o texto e as ligações. Clique para fixar e ver a lista completa, das ligações mais fortes para as mais fracas." },
-    { icon: Search, title: "Busque um versículo", text: "Digite “Is 9:6”, “João 3:16” ou “Gn 1.1”, ou use os atalhos para ver ligações famosas e o estudo da árvore da vida." },
+    { icon: Search, title: "Busque um versículo", text: "Digite “Is 9:6”, “João 3:16” ou “Gn 1.1”, ou use os atalhos para estudos temáticos e profecias messiânicas." },
 ];
 
 const top = [

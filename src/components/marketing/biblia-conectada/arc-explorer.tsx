@@ -15,7 +15,21 @@ const BG_W = 2400;
 const PAD = 8;
 const MIN_VOTES = 0; // ignora ligações com votos negativos (contestadas na base do OpenBible)
 const GRADIENT = [[255, 199, 77], [255, 115, 64], [230, 51, 140], [128, 64, 242]];
-const THEME_TREE = ["Gn 2:9", "Gn 3:24", "Ez 47:12", "Ap 22:1", "Ap 22:2", "Ap 22:14"];
+// Estudos temáticos: arcos da base entre os versículos do tema (conferidos em data/processed).
+const THEMES: Record<string, { title: string; refs: string[]; rgb: string }> = {
+    arvore: { title: "A árvore da vida", refs: ["Gn 2:9", "Gn 3:24", "Ez 47:12", "Ap 22:1", "Ap 22:2", "Ap 22:14"], rgb: "120,255,170" },
+    cordeiro: { title: "O Cordeiro de Deus", refs: ["Gn 22:8", "Êx 12:3", "Is 53:7", "Jo 1:29", "1Pe 1:19", "Ap 5:12"], rgb: "255,120,120" },
+    agua: { title: "Água viva", refs: ["Jr 2:13", "Ez 47:1", "Zc 14:8", "Jo 4:14", "Ap 22:17"], rgb: "110,200,255" },
+};
+// Profecia (AT) → cumprimento (NT), um arco por par
+const PROPHECIES: [string, string][] = [
+    ["Is 7:14", "Mt 1:23"],
+    ["Mq 5:2", "Mt 2:6"],
+    ["Is 40:3", "Mc 1:3"],
+    ["Zc 9:9", "Mt 21:5"],
+    ["Sl 22:18", "Jo 19:24"],
+    ["Is 53:5", "1Pe 2:24"],
+];
 
 type Book = { osis: string; name: string; abbr: string; chapters: number[] };
 type Data = {
@@ -39,8 +53,8 @@ type Data = {
 type View =
     | { kind: "none" }
     | { kind: "verse"; i: number }
-    | { kind: "pair"; ids: [number, number]; title: string }
-    | { kind: "theme"; ids: number[]; title: string };
+    | { kind: "pairs"; pairs: [number, number][]; ids: number[]; title: string }
+    | { kind: "theme"; ids: number[]; title: string; rgb: string };
 type Neighbor = { o: number; l: number; votes: number };
 
 const norm = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, "");
@@ -198,7 +212,7 @@ export function ArcExplorer() {
             if (bk.chapters.length >= 12 && x - w / 2 > lastX + 4) { b.fillText(bk.abbr, x, hmax + width * 0.018); lastX = x + w / 2; }
             ci += bk.chapters.length;
         }
-        const marks = view.kind === "theme" || view.kind === "pair" ? view.ids : [selected, hover?.i ?? -1].filter((i) => i >= 0);
+        const marks = view.kind === "theme" || view.kind === "pairs" ? view.ids : [selected, hover?.i ?? -1].filter((i) => i >= 0);
         b.fillStyle = "#ffc24b";
         for (const i of marks) b.fillRect(X(i) - 1, 0, 2, hmax + 2);
 
@@ -213,13 +227,15 @@ export function ArcExplorer() {
             ctx.strokeStyle = style; ctx.lineWidth = lw;
             ctx.beginPath(); ctx.arc((xa + xb) / 2, baseY, r, Math.PI, 0); ctx.stroke();
         };
-        if (view.kind === "pair") {
-            arc(view.ids[0], view.ids[1], "rgba(255,210,110,0.35)", 7);
-            arc(view.ids[0], view.ids[1], "rgba(255,235,180,1)", 2);
+        if (view.kind === "pairs") {
+            for (const [a, z] of view.pairs) {
+                arc(a, z, "rgba(255,210,110,0.35)", 7);
+                arc(a, z, "rgba(255,235,180,1)", 2);
+            }
         } else if (view.kind === "theme") {
             const set = new Set(view.ids);
             for (const i of view.ids) for (const nb of neighbors(i)) if (set.has(nb.o) && nb.o > i) {
-                arc(i, nb.o, "rgba(120,255,170,0.3)", 6); arc(i, nb.o, "rgba(200,255,220,1)", 1.8);
+                arc(i, nb.o, `rgba(${view.rgb},0.3)`, 6); arc(i, nb.o, `rgba(${view.rgb},1)`, 1.8);
             }
         } else {
             const v = selected >= 0 ? selected : hover?.i ?? -1;
@@ -236,12 +252,15 @@ export function ArcExplorer() {
     const showVerse = useCallback((i: number) => { setView({ kind: "verse", i }); setHoverLink(-1); }, []);
 
     const presets = useMemo<Record<string, () => void>>(() => ({
-        "gn-jo": () => setView({ kind: "pair", ids: [parseRef("Gn 1:1"), parseRef("Jo 1:1")], title: "No princípio" }),
-        "mc-is": () => setView({ kind: "pair", ids: [parseRef("Mc 1:3"), parseRef("Is 40:3")], title: "Voz que clama no deserto" }),
-        is96: () => showVerse(parseRef("Is 9:6")),
-        arvore: () => setView({ kind: "theme", ids: THEME_TREE.map(parseRef), title: "A árvore da vida" }),
+        ...Object.fromEntries(Object.entries(THEMES).map(([key, t]) => [
+            key, () => setView({ kind: "theme", ids: t.refs.map(parseRef), title: t.title, rgb: t.rgb }),
+        ])),
+        profecias: () => {
+            const pairs = PROPHECIES.map(([a, z]) => [parseRef(a), parseRef(z)] as [number, number]);
+            setView({ kind: "pairs", pairs, ids: pairs.flat(), title: "Profecias messiânicas" });
+        },
         clear: () => { setView({ kind: "none" }); setHoverLink(-1); },
-    }), [parseRef, showVerse]);
+    }), [parseRef]);
 
     useEffect(() => {
         if (!data) return;
@@ -278,10 +297,10 @@ export function ArcExplorer() {
     const focus = view.kind !== "none";
     const hoverText = hover ? text(hover.i) : undefined;
     const presetButtons: [string, string][] = [
-        ["gn-jo", "Gn 1:1 → Jo 1:1"],
-        ["mc-is", "Mc 1:3 → Is 40:3"],
-        ["is96", "Isaías 9:6 (mais conectado)"],
         ["arvore", "A árvore da vida"],
+        ["cordeiro", "O Cordeiro de Deus"],
+        ["agua", "Água viva"],
+        ["profecias", "Profecias messiânicas"],
     ];
 
     return (
@@ -372,7 +391,21 @@ export function ArcExplorer() {
                             </ol>
                         </>
                     )}
-                    {(view.kind === "pair" || view.kind === "theme") && (
+                    {view.kind === "pairs" && (
+                        <>
+                            <h3 className="text-lg font-bold text-brand-700">{view.title}</h3>
+                            <div className="mt-3 space-y-4">
+                                {view.pairs.map(([a, z]) => (
+                                    <div key={a} className="border-l-2 border-brand-400 pl-3 text-sm leading-6">
+                                        <b className="text-foreground">{ref(a)} → {ref(z)}</b>
+                                        <p className="text-muted-foreground">{text(a) ?? "carregando…"}</p>
+                                        <p className="mt-1 text-foreground">{text(z) ?? "carregando…"}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                    {view.kind === "theme" && (
                         <>
                             <h3 className="text-lg font-bold text-brand-700">{view.title}</h3>
                             <div className="mt-3 space-y-3">
