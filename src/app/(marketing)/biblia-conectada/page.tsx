@@ -62,11 +62,11 @@ const BibliaConectadaPage = () => {
                                 <Link href="#como-ler">Como ler</Link>
                             </Button>
                         </div>
-                        <div className="mx-auto mt-8 grid max-w-2xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
+                        <div className="mx-auto mt-8 grid max-w-4xl grid-cols-2 gap-3 text-left sm:grid-cols-4">
                             {stats.map(([value, label]) => (
                                 <div key={label} className="rounded-lg border border-foreground/10 bg-foreground/[0.04] p-4">
                                     <strong className="block text-2xl text-foreground">{value}</strong>
-                                    <span className="text-sm text-muted-foreground">{label}</span>
+                                    <span className="block whitespace-nowrap text-xs text-muted-foreground sm:text-sm">{label}</span>
                                 </div>
                             ))}
                         </div>
