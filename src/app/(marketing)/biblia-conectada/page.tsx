@@ -1,4 +1,4 @@
-import { ArrowDown, BookOpen, Download, MousePointerClick, Search, Spline } from "lucide-react";
+import { ArrowDown, BookOpen, MousePointerClick, Search, Spline } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -118,11 +118,6 @@ const BibliaConectadaPage = () => {
                                     </li>
                                 ))}
                             </ol>
-                            <Button asChild variant="subtle" className="mt-6">
-                                <a href="/biblia-conectada/arco_geral.webp" download>
-                                    <Download className="mr-2 h-4 w-4" /> Baixar o gráfico em alta resolução
-                                </a>
-                            </Button>
                         </div>
                     </section>
                 </Container>
