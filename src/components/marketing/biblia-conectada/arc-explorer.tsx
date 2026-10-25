@@ -362,7 +362,6 @@ export function ArcExplorer() {
                                             onMouseLeave={() => setHoverLink(-1)}
                                             onClick={() => showVerse(nb.o)}
                                         >
-                                            <span className="float-right text-xs text-muted-foreground">{nb.votes} votos</span>
                                             <span className="mr-1.5 font-semibold text-brand-700">
                                                 {ref(nb.o)}{end > 0 && data ? `–${data.verse[nb.o] + end}` : ""}
                                             </span>
