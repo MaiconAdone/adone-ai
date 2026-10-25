@@ -70,6 +70,8 @@ const Footer = () => {
                     <div className="flex items-center gap-4 text-sm text-cream/60">
                         <Link href="/blog" className="hover:text-brand-400 transition-colors">Blog</Link>
                         <span className="text-cream/25">·</span>
+                        <Link href="/biblia-conectada" className="hover:text-brand-400 transition-colors">Bíblia Conectada</Link>
+                        <span className="text-cream/25">·</span>
                         <Link href="/privacidade" className="hover:text-brand-400 transition-colors">Privacidade</Link>
                         <span className="text-cream/25">·</span>
                         <Link href="/termos" className="hover:text-brand-400 transition-colors">Termos</Link>

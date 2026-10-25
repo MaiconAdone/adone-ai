@@ -28,6 +28,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.9,
         },
         {
+            url: `${base}/biblia-conectada`,
+            lastModified: new Date(),
+            changeFrequency: "monthly",
+            priority: 0.7,
+        },
+        {
             url: `${base}/privacidade`,
             lastModified: new Date(),
             changeFrequency: "monthly",
