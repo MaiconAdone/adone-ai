@@ -315,7 +315,7 @@ export function ArcExplorer() {
                 <Button variant="ghost" size="sm" onClick={() => presets.clear()}>Limpar</Button>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
+            <div className="space-y-4">
                 <div className="min-w-0 rounded-2xl border border-ink/10 bg-black p-3 sm:p-5">
                     <div
                         ref={stageRef}
@@ -351,12 +351,8 @@ export function ArcExplorer() {
                     </div>
                 </div>
 
-                <aside className="min-w-0 max-h-[70vh] overflow-auto rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4">
-                    {view.kind === "none" && (
-                        <p className="text-sm leading-6 text-muted-foreground">
-                            Passe o mouse sobre o gráfico para ver o versículo. Clique para fixar e listar todas as ligações dele.
-                        </p>
-                    )}
+                {view.kind !== "none" && (
+                <aside className="min-w-0 max-h-[60vh] overflow-auto rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4">
                     {view.kind === "verse" && (
                         <>
                             <h3 className="text-lg font-bold text-brand-700">{ref(view.i)}</h3>
@@ -400,6 +396,7 @@ export function ArcExplorer() {
                         </>
                     )}
                 </aside>
+                )}
             </div>
         </div>
     );

@@ -75,7 +75,8 @@ const BibliaConectadaPage = () => {
 
                 {/* Gráfico interativo */}
                 <Container className="mt-16">
-                    <section id="explorar" className="scroll-mt-28">
+                    {/* mais largo que o miolo da página (max-w-6xl) para o gráfico ganhar espaço */}
+                    <section id="explorar" className="relative left-1/2 w-[min(calc(100vw-2rem),1400px)] -translate-x-1/2 scroll-mt-28">
                         <ArcExplorer />
                     </section>
                 </Container>
