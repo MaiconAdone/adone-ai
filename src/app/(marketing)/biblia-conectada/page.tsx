@@ -37,7 +37,7 @@ const top = [
 const BibliaConectadaPage = () => {
     return (
         <Background>
-            <Wrapper className="relative overflow-hidden pt-28 pb-20">
+            <Wrapper className="relative overflow-hidden pt-28">
                 {/* Hero */}
                 <Container className="relative">
                     <Spotlight className="-top-40 left-0 md:left-72 md:-top-28" fill="rgba(0, 196, 160, 0.35)" />
@@ -72,15 +72,16 @@ const BibliaConectadaPage = () => {
                         </div>
                     </section>
                 </Container>
+            </Wrapper>
 
-                {/* Gráfico interativo */}
-                <Container className="mt-16">
-                    {/* mais largo que o miolo da página (max-w-6xl) para o gráfico ganhar espaço */}
-                    <section id="explorar" className="relative left-1/2 w-[min(calc(100vw-2rem),1400px)] -translate-x-1/2 scroll-mt-28">
-                        <ArcExplorer />
-                    </section>
-                </Container>
+            {/* Gráfico interativo: fora do Wrapper (max-w-6xl + overflow-hidden) para ficar mais largo sem cortar as bordas */}
+            <Container className="mt-16">
+                <section id="explorar" className="mx-auto w-full max-w-[1400px] scroll-mt-28 px-4 md:px-8">
+                    <ArcExplorer />
+                </section>
+            </Container>
 
+            <Wrapper className="relative overflow-hidden pb-20">
                 {/* Como ler */}
                 <Container className="mt-20">
                     <section id="como-ler" className="scroll-mt-28">
