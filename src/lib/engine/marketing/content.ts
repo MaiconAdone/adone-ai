@@ -68,9 +68,9 @@ export async function runContent(focus?: string): Promise<Article[]> {
         readSheet(STRATEGY_SHEET).catch(() => []),
         readSheet(CONTENT_SHEET).catch(() => []),
     ]);
-    // Sem aprovação obrigatória: usa a estratégia aprovada mais recente ou, se não houver, a última não rejeitada
-    const recent = [...strategies].reverse();
-    const strategy = recent.find(r => r.Status === STATUS.approved) ?? recent.find(r => r.Status !== STATUS.rejected);
+    // Sem aprovação obrigatória: usa a estratégia mais recente que não foi rejeitada (aprovada ou não),
+    // senão a pauta ficava presa numa estratégia antiga já toda escrita
+    const strategy = [...strategies].reverse().find(r => r.Status !== STATUS.rejected);
     if (!strategy && !topics.length) {
         await notifyOwner("✍️ O agente de Conteúdo não rodou: ainda não há estratégia na aba \"Estratégia\". Rode o Estrategista ou peça um tema no painel.");
         return [];
@@ -101,7 +101,11 @@ export async function runContent(focus?: string): Promise<Article[]> {
             strategy?.["Seus comentários"] ? `\nComentários do Maicon: ${strategy["Seus comentários"]}` : "",
             "\nArtigos já escritos:",
             existing,
-            `\nEscolha até ${ARTICLES_PER_RUN} temas da estratégia que ainda NÃO foram escritos (não repita palavra-chave).`,
+            `\nEscolha exatamente ${ARTICLES_PER_RUN} temas: primeiro os da estratégia que ainda NÃO foram escritos; ` +
+            `se faltarem, complete com temas novos coerentes com o posicionamento e o cliente ideal ` +
+            `(não repita palavra-chave já usada).`,
+            `\nPosicionamento da semana: ${positioning}`,
+            `Cliente ideal: ${strategy?.["Cliente ideal (ICP)"] || ""}`,
         ].join("\n"),
         schema: PlanSchema,
         name: "pauta_blog",
@@ -167,6 +171,8 @@ export async function runContent(focus?: string): Promise<Article[]> {
             articles.map(a => `• ${a.titulo}\n  ${SITE_URL}/blog/${a.slug}`).join("\n") +
             `\n\nAparecem no site em até 10 minutos. Para tirar um do ar, marque o Status como *Rejeitado* na aba "Conteúdo".`
         );
+    } else {
+        await notifyOwner("✍️ O agente de Conteúdo rodou, mas não escreveu nenhum artigo. Peça um tema no painel (\"Rodar agora\").");
     }
     return articles;
 }

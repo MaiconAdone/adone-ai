@@ -27,7 +27,7 @@ export const AGENT_LABELS: Record<AgentName, string> = {
 
 export const AGENT_SCHEDULE: Record<AgentName, string> = {
     estrategista: "Segundas, 7h",
-    conteudo: "Terças, 7h",
+    conteudo: "Segundas, 9h",
     midia: "Quartas, 7h",
     linkedin: "Segundas, quartas e sextas, 9h",
 };
@@ -110,7 +110,7 @@ export function startMarketingScheduler(): void {
 
     const options = { timezone: AGENDA_TIMEZONE, noOverlap: true };
     cron.schedule("0 7 * * 1", scheduled("estrategista", () => runAgent("estrategista")), { ...options, name: "marketing-estrategista" });
-    cron.schedule("0 7 * * 2", scheduled("conteudo", () => runAgent("conteudo")), { ...options, name: "marketing-conteudo" });
+    cron.schedule("0 9 * * 1", scheduled("conteudo", () => runAgent("conteudo")), { ...options, name: "marketing-conteudo" });
     cron.schedule("0 7 * * 3", scheduled("midia", () => runAgent("midia")), { ...options, name: "marketing-midia" });
     cron.schedule("0 9 * * 1,3,5", scheduled("linkedin", () => runAgent("linkedin")), { ...options, name: "marketing-linkedin" });
     // Desempenho do Google Ads e LinkedIn Ads para a planilha (os agentes leem e aprendem; nada é alterado nas contas)
@@ -118,5 +118,5 @@ export function startMarketingScheduler(): void {
     // Publicação automática do blog: marca como "Publicado" o que passou das 24h sem veto
     cron.schedule("5 * * * *", scheduled("blog-publicacao", markDuePostsPublished), { ...options, name: "blog-publicacao" });
 
-    console.log("[Marketing] Rotinas agendadas: Estrategista (seg 7h), Conteúdo (ter 7h), Mídia (qua 7h), LinkedIn (seg/qua/sex 9h), sincronização de anúncios (a cada hora), publicação do blog (a cada hora)");
+    console.log("[Marketing] Rotinas agendadas: Estrategista (seg 7h), Conteúdo (seg 9h), Mídia (qua 7h), LinkedIn (seg/qua/sex 9h), sincronização de anúncios (a cada hora), publicação do blog (a cada hora)");
 }
