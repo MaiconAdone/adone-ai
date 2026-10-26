@@ -69,17 +69,20 @@ export async function runContent(focus?: string): Promise<Article[]> {
     const existing = contents.map(c => `- ${c.Título} (${c["Palavra-chave"]}, ${c.Setor})`).join("\n") || "(nenhum artigo ainda)";
     const existingSlugs = new Set(contents.map(c => c.Slug));
 
-    const limit = topics.length || ARTICLES_PER_RUN;
+    // Mesmo com tema pedido, sai no mínimo a quantidade padrão da rodada
+    const limit = Math.max(topics.length, ARTICLES_PER_RUN);
     const plan = await generateStructured({
         model: CONTENT_MODEL,
         effort: "low",
         system: `Você organiza a pauta do blog de SEO da Adone Intelligence. Responda só com o formato pedido.\n\n${COMPANY_CONTEXT}`,
         prompt: topics.length ? [
-            `O Maicon pediu ${topics.length} artigo(s), um para cada assunto abaixo:`,
+            "O Maicon pediu artigos sobre os assuntos abaixo:",
             topics.map(t => `- ${t}`).join("\n"),
             "\nArtigos já escritos:",
             existing,
-            `\nPara cada assunto, na mesma ordem, crie um tema de artigo com uma palavra-chave que um diretor de empresa média ` +
+            `\nCrie exatamente ${limit} temas de artigo cobrindo todos esses assuntos. Se um assunto juntar setores ` +
+            `(ex.: "Farmacêutica e Agronegócio"), faça um artigo para cada setor; se ainda sobrar vaga, use outro ângulo ` +
+            `do mesmo assunto. Cada tema tem uma palavra-chave que um diretor de empresa média ` +
             `buscaria no Google ao considerar contratar IA para isso (não repita palavra-chave já usada). ` +
             `No campo setor, use um nome curto (ex.: "Saúde").`,
         ].join("\n") : [
