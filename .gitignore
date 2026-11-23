@@ -46,3 +46,7 @@ index.txt
 
 # variáveis de servidor gravadas no build (scripts/write-runtime-env.mjs)
 .runtime-env.json
+
+# acervo de PDFs (vai para o Google Drive, não para o git)
+/Mais de 2000 projetos/
+/Acervo Projetos em Madeira (Drive)/
