@@ -98,7 +98,7 @@ function Cta({ className = "", children }: { className?: string; children?: Reac
             href={CHECKOUT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`group relative inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 px-7 py-4 text-base font-bold text-stone-950 shadow-[0_10px_0_#92400e,0_18px_40px_rgba(245,158,11,.35)] transition-all hover:translate-y-[2px] hover:shadow-[0_8px_0_#92400e,0_14px_30px_rgba(245,158,11,.4)] active:translate-y-[8px] active:shadow-[0_2px_0_#92400e] ${className}`}
+            className={`group relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 px-7 py-4 text-base font-bold text-stone-950 shadow-[0_10px_0_#92400e,0_18px_40px_rgba(245,158,11,.35)] transition-all hover:translate-y-[2px] hover:shadow-[0_8px_0_#92400e,0_14px_30px_rgba(245,158,11,.4)] active:translate-y-[8px] active:shadow-[0_2px_0_#92400e] ${className}`}
         >
             {children ?? <>Quero o acervo por R$ {PRECO_ACERVO}</>}
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -196,7 +196,7 @@ function ExploradorCategorias({ ativa, setAtiva }: { ativa: string; setAtiva: (i
 
     return (
         <div>
-            <div className="sticky top-16 z-20 -mx-4 mb-10 overflow-x-auto px-4 py-3 [scrollbar-width:none] sm:top-20">
+            <div className="sticky top-0 z-20 -mx-4 mb-10 overflow-x-auto px-4 py-3 [scrollbar-width:none]">
                 <div className="mx-auto flex w-max gap-2 rounded-2xl border border-amber-100/10 bg-stone-950/80 p-1.5 backdrop-blur-xl">
                     {CATEGORIAS.map((c) => {
                         const I = ICONES[c.id] ?? Hammer;
@@ -228,7 +228,7 @@ function ExploradorCategorias({ ativa, setAtiva }: { ativa: string; setAtiva: (i
                 className="grid items-start gap-10 lg:grid-cols-[320px_1fr]"
                 style={{ perspective: "1200px" }}
             >
-                <div className="lg:sticky lg:top-40">
+                <div className="lg:sticky lg:top-24">
                     <PilhaCapas capas={cat.capas} nome={cat.nome} />
                     <p className="mt-6 text-center text-xs text-amber-50/50">Passe o mouse para abrir em leque</p>
                 </div>
@@ -373,7 +373,7 @@ export function AcervoMadeira() {
             <div className="pm-grain pointer-events-none absolute inset-0" />
 
             {/* HERO */}
-            <section className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 pb-16 pt-28 lg:grid-cols-[1.05fr_1fr] lg:pt-36">
+            <section className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 pb-16 pt-16 lg:grid-cols-[1.05fr_1fr] lg:pt-24">
                 <div className="pointer-events-none absolute -left-40 top-10 h-[480px] w-[480px] rounded-full bg-amber-600/20 blur-[120px]" />
                 <div className="relative z-10">
                     <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-400/10 px-4 py-1.5 text-sm font-medium text-amber-200">
