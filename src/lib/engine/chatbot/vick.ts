@@ -8,7 +8,7 @@ import { QUALIFIER_SYSTEM_PROMPT, LeadData, QualificationResult } from "./agents
 import { PRESENTER_SYSTEM_PROMPT, buildPresenterContext } from "./agents/presenter";
 import { SCHEDULER_SYSTEM_PROMPT, SCHEDULED_SYSTEM_PROMPT, getSchedulerContext } from "./agents/scheduler";
 import { FOLLOWUP_SYSTEM_PROMPT } from "./agents/followup";
-import { PRODUCTS_PROMPT, wantsAcervo } from "./agents/products";
+import { PIX_MESSAGE, PRODUCTS_PROMPT, saysPaid, wantsAcervo } from "./agents/products";
 import { sendOwnerEmail } from "../agenda/notifications";
 import { appendLead } from "../agenda/sheets";
 import { getBookingUrl } from "../agenda/config";
@@ -34,6 +34,9 @@ interface Session {
     // Conversa aberta pela Vick depois do formulário do site: dados que o lead já informou
     formContext?: string;
     acervoNotified?: boolean; // Maicon já foi avisado do pedido do acervo Projetos em Madeira
+    acervoPaidNotified?: boolean; // ...e de que o cliente disse ter pago o PIX
+    pixSent?: boolean; // código PIX copia e cola já enviado nesta conversa
+    extraMessages?: string[]; // mensagens a enviar logo depois da resposta (ex.: código PIX)
     ttlMs?: number;
     createdAt: Date;
     updatedAt: Date;
@@ -287,6 +290,28 @@ export class Vick {
         return sessions.get(sessionId)!;
     }
 
+    // E-mail ao Maicon sobre o acervo; ele confere o PIX e envia o link do Drive pelo WhatsApp
+    avisarAcervo(sessionId: string, channel: string, mensagem: string, assunto: string, acao: string): void {
+        const contato = sessionId.replace(/^whatsapp_/, "");
+        sendOwnerEmail(`${assunto} (${contato})`, `Contato: ${contato}
+Canal: ${channel}
+Mensagem: ${mensagem.slice(0, 500)}
+
+${acao}`)
+            .catch(err => console.error("[Vick] Falha ao avisar sobre o acervo:", err));
+    }
+
+    // Imagem/documento recebido (ex.: comprovante): a Vick não lê, mas avisa o Maicon se a conversa é do acervo
+    notifyAttachment(sessionId: string): boolean {
+        const session = sessions.get(sessionId);
+        if (!session?.acervoNotified) return false;
+        session.acervoPaidNotified = true;
+        this.avisarAcervo(sessionId, session.channel, "[arquivo/imagem enviado — provável comprovante]",
+            "Comprovante do acervo recebido — conferir pagamento",
+            "Confira o PIX de R$ 19,90 na sua conta e, se entrou, envie o link da pasta do Drive para este contato.");
+        return true;
+    }
+
     async chat(sessionId: string, userMessage: string, channel: "site" | "whatsapp" = "site"): Promise<string> {
         const session = await this.getOrCreateSession(sessionId, channel);
 
@@ -298,17 +323,16 @@ export class Vick {
         session.messages.push({ role: "user", content: userMessage.slice(0, MAX_USER_MESSAGE_CHARS) });
         session.updatedAt = new Date();
 
-        // Pedido do acervo Projetos em Madeira: avisa o Maicon para enviar o pagamento
+        // Acervo Projetos em Madeira: avisa o Maicon do interesse e, depois, do PIX informado
         if (!session.acervoNotified && wantsAcervo(userMessage)) {
             session.acervoNotified = true;
-            sendOwnerEmail(
-                `Pedido do acervo Projetos em Madeira (${channel})`,
-                `Contato: ${sessionId}
-Canal: ${channel}
-Mensagem: ${userMessage.slice(0, 500)}
-
-Envie o link de pagamento de R$ 19,90 e, depois de aprovado, o acesso à pasta do Drive.`,
-            ).catch(err => console.error("[Vick] Falha ao avisar pedido do acervo:", err));
+            this.avisarAcervo(sessionId, channel, userMessage, "Pedido do acervo Projetos em Madeira",
+                "A Vick já passou os dados do PIX. Aguarde o comprovante.");
+        }
+        if (session.acervoNotified && !session.acervoPaidNotified && saysPaid(userMessage)) {
+            session.acervoPaidNotified = true;
+            this.avisarAcervo(sessionId, channel, userMessage, "PIX do acervo informado — conferir pagamento",
+                "Confira o PIX de R$ 19,90 na sua conta e, se entrou, envie o link da pasta do Drive para este contato.");
         }
 
         // Lead pediu para marcar: a própria resposta já oferece os horários
@@ -372,6 +396,12 @@ Envie o link de pagamento de R$ 19,90 e, depois de aprovado, o acesso à pasta d
 
         session.messages.push({ role: "assistant", content: reply });
 
+        // Código PIX exato vai em mensagem separada (fácil de copiar e sem risco de a IA alterar um caractere)
+        if (session.acervoNotified && !session.acervoPaidNotified && !session.pixSent && /pix/i.test(reply)) {
+            session.pixSent = true;
+            (session.extraMessages ??= []).push(PIX_MESSAGE);
+        }
+
         await this.detectStageTransition(session, reply, qualification);
 
         return reply;
@@ -425,6 +455,14 @@ Envie o link de pagamento de R$ 19,90 e, depois de aprovado, o acesso à pasta d
         const phone = this.whatsAppPhone(session);
         if (phone) params.set("telefone", phone);
         return `${this.bookingUrl}?${params.toString()}`;
+    }
+
+    // Retira as mensagens extras pendentes da conversa (o webhook envia depois da resposta)
+    takeExtraMessages(sessionId: string): string[] {
+        const session = sessions.get(sessionId);
+        const extras = session?.extraMessages ?? [];
+        if (session) session.extraMessages = [];
+        return extras;
     }
 
     getSession(sessionId: string): Session | undefined {

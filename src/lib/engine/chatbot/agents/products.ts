@@ -1,17 +1,28 @@
 // Produtos digitais vendidos pelo WhatsApp — bloco somado ao prompt de todas as etapas da Vick.
 // Quem procura um produto destes NÃO é lead de consultoria: a Vick atende a compra e não qualifica.
 
-import { BONUS, CATEGORIAS, CHECKOUT_URL, PRECO_ACERVO, TOTAL_PAGINAS, TOTAL_PDFS } from "@/constants/projetos-madeira";
+import {
+    BONUS,
+    CATEGORIAS,
+    PIX_CHAVE_EXIBIDA,
+    PIX_COPIA_E_COLA,
+    PRECO_ACERVO,
+    TOTAL_PAGINAS,
+    TOTAL_PDFS,
+} from "@/constants/projetos-madeira";
 
 const SITE = "https://adoneintelligence.com.br";
 const PAGINA = `${SITE}/projetos-em-madeira`;
 
-// Enquanto o botão da página levar ao WhatsApp, ainda não há checkout para a Vick enviar
-const temCheckout = !CHECKOUT_URL.startsWith("https://wa.me");
-
-const comoComprar = temCheckout
-    ? `Para comprar, envie o link de pagamento: ${CHECKOUT_URL} — depois que o pagamento é aprovado, a pessoa recebe o acesso à pasta no Google Drive.`
-    : `O pagamento ainda é combinado direto com a equipe: diga que vai encaminhar o pedido e que o link de pagamento (Pix ou cartão) é enviado aqui pelo WhatsApp em seguida. Depois que o pagamento é aprovado, a pessoa recebe o acesso à pasta no Google Drive.`;
+// Pagamento por PIX; o acesso ao Drive só é enviado (pelo Maicon) depois de conferir o PIX
+const comoComprar = `O pagamento é por PIX, no valor de R$ ${PRECO_ACERVO}. Quando a pessoa quiser comprar, passe as duas opções,
+  cada uma em sua própria linha para ficar fácil de copiar:
+  PIX copia e cola: NÃO escreva o código; diga só que ele chega na mensagem seguinte (o sistema envia sozinho,
+  com o valor já preenchido) e que basta copiar e colar no app do banco.
+  Chave PIX (celular): ${PIX_CHAVE_EXIBIDA} — pagando pela chave, a pessoa digita o valor de R$ ${PRECO_ACERVO}.
+  Depois peça para ela enviar o comprovante aqui no WhatsApp. Quando ela disser que pagou ou mandar o comprovante, agradeça e
+  diga que o pagamento vai ser conferido e que o link de acesso ao acervo chega aqui pelo WhatsApp logo em seguida.
+  Você NÃO consegue ver comprovantes nem confirmar pagamentos: nunca diga que o pagamento foi confirmado.`;
 
 const bonus = BONUS.projetos.map((b) => `- ${b.titulo}`).join("\n");
 const categorias = CATEGORIAS.map((c) => `- ${c.nome} (${c.projetos.length} PDFs)`).join("\n");
@@ -39,6 +50,17 @@ COMO ATENDER QUEM QUER O ACERVO (pessoa que fala em projetos de madeira, paletes
 - NUNCA envie link do Google Drive nem prometa acesso antes do pagamento aprovado. Não invente desconto, prazo ou conteúdo.
 - Se a pessoa também falar de IA para a empresa dela, aí sim siga o atendimento normal de consultoria.
 `;
+
+// Enviada pelo sistema logo depois da resposta da Vick: só o código, para copiar com um toque
+export const PIX_MESSAGE = PIX_COPIA_E_COLA;
+
+// Cliente avisando que pagou o PIX do acervo
+const SINAIS_PAGAMENTO = ["paguei", "pago", "comprovante", "fiz o pix", "pix feito", "pix enviado", "transferi", "pagamento feito"];
+
+export function saysPaid(message: string): boolean {
+    const m = message.toLowerCase();
+    return SINAIS_PAGAMENTO.some((k) => m.includes(k));
+}
 
 // Mensagem do cliente que indica interesse no acervo (o botão da página manda "Quero o acervo Projetos em Madeira...")
 const SINAIS_ACERVO = ["acervo", "projetos em madeira", "projeto em madeira", "19,90", "19.90", "palete", "pallet", "marcenaria"];

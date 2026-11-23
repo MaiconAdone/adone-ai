@@ -20,13 +20,23 @@ import {
     TreePine,
     Warehouse,
     BedDouble,
+    Check,
+    Copy,
     Gift,
+    MessageCircle,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState, type PointerEvent } from "react";
+import { createContext, useContext, useRef, useState, type PointerEvent } from "react";
 import Tilt from "react-parallax-tilt";
 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import {
     Accordion,
     AccordionContent,
@@ -36,11 +46,14 @@ import {
 import {
     BONUS,
     CATEGORIAS,
-    CHECKOUT_URL,
+    PIX_CHAVE,
+    PIX_CHAVE_EXIBIDA,
+    PIX_COPIA_E_COLA,
     PRECO_ACERVO,
     TOTAL_PAGINAS,
     TOTAL_PDFS,
     TODAS,
+    WHATSAPP_COMPROVANTE_URL,
     type CategoriaProjetos,
 } from "@/constants/projetos-madeira";
 
@@ -96,17 +109,114 @@ const CSS = `
 @media (prefers-reduced-motion: reduce) { .pm-ring, .pm-float, .pm-glow-border { animation: none; } }
 `;
 
+const PixContext = createContext<() => void>(() => undefined);
+
 function Cta({ className = "", children }: { className?: string; children?: React.ReactNode }) {
+    const abrirPix = useContext(PixContext);
     return (
-        <Link
-            href={CHECKOUT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+        <button
+            type="button"
+            onClick={abrirPix}
             className={`group relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 px-7 py-4 text-base font-bold text-stone-950 shadow-[0_10px_0_#92400e,0_18px_40px_rgba(245,158,11,.35)] transition-all hover:translate-y-[2px] hover:shadow-[0_8px_0_#92400e,0_14px_30px_rgba(245,158,11,.4)] active:translate-y-[8px] active:shadow-[0_2px_0_#92400e] ${className}`}
         >
             {children ?? <>Quero o acervo por R$ {PRECO_ACERVO}</>}
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-        </Link>
+        </button>
+    );
+}
+
+function BotaoCopiar({ texto, rotulo }: { texto: string; rotulo: string }) {
+    const [copiado, setCopiado] = useState(false);
+    const copiar = async () => {
+        try {
+            await navigator.clipboard.writeText(texto);
+        } catch {
+            const t = document.createElement("textarea");
+            t.value = texto;
+            document.body.appendChild(t);
+            t.select();
+            document.execCommand("copy");
+            t.remove();
+        }
+        setCopiado(true);
+        setTimeout(() => setCopiado(false), 2500);
+    };
+    return (
+        <button
+            type="button"
+            onClick={copiar}
+            className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-bold transition-colors ${
+                copiado ? "bg-emerald-500 text-white" : "bg-amber-400 text-stone-950 hover:bg-amber-300"
+            }`}
+        >
+            {copiado ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copiado ? "Copiado!" : rotulo}
+        </button>
+    );
+}
+
+/* Pagamento por PIX: copia e cola, chave e envio do comprovante no WhatsApp */
+function PagamentoPix({ aberto, onChange }: { aberto: boolean; onChange: (v: boolean) => void }) {
+    const passo = "mr-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-amber-400 px-1.5 text-xs font-black text-stone-950";
+    return (
+        <Dialog open={aberto} onOpenChange={onChange}>
+            <DialogContent className="max-h-[92vh] w-[calc(100%-2rem)] max-w-md overflow-y-auto overflow-x-hidden rounded-2xl border border-amber-300/30 bg-stone-950 p-6 text-amber-50 sm:p-7 [&>*]:min-w-0 [&>button]:text-amber-50">
+                <DialogHeader className="text-left">
+                    <DialogTitle className="text-2xl font-black text-amber-50">Pagamento via PIX</DialogTitle>
+                    <DialogDescription className="text-amber-50/60">Acervo Projetos em Madeira · pagamento único</DialogDescription>
+                </DialogHeader>
+
+                <div className="mt-2 rounded-xl bg-gradient-to-br from-amber-400/15 to-transparent p-4 text-center">
+                    <span className="text-sm text-amber-50/60">Valor</span>
+                    <strong className="block text-4xl font-black text-amber-300">R$ {PRECO_ACERVO}</strong>
+                </div>
+
+                <ol className="mt-5 space-y-5">
+                    <li>
+                        <p className="mb-2 text-sm font-semibold text-amber-50">
+                            <span className={passo}>1</span>
+                            Copie o PIX copia e cola e pague no app do seu banco
+                        </p>
+                        <div className="flex items-center gap-2 rounded-lg border border-amber-100/10 bg-stone-900 p-2">
+                            <code className="min-w-0 flex-1 truncate text-xs text-amber-50/60">{PIX_COPIA_E_COLA}</code>
+                            <BotaoCopiar texto={PIX_COPIA_E_COLA} rotulo="Copiar" />
+                        </div>
+                        <p className="mt-2 text-xs text-amber-50/50">O valor de R$ {PRECO_ACERVO} já vem preenchido.</p>
+                    </li>
+                    <li>
+                        <p className="mb-2 text-sm font-semibold text-amber-50">
+                            <span className={passo}>ou</span>
+                            Pague pela chave PIX (celular)
+                        </p>
+                        <div className="flex items-center justify-between gap-2 rounded-lg border border-amber-100/10 bg-stone-900 p-2 pl-3">
+                            <span className="whitespace-nowrap font-mono text-sm font-bold text-amber-100 sm:text-base">{PIX_CHAVE_EXIBIDA}</span>
+                            <BotaoCopiar texto={PIX_CHAVE} rotulo="Copiar chave" />
+                        </div>
+                        <p className="mt-2 text-xs text-amber-50/50">Digite o valor de R$ {PRECO_ACERVO} ao pagar pela chave.</p>
+                    </li>
+                    <li>
+                        <p className="mb-2 text-sm font-semibold text-amber-50">
+                            <span className={passo}>2</span>
+                            Envie o comprovante no WhatsApp
+                        </p>
+                        <Link
+                            href={WHATSAPP_COMPROVANTE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3.5 font-bold text-white shadow-[0_6px_0_#047857] transition-all hover:translate-y-[2px] hover:shadow-[0_4px_0_#047857]"
+                        >
+                            <MessageCircle className="h-5 w-5" />
+                            Enviar comprovante
+                        </Link>
+                    </li>
+                </ol>
+
+                <p className="mt-5 flex gap-2 rounded-lg bg-amber-50/5 p-3 text-xs leading-5 text-amber-50/70">
+                    <Cloud className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
+                    Assim que o PIX for confirmado, você recebe pelo WhatsApp o link de acesso a todo o acervo.
+                </p>
+            </DialogContent>
+        </Dialog>
     );
 }
 
@@ -338,7 +448,7 @@ function CardCategoria({ c, onClick }: { c: CategoriaProjetos; onClick: () => vo
 const FAQ = [
     {
         q: "Como recebo os arquivos?",
-        a: "Assim que o pagamento é confirmado, você recebe o link de acesso à pasta do acervo no Google Drive. Dá para ver online ou baixar os PDFs no celular, tablet ou computador.",
+        a: "Você paga por PIX e envia o comprovante no WhatsApp. Assim que o PIX é confirmado, você recebe pelo WhatsApp o link de acesso à pasta do acervo no Google Drive. Dá para ver online ou baixar os PDFs no celular, tablet ou computador.",
     },
     {
         q: "Preciso ter conta Google?",
@@ -346,7 +456,7 @@ const FAQ = [
     },
     {
         q: "O pagamento é único?",
-        a: `Sim. São R$ ${PRECO_ACERVO} uma única vez, sem mensalidade.`,
+        a: `Sim. São R$ ${PRECO_ACERVO} uma única vez, por PIX, sem mensalidade.`,
     },
     {
         q: "Os projetos estão em português?",
@@ -364,6 +474,7 @@ const FAQ = [
 
 export function AcervoMadeira() {
     const [ativa, setAtiva] = useState(CATEGORIAS[0].id);
+    const [pixAberto, setPixAberto] = useState(false);
     const explorador = useRef<HTMLDivElement>(null);
 
     const abrir = (id: string) => {
@@ -372,6 +483,8 @@ export function AcervoMadeira() {
     };
 
     return (
+        <PixContext.Provider value={() => setPixAberto(true)}>
+        <PagamentoPix aberto={pixAberto} onChange={setPixAberto} />
         <div className="pm-wood relative overflow-hidden text-amber-50">
             <style>{CSS}</style>
             <div className="pm-grain pointer-events-none absolute inset-0" />
@@ -489,8 +602,8 @@ export function AcervoMadeira() {
                 </div>
                 <div className="mt-12 grid gap-5 md:grid-cols-3">
                     {[
-                        { icon: CreditCard, t: `Pague R$ ${PRECO_ACERVO}`, d: "Pagamento único e seguro, sem mensalidade." },
-                        { icon: Cloud, t: "Receba o link do Drive", d: "O acesso à pasta completa no Google Drive é liberado após a confirmação." },
+                        { icon: CreditCard, t: `Pague R$ ${PRECO_ACERVO} no PIX`, d: "Copia e cola ou chave PIX. Depois, envie o comprovante no WhatsApp." },
+                        { icon: Cloud, t: "Receba o link do Drive", d: "Com o PIX confirmado, você recebe pelo WhatsApp o acesso à pasta completa no Google Drive." },
                         { icon: Download, t: "Abra, baixe e construa", d: "Leia no celular, salve no seu Drive ou imprima para a oficina." },
                     ].map((s, i) => (
                         <Tilt key={s.t} tiltMaxAngleX={8} tiltMaxAngleY={8} perspective={800} className="h-full">
@@ -570,5 +683,6 @@ export function AcervoMadeira() {
                 </div>
             </section>
         </div>
+        </PixContext.Provider>
     );
 }

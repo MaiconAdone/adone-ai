@@ -23,9 +23,20 @@ export interface CategoriaProjetos {
 
 export const PRECO_ACERVO = "19,90";
 
-// Troque pelo link do checkout (Kiwify, Hotmart, Mercado Pago...) quando estiver pronto.
-export const CHECKOUT_URL =
-    "https://wa.me/5511926025637?text=Quero%20o%20acervo%20Projetos%20em%20Madeira%20por%20R%24%2019%2C90";
+// Pagamento por PIX (chave celular). O comprador envia o comprovante no WhatsApp da Vick e o acesso
+// ao Drive é liberado depois que o PIX é conferido.
+export const PIX_CHAVE = "+5511934971803";
+export const PIX_CHAVE_EXIBIDA = "(11) 93497-1803";
+
+// PIX copia e cola (BR Code estático) de R$ 19,90 para a chave acima, com CRC16 já calculado.
+// Se mudar chave ou valor, gere de novo (o CRC no final muda).
+export const PIX_COPIA_E_COLA =
+    "00020126360014br.gov.bcb.pix0114+5511934971803520400005303986540519.905802BR5918ADONE INTELLIGENCE6009SAO PAULO62170513ACERVOMADEIRA6304E221";
+
+const WHATSAPP_VICK = "5511926025637";
+export const WHATSAPP_COMPROVANTE_URL = `https://wa.me/${WHATSAPP_VICK}?text=${encodeURIComponent(
+    "Fiz o PIX de R$ 19,90 do acervo Projetos em Madeira. Segue o comprovante:",
+)}`;
 
 export const CATEGORIAS: CategoriaProjetos[] = [
     {

@@ -24,6 +24,12 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Instância inválida" }, { status: 403 });
         }
 
+        // Imagem ou PDF recebido (ex.: comprovante do PIX do acervo): a Vick não lê, só avisa o Maicon
+        if (!body.text?.message && !body.fromMe && !body.isGroup && (body.image || body.document) && body.phone) {
+            ada.notifyAttachment(`whatsapp_${String(body.phone)}`);
+            return NextResponse.json({ ok: true });
+        }
+
         // Filtrar só mensagens de texto recebidas em conversa individual (ignorar as nossas e grupos)
         if (!body.text?.message || body.fromMe || body.isGroup) {
             return NextResponse.json({ ok: true });
@@ -61,6 +67,9 @@ export async function POST(req: NextRequest) {
         await ada.getOrCreateSession(sessionId, "whatsapp");
         const reply = await ada.chat(sessionId, message, "whatsapp");
         await sendWhatsAppReply(phone, reply);
+        for (const extra of ada.takeExtraMessages(sessionId)) {
+            await sendWhatsAppReply(phone, extra);
+        }
 
         return NextResponse.json({ ok: true });
     } catch (err) {
