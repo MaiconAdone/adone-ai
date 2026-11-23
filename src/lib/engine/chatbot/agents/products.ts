@@ -1,7 +1,7 @@
 // Produtos digitais vendidos pelo WhatsApp — bloco somado ao prompt de todas as etapas da Vick.
 // Quem procura um produto destes NÃO é lead de consultoria: a Vick atende a compra e não qualifica.
 
-import { CATEGORIAS, CHECKOUT_URL, PRECO_ACERVO, TOTAL_PAGINAS, TOTAL_PDFS } from "@/constants/projetos-madeira";
+import { BONUS, CATEGORIAS, CHECKOUT_URL, PRECO_ACERVO, TOTAL_PAGINAS, TOTAL_PDFS } from "@/constants/projetos-madeira";
 
 const SITE = "https://adoneintelligence.com.br";
 const PAGINA = `${SITE}/projetos-em-madeira`;
@@ -13,6 +13,7 @@ const comoComprar = temCheckout
     ? `Para comprar, envie o link de pagamento: ${CHECKOUT_URL} — depois que o pagamento é aprovado, a pessoa recebe o acesso à pasta no Google Drive.`
     : `O pagamento ainda é combinado direto com a equipe: diga que vai encaminhar o pedido e que o link de pagamento (Pix ou cartão) é enviado aqui pelo WhatsApp em seguida. Depois que o pagamento é aprovado, a pessoa recebe o acesso à pasta no Google Drive.`;
 
+const bonus = BONUS.projetos.map((b) => `- ${b.titulo}`).join("\n");
 const categorias = CATEGORIAS.map((c) => `- ${c.nome} (${c.projetos.length} PDFs)`).join("\n");
 
 export const PRODUCTS_PROMPT = `
@@ -24,7 +25,8 @@ Além da consultoria em IA, a Adone vende um acervo digital de projetos em madei
   (desenhos e medidas se entendem sem tradução).
 - Categorias:
 ${categorias}
-- Bônus: calculadora de tijolos e checklist de materiais da obra.
+- Bônus (pasta própria):
+${bonus}
 - Preço: R$ ${PRECO_ACERVO}, pagamento único, sem mensalidade.
 - Entrega: link de acesso à pasta no Google Drive, liberado depois do pagamento. Dá para ver no celular, baixar ou imprimir.
 

@@ -20,6 +20,7 @@ import {
     TreePine,
     Warehouse,
     BedDouble,
+    Gift,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,11 +34,13 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
+    BONUS,
     CATEGORIAS,
     CHECKOUT_URL,
     PRECO_ACERVO,
     TOTAL_PAGINAS,
     TOTAL_PDFS,
+    TODAS,
     type CategoriaProjetos,
 } from "@/constants/projetos-madeira";
 
@@ -49,6 +52,7 @@ const ICONES: Record<string, typeof Flame> = {
     sala: Sofa,
     jardim: TreePine,
     guias: BookOpen,
+    bonus: Gift,
 };
 
 const ANEL = [
@@ -162,7 +166,7 @@ function AnelCapas() {
 
 /* Pilha 3D de capas da categoria, que se abre em leque no hover */
 function PilhaCapas({ capas, nome }: { capas: string[]; nome: string }) {
-    const lista = capas.slice(0, 4);
+    const lista = capas.slice(0, 4).reverse(); // a primeira capa fica na frente
     return (
         <div className="group relative mx-auto h-[300px] w-[220px] translate-x-10 sm:h-[330px] sm:w-[245px]" style={{ perspective: "1100px" }}>
             {lista.map((slug, i) => {
@@ -190,7 +194,7 @@ function PilhaCapas({ capas, nome }: { capas: string[]; nome: string }) {
 }
 
 function ExploradorCategorias({ ativa, setAtiva }: { ativa: string; setAtiva: (id: string) => void }) {
-    const cat = CATEGORIAS.find((c) => c.id === ativa) ?? CATEGORIAS[0];
+    const cat = TODAS.find((c) => c.id === ativa) ?? TODAS[0];
     const paginas = cat.projetos.reduce((s, p) => s + p.paginas, 0);
     const Icone = ICONES[cat.id] ?? Hammer;
 
@@ -198,7 +202,7 @@ function ExploradorCategorias({ ativa, setAtiva }: { ativa: string; setAtiva: (i
         <div>
             <div className="sticky top-0 z-20 -mx-4 mb-10 overflow-x-auto px-4 py-3 [scrollbar-width:none]">
                 <div className="mx-auto flex w-max gap-2 rounded-2xl border border-amber-100/10 bg-stone-950/80 p-1.5 backdrop-blur-xl">
-                    {CATEGORIAS.map((c) => {
+                    {TODAS.map((c) => {
                         const I = ICONES[c.id] ?? Hammer;
                         const on = c.id === cat.id;
                         return (
@@ -386,7 +390,7 @@ export function AcervoMadeira() {
                         de projetos em madeira para você construir.
                     </h1>
                     <p className="mt-6 max-w-xl text-lg leading-8 text-amber-50/70">
-                        Móveis industriais, marcenaria com plano de corte, móveis de paletes, áreas gourmet, fogões a lenha e cozinhas caipiras — {TOTAL_PDFS} PDFs organizados em {CATEGORIAS.length} categorias, com medidas, materiais e passo a passo.
+                        Móveis industriais, marcenaria com plano de corte, móveis de paletes, áreas gourmet, fogões a lenha e cozinhas caipiras — {TOTAL_PDFS} PDFs organizados em {CATEGORIAS.length} categorias + {BONUS.projetos.length} bônus, com medidas, materiais e passo a passo.
                     </p>
                     <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
                         <Cta />
@@ -409,7 +413,7 @@ export function AcervoMadeira() {
                         [`+${fmt(Math.floor(TOTAL_PAGINAS / 100) * 100)}`, "páginas de conteúdo"],
                         ["+1.000", "projetos e ideias"],
                         [String(TOTAL_PDFS), "PDFs organizados"],
-                        [String(CATEGORIAS.length), "categorias"],
+                        [`${CATEGORIAS.length} + ${BONUS.projetos.length}`, "categorias + bônus"],
                     ].map(([v, l]) => (
                         <div key={l} className="rounded-2xl bg-gradient-to-b from-amber-50/[0.06] to-transparent p-5 text-center">
                             <strong className="block text-3xl font-black text-amber-300 sm:text-4xl">{v}</strong>
@@ -427,8 +431,8 @@ export function AcervoMadeira() {
                     <p className="mt-4 text-amber-50/60">Escolha uma categoria para ver cada PDF, quantas páginas tem e o que você aprende nele.</p>
                 </div>
                 <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                    {CATEGORIAS.map((c, i) => (
-                        <div key={c.id} className={i === 0 ? "sm:col-span-2" : ""}>
+                    {TODAS.map((c) => (
+                        <div key={c.id}>
                             <CardCategoria c={c} onClick={() => abrir(c.id)} />
                         </div>
                     ))}
@@ -519,10 +523,12 @@ export function AcervoMadeira() {
                                         {c.nome}
                                     </li>
                                 ))}
-                                <li className="flex gap-2.5 text-sm text-amber-50/80">
-                                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
-                                    Bônus: calculadora de tijolos e checklist de obra
-                                </li>
+                                {BONUS.projetos.map((b) => (
+                                    <li key={b.titulo} className="flex gap-2.5 text-sm text-amber-50/80">
+                                        <Gift className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                                        {b.titulo}
+                                    </li>
+                                ))}
                             </ul>
                             <div className="mt-10 flex justify-center" style={{ transform: "translateZ(40px)" }}>
                                 <Cta className="w-full sm:w-auto" />
@@ -552,7 +558,7 @@ export function AcervoMadeira() {
                     <span className="bg-gradient-to-b from-amber-100 to-amber-400 bg-clip-text text-transparent"> no papel.</span>
                 </h2>
                 <p className="mx-auto mt-5 max-w-xl text-amber-50/60">
-                    {TOTAL_PDFS} PDFs, {fmt(TOTAL_PAGINAS)} páginas e {CATEGORIAS.length} categorias por menos que o preço de uma tábua.
+                    {TOTAL_PDFS} PDFs, {fmt(TOTAL_PAGINAS)} páginas, {CATEGORIAS.length} categorias e {BONUS.projetos.length} bônus por menos que o preço de uma tábua.
                 </p>
                 <div className="mt-9 flex justify-center">
                     <Cta />

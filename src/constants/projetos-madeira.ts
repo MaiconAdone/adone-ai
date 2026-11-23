@@ -1,4 +1,4 @@
-// Acervo "Projetos em Madeira": 75 PDFs únicos (2.140 páginas), classificados pelo conteúdo real de cada arquivo.
+// Acervo "Projetos em Madeira": 78 PDFs únicos (2.231 páginas), sendo 5 bônus, classificados pelo conteúdo real de cada arquivo.
 // Os arquivos ficam no Google Drive da Adone; o link é entregue depois do pagamento.
 
 export type Idioma = "PT" | "ES" | "EN";
@@ -42,8 +42,6 @@ export const CATEGORIAS: CategoriaProjetos[] = [
             { titulo: "Catálogo Cozinhas Caipiras — 12 projetos", paginas: 27, resumo: "Cozinhas rústicas com materiais, detalhes construtivos e montagem." },
             { titulo: "Bancadas e pias rústicas — 16 módulos completos", paginas: 53, resumo: "Módulos de bancada e pia em alvenaria com medidas e acabamento." },
             { titulo: "Cantinho da Cachaça", paginas: 45, resumo: "Bares rústicos, adegas e balcões com montagem passo a passo." },
-            { titulo: "Bônus: calculadora de tijolos", paginas: 5, resumo: "Estime tijolos por área, desconte vãos e calcule a margem de perda." },
-            { titulo: "Bônus: checklist de materiais da obra", paginas: 7, resumo: "Organize a compra e confira o que precisa estar na obra em cada etapa." },
         ],
     },
     {
@@ -180,5 +178,26 @@ export const CATEGORIAS: CategoriaProjetos[] = [
     },
 ];
 
-export const TOTAL_PDFS = CATEGORIAS.reduce((n, c) => n + c.projetos.length, 0);
-export const TOTAL_PAGINAS = CATEGORIAS.reduce((n, c) => n + c.projetos.reduce((s, p) => s + p.paginas, 0), 0);
+// Bônus: pasta própria no Drive, na mesma ordem
+export const BONUS: CategoriaProjetos = {
+    id: "bonus",
+    nome: "Bônus",
+    chamada: "5 bônus",
+    descricao:
+        "Cinco materiais extras para começar com segurança: guia de marcenaria para iniciantes, 65 ideias de móveis com pallets, introdução à construção com paletes e duas ferramentas para planejar a obra.",
+    nivel: "Incluso no acervo",
+    capas: ["bonus-guia-iniciantes", "bonus-65-ideias", "bonus-introducao-paletes", "bonus-tijolos"],
+    projetos: [
+        { titulo: "Bônus 1 — Guia prático para iniciantes na marcenaria", paginas: 19, resumo: "Fundamentos, tipos de madeira e seus usos para começar do jeito certo.", destaque: true },
+        { titulo: "Bônus 2 — 65 ideias de móveis com pallets", paginas: 22, resumo: "Porta-bebidas, banquinhos, bares, mesas de centro, sofás, camas, bancos e jardins.", destaque: true },
+        { titulo: "Bônus 3 — Introdução à construção de móveis com pallets", paginas: 50, resumo: "Materiais, ferramentas e o passo a passo dos primeiros móveis, como o sofá de paletes." },
+        { titulo: "Bônus 4 — Calculadora de tijolos", paginas: 5, resumo: "Estime tijolos por área, desconte vãos e calcule a margem de perda." },
+        { titulo: "Bônus 5 — Checklist de materiais da obra", paginas: 7, resumo: "Organize a compra e confira o que precisa estar na obra em cada etapa." },
+    ],
+};
+
+// Categorias + bônus: o que aparece na lista completa e entra nos totais
+export const TODAS: CategoriaProjetos[] = [...CATEGORIAS, BONUS];
+
+export const TOTAL_PDFS = TODAS.reduce((n, c) => n + c.projetos.length, 0);
+export const TOTAL_PAGINAS = TODAS.reduce((n, c) => n + c.projetos.reduce((s, p) => s + p.paginas, 0), 0);
