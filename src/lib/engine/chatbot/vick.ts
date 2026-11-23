@@ -8,6 +8,8 @@ import { QUALIFIER_SYSTEM_PROMPT, LeadData, QualificationResult } from "./agents
 import { PRESENTER_SYSTEM_PROMPT, buildPresenterContext } from "./agents/presenter";
 import { SCHEDULER_SYSTEM_PROMPT, SCHEDULED_SYSTEM_PROMPT, getSchedulerContext } from "./agents/scheduler";
 import { FOLLOWUP_SYSTEM_PROMPT } from "./agents/followup";
+import { PRODUCTS_PROMPT, wantsAcervo } from "./agents/products";
+import { sendOwnerEmail } from "../agenda/notifications";
 import { appendLead } from "../agenda/sheets";
 import { getBookingUrl } from "../agenda/config";
 import { getAvailableDays, type AvailableDay } from "../agenda/availability";
@@ -31,6 +33,7 @@ interface Session {
     booking?: BookingResult;
     // Conversa aberta pela Vick depois do formulário do site: dados que o lead já informou
     formContext?: string;
+    acervoNotified?: boolean; // Maicon já foi avisado do pedido do acervo Projetos em Madeira
     ttlMs?: number;
     createdAt: Date;
     updatedAt: Date;
@@ -126,7 +129,12 @@ export class Vick {
         return this.client;
     }
 
+    // Todas as etapas conhecem os produtos digitais (ex.: acervo Projetos em Madeira)
     private getSystemPrompt(session: Session, days: AvailableDay[]): string {
+        return this.stagePrompt(session, days) + PRODUCTS_PROMPT;
+    }
+
+    private stagePrompt(session: Session, days: AvailableDay[]): string {
         const bookingUrl = this.personalBookingUrl(session);
         switch (session.stage) {
             case "qualifier":
@@ -289,6 +297,19 @@ export class Vick {
 
         session.messages.push({ role: "user", content: userMessage.slice(0, MAX_USER_MESSAGE_CHARS) });
         session.updatedAt = new Date();
+
+        // Pedido do acervo Projetos em Madeira: avisa o Maicon para enviar o pagamento
+        if (!session.acervoNotified && wantsAcervo(userMessage)) {
+            session.acervoNotified = true;
+            sendOwnerEmail(
+                `Pedido do acervo Projetos em Madeira (${channel})`,
+                `Contato: ${sessionId}
+Canal: ${channel}
+Mensagem: ${userMessage.slice(0, 500)}
+
+Envie o link de pagamento de R$ 19,90 e, depois de aprovado, o acesso à pasta do Drive.`,
+            ).catch(err => console.error("[Vick] Falha ao avisar pedido do acervo:", err));
+        }
 
         // Lead pediu para marcar: a própria resposta já oferece os horários
         if (session.stage === "presenter" && SCHEDULING_INTENT.some(k => userMessage.toLowerCase().includes(k))) {
