@@ -382,9 +382,14 @@ export function AcervoMadeira() {
                 <div className="relative z-10">
                     <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-400/10 px-4 py-1.5 text-sm font-medium text-amber-200">
                         <Sparkles className="h-4 w-4" />
-                        Acervo digital · acesso imediato pelo Google Drive
+                        Acervo digital · acesso imediato
                     </span>
-                    <h1 className="mt-6 text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+                    <p className="pm-destaque mt-6 inline-block -rotate-1 rounded-xl border border-amber-300/40 bg-gradient-to-r from-amber-500/25 via-orange-600/20 to-transparent whitespace-nowrap px-4 py-2 text-base font-black uppercase tracking-[0.06em] text-amber-200 sm:tracking-[0.1em] shadow-[0_6px_0_rgba(146,64,14,.55),0_18px_40px_rgba(245,158,11,.25)] sm:text-2xl">
+                        <span className="bg-gradient-to-r from-amber-100 via-amber-300 to-amber-100 bg-clip-text text-transparent [background-size:200%_auto]">
+                            O maior acervo de projetos
+                        </span>
+                    </p>
+                    <h1 className="mt-5 text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
                         <span className="bg-gradient-to-b from-amber-100 to-amber-400 bg-clip-text text-transparent">+{fmt(Math.floor(TOTAL_PAGINAS / 100) * 100)} páginas</span>
                         <br />
                         de projetos em madeira para você construir.
